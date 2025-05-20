@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/model/Order.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/model/OrderItem.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/dao/UserDAO.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/web/css/style.css</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/web/index.html</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/dao/ProductDAOImpl.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/web/cart.jsp</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/dao/CategoryDAO.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/model/Category.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/web/products.jsp</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/web/register.jsp</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/dao/OrderItemDAO.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/model/User.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/model/Cart.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/model/CartItem.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/controller/admin/AdminDashboardServlet.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/dao/CartItemDAO.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/controller/ProductServlet.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/model/Product.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/util/DatabaseConnection.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/controller/admin/AdminOrderServlet.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/controller/CartServlet.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/dao/UserDAOImpl.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/controller/admin/AdminProductServlet.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/controller/LogoutServlet.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/web/home.jsp</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/dao/CartItemDAOImpl.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/web/WEB-INF/jspf/footer.jsp</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/controller/TestServlet.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/web/WEB-INF/jspf/header.jsp</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/web/product-detail.jsp</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/dao/CartDAOImpl.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/controller/RegisterServlet.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/dao/CategoryDAOImpl.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/dao/CartDAO.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/dao/OrderItemDAOImpl.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/web/login.jsp</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/web/style.css</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/dao/OrderDAO.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/controller/HomeServlet.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/web/test.jsp</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/controller/LoginServlet.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/dao/ProductDAO.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/controller/CheckoutServlet.java</file>
+            <file>file:/C:/Users/ASY/Documents/NetBeansProjects/PetSuppliesStore/src/java/com/petsupplies/dao/OrderDAOImpl.java</file>
+        </group>
+    </open-files>
+</project-private>

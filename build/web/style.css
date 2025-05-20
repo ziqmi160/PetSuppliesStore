@@ -1,0 +1,9 @@
+* {
+    background-color: pink !important;
+}
+
+.card {
+    background-color: lightblue !important;
+    border: 5px solid red !important;
+    padding: 20px !important;
+}
