@@ -4,6 +4,11 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.*, com.idea.model.Product, com.idea.controller.ShopServlet" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -12,7 +17,7 @@ and open the template in the editor.
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="author" content="Untree.co" />
-    <link rel="shortcut icon" href="images\favicon.png" />
+    <link rel="shortcut icon" href="images/favicon.png" />
 
     <meta name="description" content="" />
     <meta name="keywords" content="bootstrap, bootstrap4" />
@@ -35,7 +40,7 @@ and open the template in the editor.
       arial-label="Furni navigation bar"
     >
       <div class="container">
-        <a class="navbar-brand" href="index.html">iDea<span>.</span></a>
+        <a class="navbar-brand" href="index.jsp">iDea<span>.</span></a>
 
         <button
           class="navbar-toggler"
@@ -52,23 +57,23 @@ and open the template in the editor.
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
             <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
+              <a class="nav-link" href="index.jsp">Home</a>
             </li>
             <li class="active">
-              <a class="nav-link" href="shop.html">Shop</a>
+              <a class="nav-link" href="ShopServlet">Shop</a>
             </li>
-            <li><a class="nav-link" href="about.html">About us</a></li>
-            <li><a class="nav-link" href="contact.html">Contact us</a></li>
+            <li><a class="nav-link" href="about.jsp">About us</a></li>
+            <li><a class="nav-link" href="contact.jsp">Contact us</a></li>
           </ul>
 
           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
             <li>
-              <a class="nav-link" href="login.html"
+              <a class="nav-link" href="login.jsp"
                 ><img src="images/user.svg"
               /></a>
             </li>
             <li>
-              <a class="nav-link" href="cart.html"
+              <a class="nav-link" href="cart.jsp"
                 ><img src="images/cart.svg"
               /></a>
             </li>
@@ -101,7 +106,7 @@ and open the template in the editor.
                 spaces.
               </p>
               <p>
-                <a href="shop.html" class="btn btn-white-outline">Shop Now</a>
+                <a href="ShopServlet" class="btn btn-white-outline">Shop Now</a>
               </p>
             </div>
           </div>
@@ -121,12 +126,12 @@ and open the template in the editor.
     </div>
     <!-- End Hero Section -->
 
-    <div class="untree_co-section product-section before-footer-section">
+<!--    <div class="untree_co-section product-section before-footer-section">
       <div class="container">
         <div class="row">
-          <!-- Start Column 1 -->
+           Start Column 1 
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-            <a class="product-item" href="product1.html">
+            <a class="product-item" href="product1.jsp">
               <img
                 src="images/product-3.png"
                 class="img-fluid product-thumbnail"
@@ -139,11 +144,11 @@ and open the template in the editor.
               </span>
             </a>
           </div>
-          <!-- End Column 1 -->
+           End Column 1 
 
-          <!-- Start Column 2 -->
+           Start Column 2 
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-            <a class="product-item" href="product2.html">
+            <a class="product-item" href="product2.jsp">
               <img
                 src="images/product-1.png"
                 class="img-fluid product-thumbnail"
@@ -156,11 +161,11 @@ and open the template in the editor.
               </span>
             </a>
           </div>
-          <!-- End Column 2 -->
+           End Column 2 
 
-          <!-- Start Column 3 -->
+           Start Column 3 
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-            <a class="product-item" href="product3.html">
+            <a class="product-item" href="product3.jsp">
               <img
                 src="images/product-2.png"
                 class="img-fluid product-thumbnail"
@@ -173,11 +178,11 @@ and open the template in the editor.
               </span>
             </a>
           </div>
-          <!-- End Column 3 -->
+           End Column 3 
 
-          <!-- Start Column 4 -->
+           Start Column 4 
           <div class="col-12 col-md-4 col-lg-3 mb-5">
-            <a class="product-item" href="product4.html">
+            <a class="product-item" href="product4.jsp">
               <img
                 src="images/product-4.png"
                 class="img-fluid product-thumbnail"
@@ -191,13 +196,67 @@ and open the template in the editor.
               </span>
             </a>
           </div>
-          <!-- End Column 4 -->
+           End Column 4 
 
-          <!-- End Column 4 -->
+           End Column 4 
+        </div>
+      </div>
+    </div>-->
+
+    <div class="untree_co-section product-section before-footer-section">
+      <div class="container">
+        <div class="row">
+
+          <c:if test="${empty products}">
+            <div class="col-12 text-center">
+              <p>No products found. Please check back later.</p>
+            </div>
+          </c:if>
+
+          <c:forEach var="product" items="${products}">
+  <div class="col-12 col-md-4 col-lg-3 mb-5">
+    <a class="product-item" href="ProductDetailServlet?id=${product.id}">
+      <c:choose>
+        <c:when test="${not empty product.images}">
+            <img src="${product.images[0].path}" class="img-fluid product-thumbnail" alt="${product.name}" />
+<!--            <div class="testimonial-slider-wrap text-center">
+          <div id="testimonial-nav">
+            <span class="prev" data-controls="prev"><span class="fa fa-chevron-left"></span></span>
+            <span class="next" data-controls="next"><span class="fa fa-chevron-right"></span></span>
+          </div>
+
+          <div class="testimonial-slider">
+              <c:forEach var="image" items="${product.images}">
+                <div class="item">
+                  <div class="row justify-content-center">
+                    <div class="col-lg-8 mx-auto">
+                      <div class="testimonial-block text-center">
+                        <img src="${image.path}" class="img-fluid product-thumbnail" alt="${product.name}" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </c:forEach>
+          </div>
+        </div>-->
+        </c:when>
+        <c:otherwise>
+          <img src="images/default.png" class="img-fluid product-thumbnail" alt="No image" onerror="this.outerHTML = '<p>${product.image.path}</p>'" />
+        </c:otherwise>
+      </c:choose>
+      <h3 class="product-title">${product.name}</h3>
+      <strong class="product-price">RM${product.price}</strong>
+      <span class="icon-cross">
+        <img src="images/cross.svg" class="img-fluid" />
+      </span>
+    </a>
+  </div>
+</c:forEach>
+
+
         </div>
       </div>
     </div>
-
     <!-- Start Footer Section -->
     <footer class="footer-section">
       <div class="container relative">
@@ -268,19 +327,19 @@ and open the template in the editor.
 
               <div class="col-6 col-sm-6 col-md-4">
                 <ul class="list-unstyled">
-                  <li><a href="index.html">Home</a></li>
-                  <li><a href="shop.html">Shop Now</a></li>
-                  <li><a href="about.html">About Us</a></li>
-                  <li><a href="contact.htmlss">Contact Us</a></li>
+                  <li><a href="index.jsp">Home</a></li>
+                  <li><a>Shop Now</a></li>
+                  <li><a href="about.jsp">About Us</a></li>
+                  <li><a href="contact.jsp">Contact Us</a></li>
                 </ul>
               </div>
 
               <div class="col-6 col-sm-6 col-md-4">
                 <ul class="list-unstyled">
-                  <li><a href="product1.html">Nordic Chair</a></li>
-                  <li><a href="product2.html">Serene Chair</a></li>
-                  <li><a href="product3.html">Aurora Chair</a></li>
-                  <li><a href="product4.html">Eclipse Chair</a></li>
+                  <li><a href="product1.jsp">Nordic Chair</a></li>
+                  <li><a href="product2.jsp">Serene Chair</a></li>
+                  <li><a href="product3.jsp">Aurora Chair</a></li>
+                  <li><a href="product4.jsp">Eclipse Chair</a></li>
                 </ul>
               </div>
             </div>
