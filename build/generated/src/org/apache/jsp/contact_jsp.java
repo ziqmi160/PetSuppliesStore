@@ -18,7 +18,7 @@ public final class contact_jsp extends org.apache.jasper.runtime.HttpJspBase
   }
 
   public void _jspService(HttpServletRequest request, HttpServletResponse response)
-        throws java.io.IOException, ServletException {
+      throws java.io.IOException, ServletException {
 
     PageContext pageContext = null;
     HttpSession session = null;
@@ -32,14 +32,15 @@ public final class contact_jsp extends org.apache.jasper.runtime.HttpJspBase
     try {
       response.setContentType("text/html");
       pageContext = _jspxFactory.getPageContext(this, request, response,
-      			null, true, 8192, true);
+          null, true, 8192, true);
       _jspx_page_context = pageContext;
       application = pageContext.getServletContext();
       config = pageContext.getServletConfig();
       session = pageContext.getSession();
       out = pageContext.getOut();
       _jspx_out = out;
-      _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
+      _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application
+          .getAttribute("com.sun.appserv.jsp.resource.injector");
 
       out.write("<!DOCTYPE html>\n");
       out.write("<!--\n");
@@ -59,7 +60,8 @@ public final class contact_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("\t\t<!-- Bootstrap CSS -->\n");
       out.write("\t\t<link href=\"css/bootstrap.min.css\" rel=\"stylesheet\">\n");
-      out.write("\t\t<link href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css\" rel=\"stylesheet\">\n");
+      out.write(
+          "\t\t<link href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css\" rel=\"stylesheet\">\n");
       out.write("\t\t<link href=\"css/tiny-slider.css\" rel=\"stylesheet\">\n");
       out.write("\t\t<link href=\"css/style.css\" rel=\"stylesheet\">\n");
       out.write("\t\t<title>Contact Us</title>\n");
@@ -68,28 +70,30 @@ public final class contact_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\t<body>\n");
       out.write("\n");
       out.write("\t\t<!-- Start Header/Navigation -->\n");
-      out.write("\t\t<nav class=\"custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark\" arial-label=\"Furni navigation bar\">\n");
+      out.write(
+          "\t\t<nav class=\"custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark\" arial-label=\"Furni navigation bar\">\n");
       out.write("\n");
       out.write("\t\t\t<div class=\"container\">\n");
-      out.write("\t\t\t\t<a class=\"navbar-brand\" href=\"index.html\">iDea<span>.</span></a>\n");
+      out.write("\t\t\t\t<a class=\"navbar-brand\" href=\"index.jsp\">iDea<span>.</span></a>\n");
       out.write("\n");
-      out.write("\t\t\t\t<button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarsFurni\" aria-controls=\"navbarsFurni\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n");
+      out.write(
+          "\t\t\t\t<button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarsFurni\" aria-controls=\"navbarsFurni\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n");
       out.write("\t\t\t\t\t<span class=\"navbar-toggler-icon\"></span>\n");
       out.write("\t\t\t\t</button>\n");
       out.write("\n");
       out.write("\t\t\t\t<div class=\"collapse navbar-collapse\" id=\"navbarsFurni\">\n");
       out.write("\t\t\t\t\t<ul class=\"custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0\">\n");
       out.write("\t\t\t\t\t\t<li class=\"nav-item\">\n");
-      out.write("\t\t\t\t\t\t\t<a class=\"nav-link\" href=\"index.html\">Home</a>\n");
+      out.write("\t\t\t\t\t\t\t<a class=\"nav-link\" href=\"index.jsp\">Home</a>\n");
       out.write("\t\t\t\t\t\t</li>\n");
-      out.write("\t\t\t\t\t\t<li><a class=\"nav-link\" href=\"shop.html\">Shop</a></li>\n");
-      out.write("\t\t\t\t\t\t<li><a class=\"nav-link\" href=\"about.html\">About us</a></li>\n");
-      out.write("\t\t\t\t\t\t<li class=\"active\"><a class=\"nav-link\" href=\"contact.html\">Contact us</a></li>\n");
+      out.write("\t\t\t\t\t\t<li><a class=\"nav-link\" href=\"shop.jsp\">Shop</a></li>\n");
+      out.write("\t\t\t\t\t\t<li><a class=\"nav-link\" href=\"about.jsp\">About us</a></li>\n");
+      out.write("\t\t\t\t\t\t<li class=\"active\"><a class=\"nav-link\" href=\"contact.jsp\">Contact us</a></li>\n");
       out.write("\t\t\t\t\t</ul>\n");
       out.write("\n");
       out.write("\t\t\t\t\t<ul class=\"custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5\">\n");
-      out.write("\t\t\t\t\t\t<li><a class=\"nav-link\" href=\"login.html\"><img src=\"images/user.svg\"></a></li>\n");
-      out.write("\t\t\t\t\t\t<li><a class=\"nav-link\" href=\"cart.html\"><img src=\"images/cart.svg\"></a></li>\n");
+      out.write("\t\t\t\t\t\t<li><a class=\"nav-link\" href=\"login.jsp\"><img src=\"images/user.svg\"></a></li>\n");
+      out.write("\t\t\t\t\t\t<li><a class=\"nav-link\" href=\"cart.jsp\"><img src=\"images/cart.svg\"></a></li>\n");
       out.write("\t\t\t\t\t</ul>\n");
       out.write("\t\t\t\t</div>\n");
       out.write("\t\t\t</div>\n");
@@ -98,19 +102,22 @@ public final class contact_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\t\t<!-- End Header/Navigation -->\n");
       out.write("\n");
       out.write("\t\t<!-- Start Hero Section -->\n");
-      out.write("<div class=\"hero\" style=\"background-image: url('images/shop-head.jpg'); background-size: cover; background-position: center; position: relative; height: 400px;\">\n");
+      out.write(
+          "<div class=\"hero\" style=\"background-image: url('images/shop-head.jpg'); background-size: cover; background-position: center; position: relative; height: 400px;\">\n");
       out.write("    <div class=\"container\">\n");
       out.write("        <div class=\"row justify-content-between\">\n");
       out.write("            <div class=\"col-lg-5\">\n");
       out.write("                <div class=\"intro-excerpt\">\n");
       out.write("                    <h1>Contact Us</h1>\n");
-      out.write("                    <p class=\"mb-4\">Weâre here to help! Whether you have a question about our products, need assistance with your order, or want design advice, the Idea team is ready to assist you.</p>\n");
-      out.write("                    <p><a href=\"shop.html\" class=\"btn btn-white-outline\">Shop Now</a></p>\n");
+      out.write(
+          "                    <p class=\"mb-4\">Weâre here to help! Whether you have a question about our products, need assistance with your order, or want design advice, the Idea team is ready to assist you.</p>\n");
+      out.write("                    <p><a href=\"shop.jsp\" class=\"btn btn-white-outline\">Shop Now</a></p>\n");
       out.write("                </div>\n");
       out.write("            </div>\n");
       out.write("        </div>\n");
       out.write("    </div>\n");
-      out.write("    <div class=\"overlay\" style=\"position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);\"></div>\n");
+      out.write(
+          "    <div class=\"overlay\" style=\"position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);\"></div>\n");
       out.write("</div>\n");
       out.write("\t\t<!-- End Hero Section -->\n");
       out.write("\n");
@@ -128,23 +135,30 @@ public final class contact_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("              <div class=\"row mb-5\">\n");
       out.write("                <div class=\"col-lg-4\">\n");
-      out.write("                  <div  class=\"service no-shadow align-items-center link horizontal d-flex active\" data-aos=\"fade-left\" data-aos-delay=\"0\">\n");
+      out.write(
+          "                  <div  class=\"service no-shadow align-items-center link horizontal d-flex active\" data-aos=\"fade-left\" data-aos-delay=\"0\">\n");
       out.write("                    <div class=\"service-icon color-1 mb-4\">\n");
-      out.write("                      <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-geo-alt-fill\" viewBox=\"0 0 16 16\">\n");
-      out.write("                        <path d=\"M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z\"/>\n");
+      out.write(
+          "                      <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-geo-alt-fill\" viewBox=\"0 0 16 16\">\n");
+      out.write(
+          "                        <path d=\"M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z\"/>\n");
       out.write("                      </svg>\n");
       out.write("                    </div> <!-- /.icon -->\n");
       out.write("                    <div class=\"service-contents\">\n");
-      out.write("                      <p>Lot 26483, Lebuhraya Kuala Lumpur - Seremban, Sungai Besi, 57100 Kuala Lumpur, Federal Territory of Kuala Lumpur</p>\n");
+      out.write(
+          "                      <p>Lot 26483, Lebuhraya Kuala Lumpur - Seremban, Sungai Besi, 57100 Kuala Lumpur, Federal Territory of Kuala Lumpur</p>\n");
       out.write("                    </div> <!-- /.service-contents-->\n");
       out.write("                  </div> <!-- /.service -->\n");
       out.write("                </div>\n");
       out.write("\n");
       out.write("                <div class=\"col-lg-4\">\n");
-      out.write("                  <div  class=\"service no-shadow align-items-center link horizontal d-flex active\" data-aos=\"fade-left\" data-aos-delay=\"0\">\n");
+      out.write(
+          "                  <div  class=\"service no-shadow align-items-center link horizontal d-flex active\" data-aos=\"fade-left\" data-aos-delay=\"0\">\n");
       out.write("                    <div class=\"service-icon color-1 mb-4\">\n");
-      out.write("                      <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-envelope-fill\" viewBox=\"0 0 16 16\">\n");
-      out.write("                        <path d=\"M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z\"/>\n");
+      out.write(
+          "                      <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-envelope-fill\" viewBox=\"0 0 16 16\">\n");
+      out.write(
+          "                        <path d=\"M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z\"/>\n");
       out.write("                      </svg>\n");
       out.write("                    </div> <!-- /.icon -->\n");
       out.write("                    <div class=\"service-contents\">\n");
@@ -154,10 +168,13 @@ public final class contact_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                </div>\n");
       out.write("\n");
       out.write("                <div class=\"col-lg-4\">\n");
-      out.write("                  <div  class=\"service no-shadow align-items-center link horizontal d-flex active\" data-aos=\"fade-left\" data-aos-delay=\"0\">\n");
+      out.write(
+          "                  <div  class=\"service no-shadow align-items-center link horizontal d-flex active\" data-aos=\"fade-left\" data-aos-delay=\"0\">\n");
       out.write("                    <div class=\"service-icon color-1 mb-4\">\n");
-      out.write("                      <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-telephone-fill\" viewBox=\"0 0 16 16\">\n");
-      out.write("                        <path fill-rule=\"evenodd\" d=\"M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z\"/>\n");
+      out.write(
+          "                      <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-telephone-fill\" viewBox=\"0 0 16 16\">\n");
+      out.write(
+          "                        <path fill-rule=\"evenodd\" d=\"M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z\"/>\n");
       out.write("                      </svg>\n");
       out.write("                    </div> <!-- /.icon -->\n");
       out.write("                    <div class=\"service-contents\">\n");
@@ -189,10 +206,12 @@ public final class contact_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("                <div class=\"form-group mb-5\">\n");
       out.write("                  <label class=\"text-black\" for=\"message\">Message</label>\n");
-      out.write("                  <textarea name=\"\" class=\"form-control\" id=\"message\" cols=\"30\" rows=\"5\"></textarea>\n");
+      out.write(
+          "                  <textarea name=\"\" class=\"form-control\" id=\"message\" cols=\"30\" rows=\"5\"></textarea>\n");
       out.write("                </div>\n");
       out.write("\n");
-      out.write("                <button type=\"submit\" class=\"btn btn-primary-hover-outline\">Send Message</button>\n");
+      out.write(
+          "                <button type=\"submit\" class=\"btn btn-primary-hover-outline\">Send Message</button>\n");
       out.write("              </form>\n");
       out.write("\n");
       out.write("            </div>\n");
@@ -222,7 +241,8 @@ public final class contact_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\t\t\t\t<!-- div class=\"row\">\n");
       out.write("\t\t\t\t\t<div class=\"col-lg-8\">\n");
       out.write("\t\t\t\t\t\t<div class=\"subscription-form\">\n");
-      out.write("\t\t\t\t\t\t\t<h3 class=\"d-flex align-items-center\"><span class=\"me-1\"><img src=\"images/envelope-outline.svg\" alt=\"Image\" class=\"img-fluid\"></span><span>Subscribe to Newsletter</span></h3>\n");
+      out.write(
+          "\t\t\t\t\t\t\t<h3 class=\"d-flex align-items-center\"><span class=\"me-1\"><img src=\"images/envelope-outline.svg\" alt=\"Image\" class=\"img-fluid\"></span><span>Subscribe to Newsletter</span></h3>\n");
       out.write("\n");
       out.write("\t\t\t\t\t\t\t<form action=\"#\" class=\"row g-3\">\n");
       out.write("\t\t\t\t\t\t\t\t<div class=\"col-auto\">\n");
@@ -244,8 +264,10 @@ public final class contact_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("<div class=\"col-md-12 col-lg-3 mb-5 mb-lg-0\"></div>\n");
       out.write("\t\t\t\t<div class=\"row g-5 mb-5\">\n");
       out.write("\t\t\t\t\t<div class=\"col-lg-4\">\n");
-      out.write("\t\t\t\t\t\t<div class=\"mb-4 footer-logo-wrap\"><a href=\"#\" class=\"footer-logo\">iDea<span>.</span></a></div>\n");
-      out.write("\t\t\t\t\t\t<p class=\"mb-4\">At iDea, we are dedicated to providing high-quality, stylish furniture crafted to enhance every space in your home. With a focus on comfort, durability, and timeless design, we strive to make your shopping experience easy and enjoyable. Thank you for choosing us to help create your perfect living environment.</p>\n");
+      out.write(
+          "\t\t\t\t\t\t<div class=\"mb-4 footer-logo-wrap\"><a href=\"#\" class=\"footer-logo\">iDea<span>.</span></a></div>\n");
+      out.write(
+          "\t\t\t\t\t\t<p class=\"mb-4\">At iDea, we are dedicated to providing high-quality, stylish furniture crafted to enhance every space in your home. With a focus on comfort, durability, and timeless design, we strive to make your shopping experience easy and enjoyable. Thank you for choosing us to help create your perfect living environment.</p>\n");
       out.write("\n");
       out.write("\t\t\t\t\t\t<ul class=\"list-unstyled custom-social\">\n");
       out.write("\t\t\t\t\t\t\t<li><a href=\"#\"><span class=\"fa fa-brands fa-facebook-f\"></span></a></li>\n");
@@ -268,19 +290,19 @@ public final class contact_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("\t\t\t\t\t\t\t<div class=\"col-6 col-sm-6 col-md-4\">\n");
       out.write("\t\t\t\t\t\t\t\t<ul class=\"list-unstyled\">\n");
-      out.write("\t\t\t\t\t\t\t\t\t<li><a href=\"index.html\">Home</a></li>\n");
-      out.write("\t\t\t\t\t\t\t\t\t<li><a href=\"shop.html\">Shop Now</a></li>\n");
-      out.write("\t\t\t\t\t\t\t\t\t<li><a href=\"about.html\">About Us</a></li>\n");
-      out.write("\t\t\t\t\t\t\t\t\t<li><a href=\"contact.htmlss\">Contact Us</a></li>\n");
+      out.write("\t\t\t\t\t\t\t\t\t<li><a href=\"index.jsp\">Home</a></li>\n");
+      out.write("\t\t\t\t\t\t\t\t\t<li><a href=\"shop.jsp\">Shop Now</a></li>\n");
+      out.write("\t\t\t\t\t\t\t\t\t<li><a href=\"about.jsp\">About Us</a></li>\n");
+      out.write("\t\t\t\t\t\t\t\t\t<li><a href=\"contact.jspss\">Contact Us</a></li>\n");
       out.write("\t\t\t\t\t\t\t\t</ul>\n");
       out.write("\t\t\t\t\t\t\t</div>\n");
       out.write("\n");
       out.write("\t\t\t\t\t\t\t<div class=\"col-6 col-sm-6 col-md-4\">\n");
       out.write("\t\t\t\t\t\t\t\t<ul class=\"list-unstyled\">\n");
-      out.write("\t\t\t\t\t\t\t\t\t<li><a href=\"product1.html\">Nordic Chair</a></li>\n");
-      out.write("\t\t\t\t\t\t\t\t\t<li><a href=\"product2.html\">Serene Chair</a></li>\n");
-      out.write("\t\t\t\t\t\t\t\t\t<li><a href=\"product3.html\">Aurora Chair</a></li>\n");
-      out.write("\t\t\t\t\t\t\t\t\t<li><a href=\"product4.html\">Eclipse Chair</a></li>\n");
+      out.write("\t\t\t\t\t\t\t\t\t<li><a href=\"product1.jsp\">Nordic Chair</a></li>\n");
+      out.write("\t\t\t\t\t\t\t\t\t<li><a href=\"product2.jsp\">Serene Chair</a></li>\n");
+      out.write("\t\t\t\t\t\t\t\t\t<li><a href=\"product3.jsp\">Aurora Chair</a></li>\n");
+      out.write("\t\t\t\t\t\t\t\t\t<li><a href=\"product4.jsp\">Eclipse Chair</a></li>\n");
       out.write("\t\t\t\t\t\t\t\t</ul>\n");
       out.write("\t\t\t\t\t\t\t</div>\n");
       out.write("\t\t\t\t\t\t</div>\n");
@@ -291,7 +313,8 @@ public final class contact_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\t\t\t\t<div class=\"border-top copyright\">\n");
       out.write("\t\t\t\t\t<div class=\"row pt-4\">\n");
       out.write("\t\t\t\t\t\t<div class=\"col-lg-6\">\n");
-      out.write("\t\t\t\t\t\t\t<p class=\"mb-2 text-center text-lg-start\">Copyright iDea&copy;<script>document.write(new Date().getFullYear());</script>\n");
+      out.write(
+          "\t\t\t\t\t\t\t<p class=\"mb-2 text-center text-lg-start\">Copyright iDea&copy;<script>document.write(new Date().getFullYear());</script>\n");
       out.write("\t\t\t\t\t\t\t\t. All Rights Reserved. \n");
       out.write("            </p>\n");
       out.write("\t\t\t\t\t\t</div>\n");
@@ -318,12 +341,14 @@ public final class contact_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("</html>\n");
     } catch (Throwable t) {
-      if (!(t instanceof SkipPageException)){
+      if (!(t instanceof SkipPageException)) {
         out = _jspx_out;
         if (out != null && out.getBufferSize() != 0)
           out.clearBuffer();
-        if (_jspx_page_context != null) _jspx_page_context.handlePageException(t);
-        else throw new ServletException(t);
+        if (_jspx_page_context != null)
+          _jspx_page_context.handlePageException(t);
+        else
+          throw new ServletException(t);
       }
     } finally {
       _jspxFactory.releasePageContext(_jspx_page_context);

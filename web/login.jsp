@@ -26,7 +26,7 @@ and open the template in the editor.
     <!-- Start Header/Navigation -->
     <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
         <div class="container">
-            <a class="navbar-brand" href="index.html">iDea<span>.</span></a>
+            <a class="navbar-brand" href="index.jsp">iDea<span>.</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
                 aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -34,15 +34,15 @@ and open the template in the editor.
             <div class="collapse navbar-collapse" id="navbarsFurni">
                 <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                     <li class="nav-item ">
-                        <a class="nav-link" href="index.html">Home</a>
+                        <a class="nav-link" href="index.jsp">Home</a>
                     </li>
-                    <li><a class="nav-link" href="shop.html">Shop</a></li>
-                    <li><a class="nav-link" href="about.html">About us</a></li>
-                    <li><a class="nav-link" href="contact.html">Contact us</a></li>
+                    <li><a class="nav-link" href="ShopServlet">Shop</a></li>
+                    <li><a class="nav-link" href="about.jsp">About us</a></li>
+                    <li><a class="nav-link" href="contact.jsp">Contact us</a></li>
                 </ul>
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                    <li><a class="nav-link" href="login.html"><img src="images/user.svg"></a></li>
-                    <li><a class="nav-link" href="cart.html"><img src="images/cart.svg"></a></li>
+                    <li><a class="nav-link" href="login.jsp"><img src="images/user.svg"></a></li>
+                    <li><a class="nav-link" href="cart.jsp"><img src="images/cart.svg"></a></li>
                 </ul>
             </div>
         </div>
@@ -74,7 +74,7 @@ and open the template in the editor.
                                 <label class="form-check-label" for="rememberMe">Remember me</label>
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
-                            <p class="text-center mt-3">Don't have an account? <a href="register.html">Register here</a>
+                            <p class="text-center mt-3">Don't have an account? <a href="register.jsp">Register here</a>
                             </p>
                         </form>
                     </div>
@@ -109,18 +109,18 @@ and open the template in the editor.
                         </div>
                         <div class="col-6 col-sm-6 col-md-4">
                             <ul class="list-unstyled">
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="shop.html">Shop Now</a></li>
-                                <li><a href="about.html">About Us</a></li>
-                                <li><a href="contact.html">Contact Us</a></li>
+                                <li><a href="index.jsp">Home</a></li>
+                                <li><a href="ShopServlet">Shop Now</a></li>
+                                <li><a href="about.jsp">About Us</a></li>
+                                <li><a href="contact.jsp">Contact Us</a></li>
                             </ul>
                         </div>
                         <div class="col-6 col-sm-6 col-md-4">
                             <ul class="list-unstyled">
-                                <li><a href="product1.html">Nordic Chair</a></li>
-                                <li><a href="product2.html">Serene Chair</a></li>
-                                <li><a href="product3.html">Aurora Chair</a></li>
-                                <li><a href="product4.html">Eclipse Chair</a></li>
+                                <li><a href="product1.jsp">Nordic Chair</a></li>
+                                <li><a href="product2.jsp">Serene Chair</a></li>
+                                <li><a href="product3.jsp">Aurora Chair</a></li>
+                                <li><a href="product4.jsp">Eclipse Chair</a></li>
                             </ul>
                         </div>
                     </div>

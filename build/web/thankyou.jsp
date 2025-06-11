@@ -35,7 +35,7 @@ and open the template in the editor.
       arial-label="Furni navigation bar"
     >
       <div class="container">
-        <a class="navbar-brand" href="index.html">iDea<span>.</span></a>
+        <a class="navbar-brand" href="index.jsp">iDea<span>.</span></a>
 
         <button
           class="navbar-toggler"
@@ -52,23 +52,23 @@ and open the template in the editor.
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
             <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
+              <a class="nav-link" href="index.jsp">Home</a>
             </li>
-            <li><a class="nav-link" href="shop.html">Shop</a></li>
+            <li><a class="nav-link" href="ShopServlet">Shop</a></li>
             <li class="active">
-              <a class="nav-link" href="about.html">About us</a>
+              <a class="nav-link" href="about.jsp">About us</a>
             </li>
-            <li><a class="nav-link" href="contact.html">Contact us</a></li>
+            <li><a class="nav-link" href="contact.jsp">Contact us</a></li>
           </ul>
 
           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
             <li>
-              <a class="nav-link" href="login.html"
+              <a class="nav-link" href="login.jsp"
                 ><img src="images/user.svg"
               /></a>
             </li>
             <li>
-              <a class="nav-link" href="cart.html"
+              <a class="nav-link" href="cart.jsp"
                 ><img src="images/cart.svg"
               /></a>
             </li>
@@ -100,7 +100,7 @@ and open the template in the editor.
                 innovative design and quality craftsmanship.
               </p>
               <p>
-                <a href="shop.html" class="btn btn-white-outline">Shop Now</a>
+                <a href="ShopServlet" class="btn btn-white-outline">Shop Now</a>
               </p>
             </div>
           </div>
@@ -510,19 +510,19 @@ and open the template in the editor.
 
               <div class="col-6 col-sm-6 col-md-4">
                 <ul class="list-unstyled">
-                  <li><a href="index.html">Home</a></li>
-                  <li><a href="shop.html">Shop Now</a></li>
-                  <li><a href="about.html">About Us</a></li>
-                  <li><a href="contact.htmlss">Contact Us</a></li>
+                  <li><a href="index.jsp">Home</a></li>
+                  <li><a href="ShopServlet">Shop Now</a></li>
+                  <li><a href="about.jsp">About Us</a></li>
+                  <li><a href="contact.jspss">Contact Us</a></li>
                 </ul>
               </div>
 
               <div class="col-6 col-sm-6 col-md-4">
                 <ul class="list-unstyled">
-                  <li><a href="product1.html">Nordic Chair</a></li>
-                  <li><a href="product2.html">Serene Chair</a></li>
-                  <li><a href="product3.html">Aurora Chair</a></li>
-                  <li><a href="product4.html">Eclipse Chair</a></li>
+                  <li><a href="product1.jsp">Nordic Chair</a></li>
+                  <li><a href="product2.jsp">Serene Chair</a></li>
+                  <li><a href="product3.jsp">Aurora Chair</a></li>
+                  <li><a href="product4.jsp">Eclipse Chair</a></li>
                 </ul>
               </div>
             </div>
