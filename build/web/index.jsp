@@ -27,7 +27,7 @@ and open the template in the editor.
 		<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
 
 			<div class="container">
-				<a class="navbar-brand" href="index.html">iDea<span>.</span></a>
+				<a class="navbar-brand" href="index.jsp">iDea<span>.</span></a>
 
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -36,16 +36,16 @@ and open the template in the editor.
 				<div class="collapse navbar-collapse" id="navbarsFurni">
 					<ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
 						<li class="nav-item active">
-							<a class="nav-link" href="index.html">Home</a>
+							<a class="nav-link" href="index.jsp">Home</a>
 						</li>
-						<li><a class="nav-link" href="shop.html">Shop</a></li>
-						<li><a class="nav-link" href="about.html">About us</a></li>
-						<li><a class="nav-link" href="contact.html">Contact us</a></li>
+						<li><a class="nav-link" href="ShopServlet">Shop</a></li>
+						<li><a class="nav-link" href="about.jsp">About us</a></li>
+						<li><a class="nav-link" href="contact.jsp">Contact us</a></li>
 					</ul>
 
 					<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-						<li><a class="nav-link" href="login.html"><img src="images/user.svg"></a></li>
-						<li><a class="nav-link" href="cart.html"><img src="images/cart.svg"></a></li>
+						<li><a class="nav-link" href="login.jsp"><img src="images/user.svg"></a></li>
+						<li><a class="nav-link" href="cart.jsp"><img src="images/cart.svg"></a></li>
 					</ul>
 				</div>
 			</div>
@@ -61,7 +61,7 @@ and open the template in the editor.
 							<div class="intro-excerpt">
 								<h1>Modern Interior <span clsas="d-block">Design Studio</span></h1>
 								<p class="mb-4">Stylish, affordable furniture for every room. Comfort, quality, and design in one place.</p>
-								<p><a href="shop.html" class="btn btn-white-outline">Shop Now</a></p>
+								<p><a href="ShopServlet" class="btn btn-white-outline">Shop Now</a></p>
 							</div>
 						</div>
 						<div class="col-lg-7">
@@ -83,13 +83,13 @@ and open the template in the editor.
 					<div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
 						<h2 class="mb-4 section-title">Crafted with excellent material.</h2>
 						<p class="mb-4">Our furniture is crafted with high-quality materials, combining durability, comfort, and timeless style to elevate every space. </p>
-						<p><a href="shop.html" class="btn">Explore</a></p>
+						<p><a href="ShopServlet" class="btn">Explore</a></p>
 					</div> 
 					<!-- End Column 1 -->
 
 					<!-- Start Column 2 -->
 					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="product2.html">
+						<a class="product-item" href="product2.jsp">
 							<img src="images/product-1.png" class="img-fluid product-thumbnail">
 							<h3 class="product-title">Serene Chair</h3>
 							<strong class="product-price">RM199.00</strong>
@@ -103,7 +103,7 @@ and open the template in the editor.
 
 					<!-- Start Column 3 -->
 					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="product3.html">
+						<a class="product-item" href="product3.jsp">
 							<img src="images/product-2.png" class="img-fluid product-thumbnail">
 							<h3 class="product-title">Aurora Chair</h3>
 							<strong class="product-price">RM249.00</strong>
@@ -117,7 +117,7 @@ and open the template in the editor.
 
 					<!-- Start Column 4 -->
 					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="product1.html">
+						<a class="product-item" href="product1.jsp">
 							<img src="images/product-3.png" class="img-fluid product-thumbnail">
 							<h3 class="product-title">Nordic Chair</h3>
 							<strong class="product-price">RM99.00</strong>
@@ -218,7 +218,7 @@ and open the template in the editor.
 							<li>Designed to match your unique taste.</li>
 							<li>Comfort and elegance, perfectly combined.</li>
 						</ul>
-						<p><a href="shop.html" class="btn">Explore</a></p>
+						<p><a href="ShopServlet" class="btn">Explore</a></p>
 					</div>
 				</div>
 			</div>
@@ -238,7 +238,7 @@ and open the template in the editor.
 							<div class="pt-3">
 								<h3>Serene Chair</h3>
 								<p>Scandinavian style brought to your home. </p>
-								<p><a href="product2.html">Read More</a></p>
+								<p><a href="product2.jsp">Read More</a></p>
 							</div>
 						</div>
 					</div>
@@ -251,7 +251,7 @@ and open the template in the editor.
 							<div class="pt-3">
 								<h3>Aurora Chair</h3>
 								<p>Light of the north bring you comfort. </p>
-								<p><a href="product3.html">Read More</a></p>
+								<p><a href="product3.jsp">Read More</a></p>
 							</div>
 						</div>
 					</div>
@@ -264,7 +264,7 @@ and open the template in the editor.
 							<div class="pt-3">
 								<h3>Nordic Chair</h3>
 								<p>Viking up your home with style. </p>
-								<p><a href="product1.html">Read More</a></p>
+								<p><a href="product1.jsp">Read More</a></p>
 							</div>
 						</div>
 					</div>
@@ -486,19 +486,19 @@ and open the template in the editor.
 
 							<div class="col-6 col-sm-6 col-md-4">
 								<ul class="list-unstyled">
-									<li><a href="index.html">Home</a></li>
-									<li><a href="shop.html">Shop Now</a></li>
-									<li><a href="about.html">About Us</a></li>
-									<li><a href="contact.htmlss">Contact Us</a></li>
+									<li><a href="index.jsp">Home</a></li>
+									<li><a href="ShopServlet">Shop Now</a></li>
+									<li><a href="about.jsp">About Us</a></li>
+									<li><a href="contact.jspss">Contact Us</a></li>
 								</ul>
 							</div>
 
 							<div class="col-6 col-sm-6 col-md-4">
 								<ul class="list-unstyled">
-									<li><a href="product1.html">Nordic Chair</a></li>
-									<li><a href="product2.html">Serene Chair</a></li>
-									<li><a href="product3.html">Aurora Chair</a></li>
-									<li><a href="product4.html">Eclipse Chair</a></li>
+									<li><a href="product1.jsp">Nordic Chair</a></li>
+									<li><a href="product2.jsp">Serene Chair</a></li>
+									<li><a href="product3.jsp">Aurora Chair</a></li>
+									<li><a href="product4.jsp">Eclipse Chair</a></li>
 								</ul>
 							</div>
 						</div>

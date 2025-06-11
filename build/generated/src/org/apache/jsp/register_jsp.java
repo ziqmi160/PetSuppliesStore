@@ -18,7 +18,7 @@ public final class register_jsp extends org.apache.jasper.runtime.HttpJspBase
   }
 
   public void _jspService(HttpServletRequest request, HttpServletResponse response)
-        throws java.io.IOException, ServletException {
+      throws java.io.IOException, ServletException {
 
     PageContext pageContext = null;
     HttpSession session = null;
@@ -32,14 +32,15 @@ public final class register_jsp extends org.apache.jasper.runtime.HttpJspBase
     try {
       response.setContentType("text/html");
       pageContext = _jspxFactory.getPageContext(this, request, response,
-      			null, true, 8192, true);
+          null, true, 8192, true);
       _jspx_page_context = pageContext;
       application = pageContext.getServletContext();
       config = pageContext.getServletConfig();
       session = pageContext.getSession();
       out = pageContext.getOut();
       _jspx_out = out;
-      _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
+      _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application
+          .getAttribute("com.sun.appserv.jsp.resource.injector");
 
       out.write("<!DOCTYPE html>\n");
       out.write("<!--\n");
@@ -78,7 +79,7 @@ public final class register_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("      arial-label=\"Furni navigation bar\"\n");
       out.write("    >\n");
       out.write("      <div class=\"container\">\n");
-      out.write("        <a class=\"navbar-brand\" href=\"index.html\">iDea<span>.</span></a>\n");
+      out.write("        <a class=\"navbar-brand\" href=\"index.jsp\">iDea<span>.</span></a>\n");
       out.write("        <button\n");
       out.write("          class=\"navbar-toggler\"\n");
       out.write("          type=\"button\"\n");
@@ -93,20 +94,20 @@ public final class register_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <div class=\"collapse navbar-collapse\" id=\"navbarsFurni\">\n");
       out.write("          <ul class=\"custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0\">\n");
       out.write("            <li class=\"nav-item\">\n");
-      out.write("              <a class=\"nav-link\" href=\"index.html\">Home</a>\n");
+      out.write("              <a class=\"nav-link\" href=\"index.jsp\">Home</a>\n");
       out.write("            </li>\n");
-      out.write("            <li><a class=\"nav-link\" href=\"shop.html\">Shop</a></li>\n");
-      out.write("            <li><a class=\"nav-link\" href=\"about.html\">About us</a></li>\n");
-      out.write("            <li><a class=\"nav-link\" href=\"contact.html\">Contact us</a></li>\n");
+      out.write("            <li><a class=\"nav-link\" href=\"shop.jsp\">Shop</a></li>\n");
+      out.write("            <li><a class=\"nav-link\" href=\"about.jsp\">About us</a></li>\n");
+      out.write("            <li><a class=\"nav-link\" href=\"contact.jsp\">Contact us</a></li>\n");
       out.write("          </ul>\n");
       out.write("          <ul class=\"custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5\">\n");
       out.write("            <li>\n");
-      out.write("              <a class=\"nav-link\" href=\"login.html\"\n");
+      out.write("              <a class=\"nav-link\" href=\"login.jsp\"\n");
       out.write("                ><img src=\"images/user.svg\"\n");
       out.write("              /></a>\n");
       out.write("            </li>\n");
       out.write("            <li>\n");
-      out.write("              <a class=\"nav-link\" href=\"cart.html\"\n");
+      out.write("              <a class=\"nav-link\" href=\"cart.jsp\"\n");
       out.write("                ><img src=\"images/cart.svg\"\n");
       out.write("              /></a>\n");
       out.write("            </li>\n");
@@ -175,7 +176,7 @@ public final class register_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                  Register\n");
       out.write("                </button>\n");
       out.write("                <p class=\"text-center mt-3\">\n");
-      out.write("                  Already have an account? <a href=\"login.html\">Login here</a>\n");
+      out.write("                  Already have an account? <a href=\"login.jsp\">Login here</a>\n");
       out.write("                </p>\n");
       out.write("              </form>\n");
       out.write("            </div>\n");
@@ -225,18 +226,18 @@ public final class register_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("              </div>\n");
       out.write("              <div class=\"col-6 col-sm-6 col-md-4\">\n");
       out.write("                <ul class=\"list-unstyled\">\n");
-      out.write("                  <li><a href=\"index.html\">Home</a></li>\n");
-      out.write("                  <li><a href=\"shop.html\">Shop Now</a></li>\n");
-      out.write("                  <li><a href=\"about.html\">About Us</a></li>\n");
-      out.write("                  <li><a href=\"contact.html\">Contact Us</a></li>\n");
+      out.write("                  <li><a href=\"index.jsp\">Home</a></li>\n");
+      out.write("                  <li><a href=\"shop.jsp\">Shop Now</a></li>\n");
+      out.write("                  <li><a href=\"about.jsp\">About Us</a></li>\n");
+      out.write("                  <li><a href=\"contact.jsp\">Contact Us</a></li>\n");
       out.write("                </ul>\n");
       out.write("              </div>\n");
       out.write("              <div class=\"col-6 col-sm-6 col-md-4\">\n");
       out.write("                <ul class=\"list-unstyled\">\n");
-      out.write("                  <li><a href=\"product1.html\">Nordic Chair</a></li>\n");
-      out.write("                  <li><a href=\"product2.html\">Serene Chair</a></li>\n");
-      out.write("                  <li><a href=\"product3.html\">Aurora Chair</a></li>\n");
-      out.write("                  <li><a href=\"product4.html\">Eclipse Chair</a></li>\n");
+      out.write("                  <li><a href=\"product1.jsp\">Nordic Chair</a></li>\n");
+      out.write("                  <li><a href=\"product2.jsp\">Serene Chair</a></li>\n");
+      out.write("                  <li><a href=\"product3.jsp\">Aurora Chair</a></li>\n");
+      out.write("                  <li><a href=\"product4.jsp\">Eclipse Chair</a></li>\n");
       out.write("                </ul>\n");
       out.write("              </div>\n");
       out.write("            </div>\n");
@@ -271,12 +272,14 @@ public final class register_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("  </body>\n");
       out.write("</html>\n");
     } catch (Throwable t) {
-      if (!(t instanceof SkipPageException)){
+      if (!(t instanceof SkipPageException)) {
         out = _jspx_out;
         if (out != null && out.getBufferSize() != 0)
           out.clearBuffer();
-        if (_jspx_page_context != null) _jspx_page_context.handlePageException(t);
-        else throw new ServletException(t);
+        if (_jspx_page_context != null)
+          _jspx_page_context.handlePageException(t);
+        else
+          throw new ServletException(t);
       }
     } finally {
       _jspxFactory.releasePageContext(_jspx_page_context);
