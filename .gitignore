@@ -1,0 +1,31 @@
+# Ignore NetBeans private configuration (user/machine specific)
+nbproject/private/
+
+# Build output directories
+build/
+dist/
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Mac OS hidden files
+.DS_Store
+
+# Windows thumbnail cache
+Thumbs.db
+
+# IDE files
+*.iml
+.idea/
+
+# Maven and Gradle directories (in case you use them)
+target/
+.gradle/
