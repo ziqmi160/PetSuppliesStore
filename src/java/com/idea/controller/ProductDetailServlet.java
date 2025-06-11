@@ -5,6 +5,8 @@
  */
 package com.idea.controller;
 
+import com.idea.dao.ProductDAO;
+import com.idea.model.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -29,19 +31,18 @@ public class ProductDetailServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ProductDetailServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ProductDetailServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        // Step 1: Get ID from request
+        String id = request.getParameter("id");
+
+        // Step 2: Retrieve product using the ID (simulate with DAO or list)
+        ProductDAO dao = new ProductDAO();  // Assume you have this
+        Product product = dao.getProductById(Integer.parseInt(id));
+
+        // Step 3: Set product in request scope
+        request.setAttribute("product", product);
+
+        // Step 4: Forward to product.jsp
+        request.getRequestDispatcher("product.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

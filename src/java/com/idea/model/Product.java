@@ -16,14 +16,18 @@ import java.util.List;
 public class Product {
     private int id;
     private String name;
+    private String description;
     private List<ProductImage> images;
     private double price;
+    private String category;
 
-    public Product(int id, String name, List<ProductImage> images, double price) {
+    public Product(int id, String name, String description, List<ProductImage> images, double price, String category) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.images = images;
         this.price = price;
+        this.category = category;
     }
 
     // Getters
@@ -34,6 +38,10 @@ public class Product {
     public String getName() {
         return name;
     }
+    
+    public String getDescription() {
+        return description;
+    }
 
     public List<ProductImage> getImages() {
         return images;
@@ -41,5 +49,9 @@ public class Product {
 
     public double getPrice() {
         return price;
+    }
+    
+    public String getCategory() {
+        return category;
     }
 }
