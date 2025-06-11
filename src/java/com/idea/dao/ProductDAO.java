@@ -22,9 +22,14 @@ public class ProductDAO {
 
     public List<Product> getAllProducts() {
     List<Product> products = new ArrayList<>();
-    String sql = "SELECT p.ProductID, p.Name, p.Price, i.ImageID, i.ImagePath " +
-                 "FROM Products p LEFT JOIN Images i ON p.ProductID = i.ProductID " +
-                 "ORDER BY p.ProductID";
+  String sql = "SELECT p.ProductID, p.Name, p.Price, p.Description, " +
+             "i.ImageID, i.ImagePath, " +
+             "c.CategoryName " +
+             "FROM Products p " +
+             "LEFT JOIN Images i ON p.ProductID = i.ProductID " +
+             "LEFT JOIN Categories c ON p.CategoryID = c.CategoryID " +
+             "ORDER BY p.ProductID";
+;
 
     try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASS);
          PreparedStatement stmt = conn.prepareStatement(sql);
@@ -37,11 +42,17 @@ public class ProductDAO {
             Product product = productMap.get(productId);
 
             if (product == null) {
+//                  int categoryId = rs.getInt("CategoryID");
+            String categoryName = rs.getString("CategoryName");
                 product = new Product(
                     productId,
                     rs.getString("Name"),
+                                                    rs.getString("Description"),
                     new ArrayList<>(),
-                    rs.getDouble("Price")
+                    rs.getDouble("Price"),
+                    categoryName
+
+                        
                 );
                 productMap.put(productId, product);
             }
@@ -55,12 +66,59 @@ public class ProductDAO {
         }
 
         products.addAll(productMap.values());
+        
 
     } catch (SQLException e) {
         e.printStackTrace();
     }
 
     return products;
+}
+    public Product getProductById(int id) {
+    Product product = null;
+ String sql = "SELECT p.ProductID, p.Name, p.Price, p.CategoryID, p.Description, " +
+             "c.CategoryName, i.ImageID, i.ImagePath " +
+             "FROM Products p " +
+             "LEFT JOIN Images i ON p.ProductID = i.ProductID " +
+             "LEFT JOIN Categories c ON p.CategoryID = c.CategoryID " +
+             "WHERE p.ProductID = ?";
+
+
+    try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASS);
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            if (product == null) {
+                int categoryId = rs.getInt("CategoryID");
+            String categoryName = rs.getString("CategoryName");
+            
+product = new Product(
+                    rs.getInt("ProductID"),
+                    rs.getString("Name"),
+                            rs.getString("Description"),
+
+                    new ArrayList<>(),
+                    rs.getDouble("Price"),
+                    categoryName
+                );
+            }
+
+            int imageId = rs.getInt("ImageID");
+            String imagePath = rs.getString("ImagePath");
+            
+            if (imagePath != null) {
+                product.getImages().add(new ProductImage(imageId, imagePath));
+            }
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return product;
 }
 
 }

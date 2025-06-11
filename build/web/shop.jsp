@@ -215,7 +215,7 @@ and open the template in the editor.
 
           <c:forEach var="product" items="${products}">
   <div class="col-12 col-md-4 col-lg-3 mb-5">
-    <a class="product-item" href="product.jsp?id=${product.id}">
+    <a class="product-item" href="ProductDetailServlet?id=${product.id}">
       <c:choose>
         <c:when test="${not empty product.images}">
             <img src="${product.images[0].path}" class="img-fluid product-thumbnail" alt="${product.name}" />
