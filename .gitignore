@@ -1,5 +1,5 @@
 # Ignore NetBeans private configuration (user/machine specific)
-nbproject/private/
+nbproject/private/*
 
 # Build output directories
 build/
