@@ -87,7 +87,7 @@ and open the template in the editor.
                   <h2 class="section-title">Register</h2>
                 </div>
               </div>
-              <form action="#" method="post">
+              <form action="RegisterUserServlet" method="post">
                 <div class="form-group">
                   <label for="username">Username</label>
                   <input
@@ -131,10 +131,10 @@ and open the template in the editor.
                 <button type="submit" class="btn btn-primary btn-block">
                   Register
                 </button>
-                <p class="text-center mt-3">
-                  Already have an account? <a href="login.jsp">Login here</a>
-                </p>
               </form>
+              <p class="text-center mt-3">
+                Already have an account? <a href="login.jsp">Login here</a>
+              </p>
             </div>
           </div>
         </div>

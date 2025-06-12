@@ -218,7 +218,7 @@ and open the template in the editor.
     <a class="product-item" href="ProductDetailServlet?id=${product.id}">
       <c:choose>
         <c:when test="${not empty product.images}">
-            <img src="${product.images[0].path}" class="img-fluid product-thumbnail" alt="${product.name}" />
+            <img src="${product.images[0].path}" class="img-fluid product-thumbnail" alt="${product.name}" style="width: 300px; height: 300px; object-fit: scale-down"/>
 <!--            <div class="testimonial-slider-wrap text-center">
           <div id="testimonial-nav">
             <span class="prev" data-controls="prev"><span class="fa fa-chevron-left"></span></span>
