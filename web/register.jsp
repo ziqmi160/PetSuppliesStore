@@ -128,6 +128,7 @@ and open the template in the editor.
                     required
                   />
                 </div>
+                <p>${request.getAttribute("error")}</p>
                 <button type="submit" class="btn btn-primary btn-block">
                   Register
                 </button>

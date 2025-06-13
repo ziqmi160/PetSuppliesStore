@@ -125,9 +125,9 @@ and open the template in the editor.
                             <h2 class="mb-4"><strong>RM${product.price}</strong></h2>
                             <p class="mb-4">${product.description}</p>
 
-                            <form action="CartServlet" method="get">
+                            <form action="CartServlet" method="post">
                                 <input type="hidden" name="action" value="add">
-                                <input type="hidden" name="productId" value="${product.productId}">
+                                <input type="hidden" name="productId" value="${product.id}">
                                 <div class="input-group mb-3" style="max-width: 120px">
                                     <div class="input-group-prepend">
                                         <button class="btn btn-outline-black decrease" type="button">&minus;</button>
