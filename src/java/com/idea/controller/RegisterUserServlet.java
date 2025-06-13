@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,33 +38,84 @@ public class RegisterUserServlet extends HttpServlet {
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
 
-        // Optional: check if passwords match
+        // Check password length
+        if (password.length() < 8) {
+            response.sendRedirect("register.jsp?error=Password+must+be+at+least+8+characters+long");
+            return;
+        }
+
+        // Check if passwords match
         if (!password.equals(confirmPassword)) {
             response.sendRedirect("register.jsp?error=Passwords+do+not+match");
             return;
         }
 
+        Connection conn = null;
+        PreparedStatement checkStmt = null;
+        PreparedStatement insertStmt = null;
+        ResultSet rs = null;
+
         try {
-
-            // Insert into USER table
-            try ( // Connect to database
-                    Connection conn = Database.getConnection()) {
-                // Insert into USER table
-                String sql = "INSERT INTO USERS (name, email, password) VALUES (?, ?, ?)";
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setString(1, username);
-                stmt.setString(2, email);
-                stmt.setString(3, password);  // Ideally hash this!
-
-                stmt.executeUpdate();
-                stmt.close();
+            // Connect to database
+            conn = Database.getConnection();
+            
+            // Check if email exists in Users table
+            String checkEmailSql = "SELECT COUNT(*) FROM USERS WHERE email = ?";
+            checkStmt = conn.prepareStatement(checkEmailSql);
+            checkStmt.setString(1, email);
+            rs = checkStmt.executeQuery();
+            rs.next();
+            int userCount = rs.getInt(1);
+            
+            // Check if email exists in Admins table
+            checkEmailSql = "SELECT COUNT(*) FROM ADMINS WHERE email = ?";
+            checkStmt = conn.prepareStatement(checkEmailSql);
+            checkStmt.setString(1, email);
+            rs = checkStmt.executeQuery();
+            rs.next();
+            int adminCount = rs.getInt(1);
+            
+            if (userCount > 0 || adminCount > 0) {
+                response.sendRedirect("register.jsp?error=Email+already+exists");
+                return;
             }
 
-            response.sendRedirect("login.jsp?success=Registration+complete");
+            // Insert new user
+            String sql = "INSERT INTO USERS (name, email, password, address) VALUES (?, ?, ?, ?)";
+            insertStmt = conn.prepareStatement(sql);
+            insertStmt.setString(1, username);
+            insertStmt.setString(2, email);
+            insertStmt.setString(3, password);  // Ideally hash this!
+            insertStmt.setString(4, "");  // Empty address for now
+
+            insertStmt.executeUpdate();
+
+            // Redirect to login page with success message
+            response.sendRedirect("login.jsp?success=Registration+successful.+Please+login.");
 
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("register.jsp?error=An+error+occurred");
+            // Get the root cause of the error
+            Throwable cause = e;
+            while (cause.getCause() != null) {
+                cause = cause.getCause();
+            }
+            String errorMessage = cause.getMessage();
+            if (errorMessage == null) {
+                errorMessage = e.getMessage();
+            }
+            if (errorMessage == null) {
+                errorMessage = "An error occurred during registration";
+            }
+            // URL encode the error message
+            errorMessage = errorMessage.replace(" ", "+");
+            response.sendRedirect("register.jsp?error=" + errorMessage);
+        } finally {
+            // Close all resources
+            try { if (rs != null) rs.close(); } catch (Exception e) {}
+            try { if (checkStmt != null) checkStmt.close(); } catch (Exception e) {}
+            try { if (insertStmt != null) insertStmt.close(); } catch (Exception e) {}
+            try { if (conn != null) conn.close(); } catch (Exception e) {}
         }
     }
 

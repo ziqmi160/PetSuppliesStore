@@ -3,16 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/User/OneDrive%20-%20Universiti%20Teknologi%20MARA/Desktop/CSC584/iDea/web/product.jsp</file>
-            <file>file:/C:/Users/User/OneDrive%20-%20Universiti%20Teknologi%20MARA/Desktop/CSC584/iDea/src/java/com/idea/controller/ProductDetailServlet.java</file>
-            <file>file:/C:/Users/User/OneDrive%20-%20Universiti%20Teknologi%20MARA/Desktop/CSC584/iDea/src/java/com/idea/controller/ShopServlet.java</file>
-            <file>file:/C:/Users/User/OneDrive%20-%20Universiti%20Teknologi%20MARA/Desktop/CSC584/iDea/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/User/OneDrive%20-%20Universiti%20Teknologi%20MARA/Desktop/CSC584/iDea/web/form22.jsp</file>
-            <file>file:/C:/Users/User/OneDrive%20-%20Universiti%20Teknologi%20MARA/Desktop/CSC584/iDea/src/java/com/idea/dao/ProductDAO.java</file>
-            <file>file:/C:/Users/User/OneDrive%20-%20Universiti%20Teknologi%20MARA/Desktop/CSC584/iDea/web/shop.jsp</file>
-            <file>file:/C:/Users/User/OneDrive%20-%20Universiti%20Teknologi%20MARA/Desktop/CSC584/iDea/src/java/com/idea/model/ProductImage.java</file>
-            <file>file:/C:/Users/User/OneDrive%20-%20Universiti%20Teknologi%20MARA/Desktop/CSC584/iDea/src/java/com/idea/model/Product.java</file>
-            <file>file:/C:/Users/User/OneDrive%20-%20Universiti%20Teknologi%20MARA/Desktop/CSC584/iDea/web/register.jsp</file>
+            <file>file:/C:/Users/ASY/iDea/web/login.jsp</file>
+            <file>file:/C:/Users/ASY/iDea/src/java/com/idea/controller/LoginServlet.java</file>
+            <file>file:/C:/Users/ASY/iDea/src/java/com/idea/controller/RegisterUserServlet.java</file>
+            <file>file:/C:/Users/ASY/iDea/src/java/com/idea/controller/LogoutServlet.java</file>
+            <file>file:/C:/Users/ASY/iDea/web/register.jsp</file>
+            <file>file:/C:/Users/ASY/iDea/web/profile.jsp</file>
+            <file>file:/C:/Users/ASY/iDea/web/index.jsp</file>
         </group>
     </open-files>
 </project-private>

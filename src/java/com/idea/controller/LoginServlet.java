@@ -43,38 +43,42 @@ public class LoginServlet extends HttpServlet {
         ResultSet rs = null;
 
         try {
-            // Assume this method gives you a connection (you should implement it somewhere)
             conn = Database.getConnection(); 
 
-            String sql = "SELECT * FROM Users WHERE Email = ? AND Password = ?";
-            stmt = conn.prepareStatement(sql);
+            // First check if email exists
+            String checkEmailSql = "SELECT * FROM Users WHERE Email = ?";
+            stmt = conn.prepareStatement(checkEmailSql);
             stmt.setString(1, email);
-            stmt.setString(2, password);  // ✅ In real apps, compare hashed passwords!
-
             rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                // ✅ Successful login
-                HttpSession session = request.getSession();
-                session.setAttribute("userID", rs.getInt("UserID"));
-                session.setAttribute("userName", rs.getString("Name"));
-                response.sendRedirect("ShopServlet");  // or wherever
-            } else {
-                // ❌ Login failed
-                request.setAttribute("error", "Invalid email or password");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
+            if (!rs.next()) {
+                // Email not found
+                response.sendRedirect("login.jsp?error=Email+not+found");
+                return;
             }
+
+            // Email exists, now check password
+            String storedPassword = rs.getString("Password");
+            if (!password.equals(storedPassword)) {
+                // Wrong password
+                response.sendRedirect("login.jsp?error=Incorrect+password");
+                return;
+            }
+
+            // Login successful
+            HttpSession session = request.getSession();
+            session.setAttribute("userID", rs.getInt("UserID"));
+            session.setAttribute("userName", rs.getString("Name"));
+            response.sendRedirect("profile.jsp");
 
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Login failed due to server error.");
+            response.sendRedirect("login.jsp?error=An+error+occurred+during+login");
         } finally {
             try { if (rs != null) rs.close(); } catch (Exception e) {}
             try { if (stmt != null) stmt.close(); } catch (Exception e) {}
             try { if (conn != null) conn.close(); } catch (Exception e) {}
         }
-        
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
