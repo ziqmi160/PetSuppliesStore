@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import javax.servlet.RequestDispatcher;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,7 +40,9 @@ public class RegisterUserServlet extends HttpServlet {
 
         // Optional: check if passwords match
         if (!password.equals(confirmPassword)) {
-            response.sendRedirect("register.jsp?error=Passwords+do+not+match");
+            request.setAttribute("error", "Password does not match");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
+            dispatcher.forward(request, response);    
             return;
         }
 
