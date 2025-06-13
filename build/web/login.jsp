@@ -4,6 +4,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -48,7 +49,7 @@ and open the template in the editor.
         </div>
     </nav>
     <!-- End Header/Navigation -->
- 
+
     <!-- Start Login Section -->
     <div class="login-section" style="padding-bottom: 5rem;">
         <div class="container">
@@ -60,23 +61,36 @@ and open the template in the editor.
                                 <h2 class="section-title">Login</h2>
                             </div>
                         </div>
-                        <form action="LoginServlet" method="post">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
+                        <% String error=request.getParameter("error"); String success=request.getParameter("success");
+                            if (error !=null) { %>
+                            <div class="alert alert-danger" role="alert">
+                                <%= error %>
                             </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
-                            <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input" id="rememberMe">
-                                <label class="form-check-label" for="rememberMe">Remember me</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block">Login</button>
-                            <p class="text-center mt-3">Don't have an account? <a href="register.jsp">Register here</a>
-                            </p>
-                        </form>
+                            <% } else if (success !=null) { %>
+                                <div class="alert alert-success" role="alert">
+                                    <%= success %>
+                                </div>
+                                <% } %>
+                                    <form action="LoginServlet" method="post">
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input type="email" class="form-control" id="email" name="email" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password">Password</label>
+                                            <input type="password" class="form-control" id="password" name="password"
+                                                required>
+                                        </div>
+                                        <div class="form-group form-check">
+                                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                                        <p class="text-center mt-3">Don't have an account? <a
+                                                href="register.jsp">Register
+                                                here</a>
+                                        </p>
+                                    </form>
                     </div>
                 </div>
             </div>
@@ -91,7 +105,10 @@ and open the template in the editor.
             <div class="row g-5 mb-5">
                 <div class="col-lg-4">
                     <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">iDea<span>.</span></a></div>
-                    <p class="mb-4">At iDea, we are dedicated to providing high-quality, stylish furniture crafted to enhance every space in your home. With a focus on comfort, durability, and timeless design, we strive to make your shopping experience easy and enjoyable. Thank you for choosing us to help create your perfect living environment.</p>
+                    <p class="mb-4">At iDea, we are dedicated to providing high-quality, stylish furniture crafted to
+                        enhance every space in your home. With a focus on comfort, durability, and timeless design, we
+                        strive to make your shopping experience easy and enjoyable. Thank you for choosing us to help
+                        create your perfect living environment.</p>
                     <ul class="list-unstyled custom-social">
                         <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
                         <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
