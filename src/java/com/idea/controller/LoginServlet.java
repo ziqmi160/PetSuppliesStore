@@ -6,7 +6,6 @@
 package com.idea.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,23 +26,33 @@ public class LoginServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        
+        String contextPath = request.getContextPath();
+
+        // Debug logging
+        System.out.println("Login attempt - Email: " + email);
+
+        if (email == null || password == null || email.trim().isEmpty() || password.trim().isEmpty()) {
+            response.sendRedirect(contextPath + "/login.jsp?error=Please+enter+email+and+password");
+            return;
+        }
+
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            conn = Database.getConnection(); 
+            conn = Database.getConnection();
+            System.out.println("Database connection successful");
 
             // First check if email exists
             String checkEmailSql = "SELECT * FROM Users WHERE Email = ?";
@@ -52,43 +61,68 @@ public class LoginServlet extends HttpServlet {
             rs = stmt.executeQuery();
 
             if (!rs.next()) {
-                // Email not found
-                response.sendRedirect("login.jsp?error=Email+not+found");
+                System.out.println("Email not found: " + email);
+                response.sendRedirect(contextPath + "/login.jsp?error=Email+not+found");
                 return;
             }
 
             // Email exists, now check password
             String storedPassword = rs.getString("Password");
             if (!password.equals(storedPassword)) {
-                // Wrong password
-                response.sendRedirect("login.jsp?error=Incorrect+password");
+                System.out.println("Incorrect password for email: " + email);
+                response.sendRedirect(contextPath + "/login.jsp?error=Incorrect+password");
                 return;
             }
 
             // Login successful
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(true);
+            session.setMaxInactiveInterval(30 * 60);
             session.setAttribute("userID", rs.getInt("UserID"));
             session.setAttribute("userName", rs.getString("Name"));
-            response.sendRedirect("profile.jsp");
+            session.setAttribute("email", email); // Store email in session
+
+            System.out.println("Login successful for user: " + rs.getString("Name"));
+
+            // Get the redirect URL from the request, or default to index.jsp
+            String redirectURL = request.getParameter("redirect");
+            if (redirectURL != null && !redirectURL.isEmpty()) {
+                response.sendRedirect(contextPath + redirectURL);
+            } else {
+                response.sendRedirect(contextPath + "/index.jsp");
+            }
 
         } catch (Exception e) {
+            System.out.println("Login error: " + e.getMessage());
             e.printStackTrace();
-            response.sendRedirect("login.jsp?error=An+error+occurred+during+login");
+            response.sendRedirect(contextPath + "/login.jsp?error=An+error+occurred+during+login");
         } finally {
-            try { if (rs != null) rs.close(); } catch (Exception e) {}
-            try { if (stmt != null) stmt.close(); } catch (Exception e) {}
-            try { if (conn != null) conn.close(); } catch (Exception e) {}
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+            }
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
+    // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -99,10 +133,10 @@ public class LoginServlet extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -117,7 +151,7 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Login Servlet";
     }// </editor-fold>
 
 }

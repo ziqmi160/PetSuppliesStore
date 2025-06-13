@@ -17,6 +17,10 @@ public class LogoutServlet extends HttpServlet {
         // Get the session and invalidate it
         HttpSession session = request.getSession(false);
         if (session != null) {
+            // Remove all session attributes
+            session.removeAttribute("userID");
+            session.removeAttribute("userName");
+            // Invalidate the session
             session.invalidate();
         }
         
@@ -40,4 +44,4 @@ public class LogoutServlet extends HttpServlet {
     public String getServletInfo() {
         return "Logout Servlet";
     }
-} 
+}

@@ -138,6 +138,22 @@ a.more {
   margin-right: 20px;
 }
 
+/* Profile icon styles */
+.profile-icon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+.profile-icon:hover {
+  transform: scale(1.1);
+}
+
+.nav-link .profile-icon {
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
 .hero {
   background: #2f2f2f;
   padding: calc(4rem - 30px) 0 0rem 0;
@@ -768,7 +784,7 @@ a.more {
 
 .footer-section {
   padding: 80px 0;
-  background:#D3D3D3 !important;
+  background: #D3D3D3 !important;
 }
 
 .footer-section .relative {
@@ -1054,4 +1070,3 @@ textarea {
 .feature:hover .overlay {
   opacity: 1;
 }
-
