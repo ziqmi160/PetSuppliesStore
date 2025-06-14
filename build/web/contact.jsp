@@ -46,7 +46,7 @@ and open the template in the editor.
 
 					<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
 						<li><a class="nav-link" href="login.jsp"><img src="images/user.svg"></a></li>
-						<li><a class="nav-link" href="cart.jsp"><img src="images/cart.svg"></a></li>
+						<li><a class="nav-link" href="CartServlet"><img src="images/cart.svg"></a></li>
 					</ul>
 				</div>
 			</div>
