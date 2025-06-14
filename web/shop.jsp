@@ -73,7 +73,7 @@ and open the template in the editor.
               /></a>
             </li>
             <li>
-              <a class="nav-link" href="cart.jsp"
+              <a class="nav-link" href="CartServlet"
                 ><img src="images/cart.svg"
               /></a>
             </li>

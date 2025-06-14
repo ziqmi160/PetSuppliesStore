@@ -56,7 +56,7 @@ and open the template in the editor.
             <a class="nav-link" href="login.jsp"><img src="images/user.svg" /></a>
           </li>
           <li>
-            <a class="nav-link" href="cart.jsp"><img src="images/cart.svg" /></a>
+            <a class="nav-link" href="CartServlet"><img src="images/cart.svg" /></a>
           </li>
         </ul>
       </div>

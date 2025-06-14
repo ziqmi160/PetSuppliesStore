@@ -5,6 +5,7 @@
  */
 package com.idea.controller;
 
+import com.idea.model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -67,9 +68,11 @@ public class LoginServlet extends HttpServlet {
 
             // Login successful
             HttpSession session = request.getSession();
-            session.setAttribute("userID", rs.getInt("UserID"));
-            session.setAttribute("userName", rs.getString("Name"));
-            response.sendRedirect("profile.jsp");
+            User user = new User(rs.getInt("UserID"), rs.getString("name"), rs.getString("email"));
+//            session.setAttribute("userID", rs.getInt("UserID"));
+//            session.setAttribute("userName", rs.getString("Name"));
+            session.setAttribute("user", user);
+            response.sendRedirect("index.jsp");
 
         } catch (Exception e) {
             e.printStackTrace();

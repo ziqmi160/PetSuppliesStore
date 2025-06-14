@@ -50,7 +50,7 @@
                         <ul class="navbar-nav mb-2 mb-md-0 ms-5">
                             <li class="nav-item"><a class="nav-link" href="login.jsp"><img src="images/user.svg" /></a>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="cart.jsp"><img src="images/cart.svg" /></a>
+                            <li class="nav-item"><a class="nav-link" href="CartServlet"><img src="images/cart.svg" /></a>
                             </li>
                         </ul>
                     </div>
