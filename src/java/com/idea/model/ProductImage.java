@@ -19,8 +19,19 @@ public class ProductImage {
         this.path = path;
     }
     
+    public int getId() {
+        return id;
+    }
+
     public String getPath(){
         return path;
     }
-    
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setPath(String path) { // Added setter for path
+        this.path = path;
+    }
 }

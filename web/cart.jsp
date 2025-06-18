@@ -23,36 +23,7 @@
 
 <body>
   <!-- Start Header/Navigation -->
-  <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
-    <div class="container">
-      <a class="navbar-brand" href="index.jsp">Furni<span>.</span></a>
-
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
-        aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarsFurni">
-        <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-          <li class="nav-item">
-            <a class="nav-link" href="index.jsp">Home</a>
-          </li>
-          <li><a class="nav-link" href="ShopServlet">Shop</a></li>
-          <li><a class="nav-link" href="about.jsp">About us</a></li>
-          <li><a class="nav-link" href="contact.jsp">Contact us</a></li>
-        </ul>
-
-        <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-          <li>
-            <a class="nav-link" href="login.jsp"><img src="images/user.svg" /></a>
-          </li>
-          <li>
-            <a class="nav-link" href="CartServlet"><img src="images/cart.svg" /></a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <%@ include file="header.jsp" %>
   <!-- End Header/Navigation -->
 
   <!-- Start Hero Section -->
@@ -72,12 +43,33 @@
 
   <div class="untree_co-section before-footer-section">
     <div class="container">
+      <%-- Display session messages (e.g., cart adjustments due to stock) --%>
+      <% String cartMessage = (String) session.getAttribute("cartMessage");
+         if (cartMessage != null && !cartMessage.isEmpty()) { %>
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <%= cartMessage %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+      <% session.removeAttribute("cartMessage"); // Clear message after displaying
+         } %>
+      <% String errorMessage = (String) session.getAttribute("error");
+         if (errorMessage != null && !errorMessage.isEmpty()) { %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <%= errorMessage %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+      <% session.removeAttribute("error"); // Clear error after displaying
+         } %>
+
       <div class="row mb-5">
-        <form class="col-md-12" method="post" id="cartForm"> <%-- Add an ID to the form --%>
+        <form class="col-md-12" method="post" id="cartForm">
           <div class="site-blocks-table">
             <table class="table">
               <thead>
                 <tr>
+                  <th class="product-selection">
+                    <input type="checkbox" id="selectAllItems" />
+                  </th>
                   <th class="product-thumbnail">Image</th>
                   <th class="product-name">Product</th>
                   <th class="product-price">Price</th>
@@ -92,6 +84,10 @@
                             for (CartItem item : cart) {
                             %>
                 <tr>
+                  <td class="product-selection">
+                    <input type="checkbox" class="select-item" name="selectedProductId" value="<%= item.getProductId() %>" />
+                    <input type="hidden" class="item-quantity-for-checkout" data-product-id="<%= item.getProductId() %>" value="<%= item.getQuantity() %>" />
+                  </td>
                   <td class="product-thumbnail">
                     <img src="<%= item.getImagePath() %>" alt="Image" class="img-fluid" />
                   </td>
@@ -106,7 +102,7 @@
                     <div class="input-group mb-3 d-flex align-items-center quantity-container"
                       style="max-width: 120px">
                       <div class="input-group-prepend">
-                        <button class="btn btn-outline-black decrease-btn" type="button"> <%-- Removed onclick --%>
+                        <button class="btn btn-outline-black decrease-btn" type="button">
                           &minus;
                         </button>
                       </div>
@@ -114,7 +110,7 @@
                         value="<%= item.getQuantity() %>" readonly
                         data-product-id="<%= item.getProductId() %>" />
                       <div class="input-group-append">
-                        <button class="btn btn-outline-black increase-btn" type="button"> <%-- Removed onclick --%>
+                        <button class="btn btn-outline-black increase-btn" type="button">
                           &plus;
                         </button>
                       </div>
@@ -124,14 +120,14 @@
                   </td>
                   <td>
                     <a href="CartServlet?action=remove&productId=<%= item.getProductId() %>"
-                      class="btn btn-black btn-sm">
+                      class="btn btn-black btn-sm remove-item-btn">
                       X
                     </a>
                   </td>
                 </tr>
                 <% } } else { %>
                 <tr>
-                  <td colspan="6" class="text-center">Your cart is empty</td>
+                  <td colspan="7" class="text-center">Your cart is empty</td>
                 </tr>
                 <% } %>
               </tbody>
@@ -196,7 +192,7 @@
 
               <div class="row">
                 <div class="col-md-12">
-                  <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='checkout.jsp'">
+                  <button class="btn btn-black btn-lg py-3 btn-block" onclick="proceedToCheckoutSelected()">
                     Proceed To Checkout
                   </button>
                 </div>
@@ -309,7 +305,13 @@
       const currentValue = parseInt(input.value);
       const newValue = Math.max(1, currentValue + change);
       input.value = newValue;
-      // console.log(`Quantity updated to: ${newValue}`); // For debugging: check if this logs correctly
+      console.log(`Updated display quantity to: ${newValue}`);
+
+      // Also update the hidden quantity input for checkout purposes
+      const hiddenQuantityInput = button.closest('tr').querySelector('.item-quantity-for-checkout');
+      if (hiddenQuantityInput) {
+        hiddenQuantityInput.value = newValue;
+      }
     }
 
     function submitCartUpdate() {
@@ -346,19 +348,97 @@
       cartForm.submit();
     }
 
+    function proceedToCheckoutSelected() {
+      const cartForm = document.getElementById('cartForm');
+      const selectedCheckboxes = document.querySelectorAll('.select-item:checked');
+
+      if (selectedCheckboxes.length === 0) {
+        alert('Please select at least one item to proceed to checkout.');
+        return;
+      }
+
+      // Remove any previously added hidden inputs for checkout selection
+      const oldCheckoutInputs = cartForm.querySelectorAll('input[type="hidden"][name="checkoutProductId"], input[type="hidden"][name="checkoutQuantity"]');
+      oldCheckoutInputs.forEach(input => input.remove());
+
+      // Create hidden inputs for only the selected items
+      selectedCheckboxes.forEach(checkbox => {
+        const productId = checkbox.value; // Value of checkbox is productId
+        const row = checkbox.closest('tr');
+        const quantityInput = row.querySelector('.item-quantity-for-checkout'); // Get hidden quantity input
+        const quantity = quantityInput ? quantityInput.value : '';
+
+        if (productId && quantity && parseInt(quantity) > 0) {
+          // Add hidden input for selected Product ID
+          const hiddenProductIdInput = document.createElement('input');
+          hiddenProductIdInput.type = 'hidden';
+          hiddenProductIdInput.name = 'checkoutProductId'; // New name for checkout
+          hiddenProductIdInput.value = productId;
+          cartForm.appendChild(hiddenProductIdInput);
+
+          // Add hidden input for selected Quantity
+          const hiddenQuantityInput = document.createElement('input');
+          hiddenQuantityInput.type = 'hidden';
+          hiddenQuantityInput.name = 'checkoutQuantity'; // New name for checkout
+          hiddenQuantityInput.value = quantity;
+          cartForm.appendChild(hiddenQuantityInput);
+        } else {
+            console.warn(`Skipping checkout for product ID ${productId} due to invalid quantity or missing data.`);
+        }
+      });
+
+      // Set form action for checkout and submit
+      cartForm.action = 'CartServlet?action=checkoutSelected';
+      cartForm.method = 'POST';
+      cartForm.submit();
+    }
+
     // Attach event listeners after the DOM is fully loaded
     document.addEventListener('DOMContentLoaded', function() {
-      // Get all decrease buttons and add event listener
+      console.log('DOM Content Loaded. Attaching event listeners...');
+
+      // Quantity buttons
       document.querySelectorAll('.decrease-btn').forEach(button => {
         button.addEventListener('click', function() {
           updateQuantityDisplay(this, -1);
         });
       });
 
-      // Get all increase buttons and add event listener
       document.querySelectorAll('.increase-btn').forEach(button => {
         button.addEventListener('click', function() {
           updateQuantityDisplay(this, 1);
+        });
+      });
+
+      // Remove item buttons (direct link for simplicity, as per "let's forget about any of this" instruction)
+      document.querySelectorAll('.remove-item-btn').forEach(button => {
+        button.addEventListener('click', function(event) {
+          // Confirmation can be re-added here if desired, using window.confirm() or a custom modal
+          // For now, it will delete directly.
+          console.log('Directly removing item via GET:', this.href);
+          // The default link behavior will handle navigation and deletion
+        });
+      });
+
+      // Select All Checkbox functionality
+      const selectAllCheckbox = document.getElementById('selectAllItems');
+      const itemCheckboxes = document.querySelectorAll('.select-item');
+
+      if (selectAllCheckbox) {
+        selectAllCheckbox.addEventListener('change', function() {
+          itemCheckboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+          });
+        });
+      }
+
+      // If all individual items are checked, check "Select All"
+      itemCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          const allChecked = Array.from(itemCheckboxes).every(cb => cb.checked);
+          if (selectAllCheckbox) {
+             selectAllCheckbox.checked = allChecked;
+          }
         });
       });
     });
