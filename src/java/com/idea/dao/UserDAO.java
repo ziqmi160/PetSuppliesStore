@@ -1,0 +1,271 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.idea.dao;
+
+import com.idea.model.User;
+import utils.Database;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class UserDAO {
+    private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
+
+    /**
+     * Retrieves all users/customers from the database.
+     * 
+     * @return A list of User objects.
+     * @throws SQLException If a database access error occurs.
+     */
+    public List<User> getAllUsers() throws SQLException {
+        List<User> users = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        LOGGER.info("Attempting to retrieve all users.");
+
+        try {
+            conn = Database.getConnection();
+            String sql = "SELECT UserID, Name, Email, Password, Address FROM Users ORDER BY Name";
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                users.add(new User(
+                        rs.getInt("UserID"),
+                        rs.getString("Name"),
+                        rs.getString("Email"),
+                        rs.getString("Password"),
+                        rs.getString("Address"),
+                        0 // cartId will be set separately if needed
+                ));
+            }
+            LOGGER.log(Level.INFO, "Retrieved {0} users.", users.size());
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQL Exception in getAllUsers: {0}", e.getMessage());
+            throw e;
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing ResultSet in getAllUsers: {0}", e.getMessage());
+            }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in getAllUsers: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in getAllUsers: {0}", e.getMessage());
+            }
+        }
+        return users;
+    }
+
+    /**
+     * Retrieves a user by their ID.
+     * 
+     * @param userId The ID of the user to retrieve.
+     * @return The User object, or null if not found.
+     * @throws SQLException If a database access error occurs.
+     */
+    public User getUserById(int userId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        LOGGER.info("Attempting to retrieve user with ID: " + userId);
+
+        try {
+            conn = Database.getConnection();
+            String sql = "SELECT UserID, Name, Email, Password, Address FROM Users WHERE UserID = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, userId);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                User user = new User(
+                        rs.getInt("UserID"),
+                        rs.getString("Name"),
+                        rs.getString("Email"),
+                        rs.getString("Password"),
+                        rs.getString("Address"),
+                        0 // cartId will be set separately if needed
+                );
+                LOGGER.log(Level.INFO, "Retrieved user: {0}", user.getUsername());
+                return user;
+            } else {
+                LOGGER.log(Level.WARNING, "User with ID {0} not found.", userId);
+                return null;
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQL Exception in getUserById: {0}", e.getMessage());
+            throw e;
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing ResultSet in getUserById: {0}", e.getMessage());
+            }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in getUserById: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in getUserById: {0}", e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Adds a new user to the database.
+     * 
+     * @param user The User object to add.
+     * @throws SQLException If a database access error occurs.
+     */
+    public void addUser(User user) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        LOGGER.info("Attempting to add new user: " + user.getUsername());
+
+        try {
+            conn = Database.getConnection();
+            String sql = "INSERT INTO Users (Name, Email, Password, Address) VALUES (?, ?, ?, ?)";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getPassword());
+            stmt.setString(4, user.getAddress());
+            stmt.executeUpdate();
+
+            LOGGER.log(Level.INFO, "Successfully added user: {0}", user.getUsername());
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQL Exception in addUser: {0}", e.getMessage());
+            throw e;
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in addUser: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in addUser: {0}", e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Updates an existing user in the database.
+     * 
+     * @param user The User object with updated information.
+     * @throws SQLException If a database access error occurs.
+     */
+    public void updateUser(User user) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        LOGGER.info("Attempting to update user with ID: " + user.getId());
+
+        try {
+            conn = Database.getConnection();
+            String sql = "UPDATE Users SET Name = ?, Email = ?, Password = ?, Address = ? WHERE UserID = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getPassword());
+            stmt.setString(4, user.getAddress());
+            stmt.setInt(5, user.getId());
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                LOGGER.log(Level.INFO, "Successfully updated user: {0}", user.getUsername());
+            } else {
+                LOGGER.log(Level.WARNING, "No user found with ID {0} to update.", user.getId());
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQL Exception in updateUser: {0}", e.getMessage());
+            throw e;
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in updateUser: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in updateUser: {0}", e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Deletes a user from the database.
+     * 
+     * @param userId The ID of the user to delete.
+     * @throws SQLException If a database access error occurs.
+     */
+    public void deleteUser(int userId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        LOGGER.info("Attempting to delete user with ID: " + userId);
+
+        try {
+            conn = Database.getConnection();
+            String sql = "DELETE FROM Users WHERE UserID = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, userId);
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                LOGGER.log(Level.INFO, "Successfully deleted user with ID: {0}", userId);
+            } else {
+                LOGGER.log(Level.WARNING, "No user found with ID {0} to delete.", userId);
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQL Exception in deleteUser: {0}", e.getMessage());
+            throw e;
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in deleteUser: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in deleteUser: {0}", e.getMessage());
+            }
+        }
+    }
+}
