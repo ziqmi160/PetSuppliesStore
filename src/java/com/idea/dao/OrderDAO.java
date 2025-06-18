@@ -15,19 +15,27 @@ import utils.Database; // Assuming this provides your database connection
 import java.sql.*;
 import java.util.List;
 import java.util.ArrayList; // For Java 5 compatibility
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class OrderDAO {
+    private static final Logger LOGGER = Logger.getLogger(OrderDAO.class.getName());
 
     /**
      * Places a new order, including adding order items, updating product stock,
-     * and clearing purchased items from the user's cart, all within a single transaction.
+     * and clearing purchased items from the user's cart, all within a single
+     * transaction.
      *
-     * @param order The Order object containing user, total amount, status, and billing details.
-     * @param userId The ID of the user placing the order.
-     * @param cartId The ID of the user's cart (to clear purchased items from).
-     * @param purchasedProductIds A list of product IDs that were successfully purchased.
+     * @param order               The Order object containing user, total amount,
+     *                            status, and billing details.
+     * @param userId              The ID of the user placing the order.
+     * @param cartId              The ID of the user's cart (to clear purchased
+     *                            items from).
+     * @param purchasedProductIds A list of product IDs that were successfully
+     *                            purchased.
      * @return The generated OrderID for the new order.
-     * @throws SQLException If a database error occurs, the transaction will be rolled back.
+     * @throws SQLException             If a database error occurs, the transaction
+     *                                  will be rolled back.
      * @throws IllegalArgumentException If an item's stock is insufficient.
      */
     public int placeOrder(Order order, int userId, int cartId, List<Integer> purchasedProductIds) throws SQLException {
@@ -56,10 +64,11 @@ public class OrderDAO {
             }
 
             // 2. Add OrderItems and update Product Stock
-            // Important: We retrieve current stock to ensure atomicity and prevent over-selling
+            // Important: We retrieve current stock to ensure atomicity and prevent
+            // over-selling
             for (int i = 0; i < order.getOrderItems().size(); i++) { // Changed: Traditional loop
                 CartItem item = (CartItem) order.getOrderItems().get(i); // Explicit cast for Java 5
-                
+
                 // Get current product stock
                 int currentStock = 0;
                 String getStockSql = "SELECT StockQuantity FROM Products WHERE ProductID = ?";
@@ -74,7 +83,8 @@ public class OrderDAO {
                 }
 
                 if (currentStock < item.getQuantity()) {
-                    throw new IllegalArgumentException("Insufficient stock for product: " + item.getName() + ". Available: " + currentStock + ", Requested: " + item.getQuantity());
+                    throw new IllegalArgumentException("Insufficient stock for product: " + item.getName()
+                            + ". Available: " + currentStock + ", Requested: " + item.getQuantity());
                 }
 
                 // Insert into OrderItems
@@ -99,7 +109,8 @@ public class OrderDAO {
             // 3. Clear purchased items from the user's CartItems table
             if (purchasedProductIds != null && !purchasedProductIds.isEmpty()) {
                 // Build a dynamic SQL query to delete multiple items
-                StringBuilder deleteCartItemsSql = new StringBuilder("DELETE FROM CartItems WHERE CartID = ? AND ProductID IN (");
+                StringBuilder deleteCartItemsSql = new StringBuilder(
+                        "DELETE FROM CartItems WHERE CartID = ? AND ProductID IN (");
                 for (int i = 0; i < purchasedProductIds.size(); i++) {
                     deleteCartItemsSql.append("?");
                     if (i < purchasedProductIds.size() - 1) {
@@ -116,11 +127,12 @@ public class OrderDAO {
                     deleteStmt.executeUpdate();
                 }
             }
-            
+
             conn.commit(); // Commit the transaction if all operations succeed
             return orderId;
 
-        } catch (SQLException | IllegalArgumentException e) { // Catch both SQLException and custom IllegalArgumentException
+        } catch (SQLException | IllegalArgumentException e) { // Catch both SQLException and custom
+                                                              // IllegalArgumentException
             if (conn != null) {
                 try {
                     conn.rollback(); // Rollback on error
@@ -142,5 +154,214 @@ public class OrderDAO {
             }
         }
     }
-}
 
+    /**
+     * Retrieves all orders from the database.
+     * 
+     * @return A list of Order objects.
+     * @throws SQLException If a database access error occurs.
+     */
+    public List<Order> getAllOrders() throws SQLException {
+        List<Order> orders = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        LOGGER.info("Attempting to retrieve all orders.");
+
+        try {
+            conn = Database.getConnection();
+            String sql = "SELECT OrderID, UserID, OrderDate, TotalAmount, Status FROM Orders ORDER BY OrderDate DESC";
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                // Use the constructor for retrieving existing orders from DB
+                Order order = new Order(
+                        rs.getInt("OrderID"),
+                        rs.getInt("UserID"),
+                        rs.getTimestamp("OrderDate"),
+                        rs.getDouble("TotalAmount"),
+                        rs.getString("Status"),
+                        "", "", "", "", "", "", "", "" // Default empty values for billing fields including notes
+                );
+                orders.add(order);
+            }
+            LOGGER.log(Level.INFO, "Retrieved {0} orders.", orders.size());
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQL Exception in getAllOrders: {0}", e.getMessage());
+            throw e;
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing ResultSet in getAllOrders: {0}", e.getMessage());
+            }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in getAllOrders: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in getAllOrders: {0}", e.getMessage());
+            }
+        }
+        return orders;
+    }
+
+    /**
+     * Retrieves an order by its ID.
+     * 
+     * @param orderId The ID of the order to retrieve.
+     * @return The Order object, or null if not found.
+     * @throws SQLException If a database access error occurs.
+     */
+    public Order getOrderById(int orderId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        LOGGER.info("Attempting to retrieve order with ID: " + orderId);
+
+        try {
+            conn = Database.getConnection();
+            String sql = "SELECT OrderID, UserID, OrderDate, TotalAmount, Status FROM Orders WHERE OrderID = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, orderId);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Use the constructor for retrieving existing orders from DB
+                Order order = new Order(
+                        rs.getInt("OrderID"),
+                        rs.getInt("UserID"),
+                        rs.getTimestamp("OrderDate"),
+                        rs.getDouble("TotalAmount"),
+                        rs.getString("Status"),
+                        "", "", "", "", "", "", "", "" // Default empty values for billing fields including notes
+                );
+                LOGGER.log(Level.INFO, "Retrieved order: {0}", orderId);
+                return order;
+            } else {
+                LOGGER.log(Level.WARNING, "Order with ID {0} not found.", orderId);
+                return null;
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQL Exception in getOrderById: {0}", e.getMessage());
+            throw e;
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing ResultSet in getOrderById: {0}", e.getMessage());
+            }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in getOrderById: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in getOrderById: {0}", e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Updates an existing order's status in the database.
+     * 
+     * @param orderId The ID of the order to update.
+     * @param status  The new status for the order.
+     * @throws SQLException If a database access error occurs.
+     */
+    public void updateOrderStatus(int orderId, String status) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        LOGGER.info("Attempting to update order status for ID: " + orderId + " to: " + status);
+
+        try {
+            conn = Database.getConnection();
+            String sql = "UPDATE Orders SET Status = ? WHERE OrderID = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, status);
+            stmt.setInt(2, orderId);
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                LOGGER.log(Level.INFO, "Successfully updated order status: {0} (ID: {1})",
+                        new Object[] { status, orderId });
+            } else {
+                LOGGER.log(Level.WARNING, "No order found with ID {0} to update.", orderId);
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQL Exception in updateOrderStatus: {0}", e.getMessage());
+            throw e;
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in updateOrderStatus: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in updateOrderStatus: {0}", e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Deletes an order from the database.
+     * 
+     * @param orderId The ID of the order to delete.
+     * @throws SQLException If a database access error occurs.
+     */
+    public void deleteOrder(int orderId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        LOGGER.info("Attempting to delete order with ID: " + orderId);
+
+        try {
+            conn = Database.getConnection();
+            String sql = "DELETE FROM Orders WHERE OrderID = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, orderId);
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                LOGGER.log(Level.INFO, "Successfully deleted order with ID: {0}", orderId);
+            } else {
+                LOGGER.log(Level.WARNING, "No order found with ID {0} to delete.", orderId);
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQL Exception in deleteOrder: {0}", e.getMessage());
+            throw e;
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in deleteOrder: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in deleteOrder: {0}", e.getMessage());
+            }
+        }
+    }
+}
