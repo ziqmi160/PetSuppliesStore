@@ -32,30 +32,7 @@
         <body>
 
             <!-- Navigation -->
-            <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark">
-                <div class="container">
-                    <a class="navbar-brand" href="index.jsp">iDea<span>.</span></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarContent">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarContent">
-                        <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-                            <li class="nav-item"><a class="nav-link" href="index.jsp">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="ShopServlet">Shop</a></li>
-                            <li class="nav-item"><a class="nav-link" href="blog.jsp">Blog</a></li>
-                            <li class="nav-item"><a class="nav-link" href="contact.jsp">Contact us</a></li>
-                        </ul>
-                        <ul class="navbar-nav mb-2 mb-md-0 ms-5">
-                            <li class="nav-item"><a class="nav-link" href="login.jsp"><img src="images/user.svg" /></a>
-                            </li>
-                            <li class="nav-item"><a class="nav-link" href="CartServlet"><img src="images/cart.svg" /></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+            <%@ include file="header.jsp" %>
 
             <!-- Hero Section -->
             <div class="hero"

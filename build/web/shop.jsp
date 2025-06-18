@@ -35,52 +35,7 @@ and open the template in the editor.
 
   <body>
     <!-- Start Header/Navigation -->
-    <nav
-      class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark"
-      arial-label="Furni navigation bar"
-    >
-      <div class="container">
-        <a class="navbar-brand" href="index.jsp">iDea<span>.</span></a>
-
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarsFurni"
-          aria-controls="navbarsFurni"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarsFurni">
-          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li class="nav-item">
-              <a class="nav-link" href="index.jsp">Home</a>
-            </li>
-            <li class="active">
-              <a class="nav-link" href="ShopServlet">Shop</a>
-            </li>
-            <li><a class="nav-link" href="about.jsp">About us</a></li>
-            <li><a class="nav-link" href="contact.jsp">Contact us</a></li>
-          </ul>
-
-          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-            <li>
-              <a class="nav-link" href="login.jsp"
-                ><img src="images/user.svg"
-              /></a>
-            </li>
-            <li>
-              <a class="nav-link" href="CartServlet"
-                ><img src="images/cart.svg"
-              /></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+   <%@ include file="header.jsp" %>
     <!-- End Header/Navigation -->
 
     <!-- Start Hero Section -->
