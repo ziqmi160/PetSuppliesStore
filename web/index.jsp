@@ -89,7 +89,7 @@ and open the template in the editor.
 
 					<!-- Start Column 2 -->
 					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="product2.jsp">
+						<a class="product-item" href="ProductDetailServlet?id=1">
 							<img src="images/product-1.png" class="img-fluid product-thumbnail">
 							<h3 class="product-title">Serene Chair</h3>
 							<strong class="product-price">RM199.00</strong>
@@ -103,7 +103,7 @@ and open the template in the editor.
 
 					<!-- Start Column 3 -->
 					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="product3.jsp">
+						<a class="product-item" href="ProductDetailServlet?id=2">
 							<img src="images/product-2.png" class="img-fluid product-thumbnail">
 							<h3 class="product-title">Aurora Chair</h3>
 							<strong class="product-price">RM249.00</strong>
@@ -117,7 +117,7 @@ and open the template in the editor.
 
 					<!-- Start Column 4 -->
 					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="product1.jsp">
+						<a class="product-item" href="ProductDetailServlet?id=3">
 							<img src="images/product-3.png" class="img-fluid product-thumbnail">
 							<h3 class="product-title">Nordic Chair</h3>
 							<strong class="product-price">RM99.00</strong>

@@ -19,10 +19,10 @@
                     <link href="../css/bootstrap.min.css" rel="stylesheet" />
                     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
                         rel="stylesheet" />
-                    <link href="../css/style.css" rel="stylesheet" />
+                    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" />
                     <title>Customer Form - iDea Admin</title>
 
-                    <style>
+                    <!-- style>
                         body {
                             background-color: #f8f9fa;
                             font-family: 'Inter', sans-serif;
@@ -122,7 +122,7 @@
                             background-color: #5a6268;
                             border-color: #545b62;
                         }
-                    </style>
+                    </style -->
                 </head>
 
                 <body>
@@ -130,41 +130,18 @@
                         <% Admin admin=(Admin) session.getAttribute("admin"); if (admin==null) {
                             response.sendRedirect("../admin-login.jsp"); return; } %>
 
-                            <div class="sidebar">
-                                <h3 class="text-center mb-4">iDea Admin</h3>
-                                <ul class="nav flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="../admin-dashboard.jsp">
-                                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="AdminProductServlet">
-                                            <i class="fas fa-box-open me-2"></i> Products
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">
-                                            <i class="fas fa-shopping-bag me-2"></i> Orders
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="AdminCustomerServlet">
-                                            <i class="fas fa-users me-2"></i> Customers
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="AdminCategoryServlet">
-                                            <i class="fas fa-th-list me-2"></i> Categories
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="../LogoutServlet?role=admin">
-                                            <i class="fas fa-sign-out-alt me-2"></i> Logout
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                                <!-- Sidebar -->
+    <div class="sidebar">
+        <h4 class="text-center mb-4">iDea Admin</h4>
+        <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="../admin-dashboard.jsp"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="AdminProductServlet"><i class="fas fa-box-open me-2"></i> Products</a></li>
+            <li class="nav-item"><a class="nav-link" href="AdminProductServlet"><i class="fas fa-shopping-bag me-2"></i> Orders</a></li>
+            <li class="nav-item"><a class="nav-link" href="AdminCustomerServlet"><i class="fas fa-users me-2"></i> Customers</a></li>
+            <li class="nav-item"><a class="nav-link active" href="AdminCategoryServlet"><i class="fas fa-th-list me-2"></i> Categories</a></li>
+            <li class="nav-item"><a class="nav-link" href="../LogoutServlet?role=admin"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+        </ul>
+    </div>
 
                             <div class="content">
                                 <div class="admin-header fixed-top" style="margin-left: 250px;">

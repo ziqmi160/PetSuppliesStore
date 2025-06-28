@@ -12,11 +12,12 @@
                     <link href="../css/bootstrap.min.css" rel="stylesheet" />
                     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
                         rel="stylesheet" />
-                    <link href="../css/style.css" rel="stylesheet" />
+                    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" />
                     <style>
                         .admin-hero {
                             background: linear-gradient(135deg, #2f2f2f 0%, #3b5d50 100%);
                             padding: calc(4rem - 30px) 0 4rem 0;
+                            padding-left: 30px;
                             position: relative;
                             overflow: hidden;
                         }
@@ -110,6 +111,7 @@
                         .admin-header {
                             background: #fff;
                             padding: 1rem 0;
+                            padding-left: 30px;
                             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
                             position: sticky;
                             top: 0;
@@ -147,6 +149,7 @@
 
                         .page-header p {
                             color: #6a6a6a;
+                            padding: 10px;
                             margin: 0;
                         }
 
