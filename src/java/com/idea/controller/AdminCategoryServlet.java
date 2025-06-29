@@ -171,6 +171,14 @@ public class AdminCategoryServlet extends HttpServlet {
             return;
         }
 
+        // Check for duplicate category name
+        if (categoryDAO.categoryNameExists(categoryName.trim(), -1)) {
+            request.setAttribute("error", "A category with the name '" + categoryName.trim()
+                    + "' already exists. Please choose a different name.");
+            showAddCategoryForm(request, response);
+            return;
+        }
+
         Category newCategory = new Category(-1, categoryName.trim());
         categoryDAO.addCategory(newCategory);
         LOGGER.log(Level.INFO, "New category added: {0}", categoryName);
@@ -186,6 +194,16 @@ public class AdminCategoryServlet extends HttpServlet {
         if (categoryName == null || categoryName.trim().isEmpty()) {
             request.setAttribute("error", "Category name cannot be empty.");
             Category category = new Category(categoryId, categoryName);
+            request.setAttribute("category", category);
+            request.getRequestDispatcher("admin/category-form.jsp").forward(request, response);
+            return;
+        }
+
+        // Check for duplicate category name (excluding current category)
+        if (categoryDAO.categoryNameExists(categoryName.trim(), categoryId)) {
+            request.setAttribute("error", "A category with the name '" + categoryName.trim()
+                    + "' already exists. Please choose a different name.");
+            Category category = new Category(categoryId, categoryName.trim());
             request.setAttribute("category", category);
             request.getRequestDispatcher("admin/category-form.jsp").forward(request, response);
             return;

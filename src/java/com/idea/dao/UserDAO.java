@@ -268,4 +268,138 @@ public class UserDAO {
             }
         }
     }
+
+    /**
+     * Checks if a username already exists in the database.
+     * 
+     * @param username      The username to check.
+     * @param excludeUserId The user ID to exclude from the check (for updates). Use
+     *                      -1 for new users.
+     * @return true if the username exists, false otherwise.
+     * @throws SQLException If a database access error occurs.
+     */
+    public boolean usernameExists(String username, int excludeUserId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        LOGGER.info("Checking if username exists: " + username + " (excluding ID: " + excludeUserId + ")");
+
+        try {
+            conn = Database.getConnection();
+            String sql;
+            if (excludeUserId > 0) {
+                // For updates: check if username exists excluding the current user
+                sql = "SELECT COUNT(*) FROM Users WHERE Name = ? AND UserID != ?";
+                stmt = conn.prepareStatement(sql);
+                stmt.setString(1, username.trim());
+                stmt.setInt(2, excludeUserId);
+            } else {
+                // For new users: check if username exists anywhere
+                sql = "SELECT COUNT(*) FROM Users WHERE Name = ?";
+                stmt = conn.prepareStatement(sql);
+                stmt.setString(1, username.trim());
+            }
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                boolean exists = count > 0;
+                LOGGER.log(Level.INFO, "Username '{0}' exists: {1}", new Object[] { username, exists });
+                return exists;
+            }
+
+            return false;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQL Exception in usernameExists: {0}", e.getMessage());
+            throw e;
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing ResultSet in usernameExists: {0}", e.getMessage());
+            }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in usernameExists: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in usernameExists: {0}", e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Checks if an email already exists in the database.
+     * 
+     * @param email         The email to check.
+     * @param excludeUserId The user ID to exclude from the check (for updates). Use
+     *                      -1 for new users.
+     * @return true if the email exists, false otherwise.
+     * @throws SQLException If a database access error occurs.
+     */
+    public boolean emailExists(String email, int excludeUserId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        LOGGER.info("Checking if email exists: " + email + " (excluding ID: " + excludeUserId + ")");
+
+        try {
+            conn = Database.getConnection();
+            String sql;
+            if (excludeUserId > 0) {
+                // For updates: check if email exists excluding the current user
+                sql = "SELECT COUNT(*) FROM Users WHERE Email = ? AND UserID != ?";
+                stmt = conn.prepareStatement(sql);
+                stmt.setString(1, email.trim());
+                stmt.setInt(2, excludeUserId);
+            } else {
+                // For new users: check if email exists anywhere
+                sql = "SELECT COUNT(*) FROM Users WHERE Email = ?";
+                stmt = conn.prepareStatement(sql);
+                stmt.setString(1, email.trim());
+            }
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                boolean exists = count > 0;
+                LOGGER.log(Level.INFO, "Email '{0}' exists: {1}", new Object[] { email, exists });
+                return exists;
+            }
+
+            return false;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQL Exception in emailExists: {0}", e.getMessage());
+            throw e;
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing ResultSet in emailExists: {0}", e.getMessage());
+            }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in emailExists: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in emailExists: {0}", e.getMessage());
+            }
+        }
+    }
 }

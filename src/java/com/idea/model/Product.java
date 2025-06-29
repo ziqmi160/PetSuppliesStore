@@ -21,12 +21,13 @@ public class Product {
     private String description;
     private List<ProductImage> images; // Your existing field
     private double price;
-    private int categoryId;       // New: For foreign key to Categories table
-    private String categoryName;  // New: To store category name for display
-    private int stockQuantity;    // New: For stock management
+    private int categoryId; // New: For foreign key to Categories table
+    private String categoryName; // New: To store category name for display
+    private int stockQuantity; // New: For stock management
 
     // Constructor to match your existing fields plus new ones from the database
-    public Product(int id, String name, String description, List<ProductImage> images, double price, int categoryId, String categoryName, int stockQuantity) {
+    public Product(int id, String name, String description, List<ProductImage> images, double price, int categoryId,
+            String categoryName, int stockQuantity) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -36,21 +37,22 @@ public class Product {
         this.categoryName = categoryName;
         this.stockQuantity = stockQuantity;
     }
-    
-    // Constructor for cases where images or categoryName might not be immediately available
-    // Used by ProductDAO's getProductById and getAllProducts before images are fetched separately
-    public Product(int id, String name, String description, double price, int categoryId, String categoryName, int stockQuantity) {
+
+    // Constructor for cases where images or categoryName might not be immediately
+    // available
+    // Used by ProductDAO's getProductById and getAllProducts before images are
+    // fetched separately
+    public Product(int id, String name, String description, double price, int categoryId, String categoryName,
+            int stockQuantity) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.categoryId = categoryId;
-        this.categoryName = categoryName;  // New: To store category name for display
+        this.categoryName = categoryName; // New: To store category name for display
         this.stockQuantity = stockQuantity;
         this.images = new ArrayList<>(); // Initialize to empty list for Java 5
-        this.categoryName = null; // Will be set later if needed
     }
-
 
     // Getters
     public int getId() {
@@ -60,7 +62,7 @@ public class Product {
     public String getName() {
         return name;
     }
-    
+
     public String getDescription() {
         return description;
     }
@@ -72,7 +74,7 @@ public class Product {
     public double getPrice() {
         return price;
     }
-    
+
     public int getCategoryId() { // Getter for CategoryID
         return categoryId;
     }

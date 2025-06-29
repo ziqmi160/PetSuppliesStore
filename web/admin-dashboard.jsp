@@ -22,53 +22,21 @@
                 <title>Admin Dashboard - iDea</title>
 
                 <style>
-                    /* Admin Dashboard Specific Styles */
-                    .admin-hero {
-                        background: linear-gradient(135deg, #2f2f2f 0%, #3b5d50 100%);
-                        padding: calc(4rem - 30px) 0 4rem 0;
-                        position: relative;
-                        overflow: hidden;
-                    }
-
-                    .admin-hero::before {
-                        content: '';
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        right: 0;
-                        bottom: 0;
-                        background: url('images/furniture2.jpg') center/cover;
-                        opacity: 0.1;
-                        z-index: 1;
-                    }
-
-                    .admin-hero .container {
-                        position: relative;
-                        z-index: 2;
-                    }
-
-                    .admin-hero h1 {
-                        font-weight: 700;
-                        color: #ffffff;
-                        margin-bottom: 20px;
-                        font-size: 3rem;
-                    }
-
-                    .admin-hero p {
-                        color: rgba(255, 255, 255, 0.9);
-                        font-size: 1.1rem;
-                        margin-bottom: 30px;
+                    body {
+                        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+                        font-family: 'Inter', sans-serif;
+                        min-height: 100vh;
                     }
 
                     .admin-sidebar {
-                        background: #2f2f2f;
-                        color: #ffffff;
+                        background: linear-gradient(180deg, #2f2f2f 0%, #3b5d50 100%);
+                        color: #fff;
                         height: 100vh;
                         position: fixed;
                         left: 0;
                         top: 0;
                         width: 280px;
-                        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+                        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
                         z-index: 1000;
                         transition: all 0.3s ease;
                     }
@@ -77,31 +45,36 @@
                         padding: 2rem 1.5rem;
                         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
                         text-align: center;
+                        background: rgba(255, 255, 255, 0.05);
                     }
 
                     .admin-sidebar .sidebar-header h3 {
-                        color: #ffffff;
-                        font-weight: 600;
+                        color: #fff;
+                        font-weight: 700;
                         margin: 0;
                         font-size: 1.5rem;
+                        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
                     }
 
                     .admin-sidebar .nav-link {
-                        color: rgba(255, 255, 255, 0.8);
+                        color: rgba(255, 255, 255, 0.9);
                         padding: 1rem 1.5rem;
                         display: flex;
                         align-items: center;
-                        border-left: 3px solid transparent;
+                        border-left: 4px solid transparent;
                         transition: all 0.3s ease;
                         font-weight: 500;
+                        margin: 0.25rem 1rem;
+                        border-radius: 8px;
                     }
 
                     .admin-sidebar .nav-link:hover,
                     .admin-sidebar .nav-link.active {
-                        background: rgba(59, 93, 80, 0.2);
-                        border-left-color: #3b5d50;
-                        color: #ffffff;
+                        background: rgba(255, 255, 255, 0.1);
+                        border-left-color: #fff;
+                        color: #fff;
                         transform: translateX(5px);
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
                     }
 
                     .admin-sidebar .nav-link i {
@@ -113,22 +86,22 @@
                     .admin-content {
                         margin-left: 280px;
                         min-height: 100vh;
-                        background: #eff2f1;
+                        padding: 2rem;
                     }
 
                     .admin-header {
-                        background: #ffffff;
-                        padding: 1rem 0;
-                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                        position: sticky;
-                        top: 0;
-                        z-index: 999;
+                        background: #fff;
+                        border-radius: 20px;
+                        padding: 2rem;
+                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                        margin-bottom: 2rem;
+                        border: 1px solid rgba(255, 255, 255, 0.2);
                     }
 
                     .admin-header .navbar-brand {
                         color: #2f2f2f !important;
-                        font-size: 1.5rem;
-                        font-weight: 600;
+                        font-size: 2rem;
+                        font-weight: 700;
                     }
 
                     .admin-header .welcome-text {
@@ -137,18 +110,23 @@
                     }
 
                     .dashboard-section {
-                        padding: 3rem 0;
+                        padding: 0;
+                    }
+
+                    .stats-row {
+                        margin-bottom: 2rem;
                     }
 
                     .stats-card {
-                        background: #ffffff;
-                        border-radius: 15px;
-                        padding: 2rem;
-                        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-                        transition: all 0.3s ease;
-                        border: none;
-                        position: relative;
+                        background: #fff;
+                        border-radius: 20px;
+                        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
                         overflow: hidden;
+                        border: 1px solid rgba(255, 255, 255, 0.2);
+                        padding: 2rem 1.5rem;
+                        text-align: center;
+                        transition: all 0.3s ease;
+                        position: relative;
                     }
 
                     .stats-card::before {
@@ -161,11 +139,6 @@
                         background: linear-gradient(90deg, #3b5d50, #2f2f2f);
                     }
 
-                    .stats-card:hover {
-                        transform: translateY(-5px);
-                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-                    }
-
                     .stats-card .card-icon {
                         width: 60px;
                         height: 60px;
@@ -173,9 +146,9 @@
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        margin-bottom: 1.5rem;
-                        font-size: 1.5rem;
-                        color: #ffffff;
+                        margin: 0 auto 1.5rem auto;
+                        font-size: 2rem;
+                        color: #fff;
                     }
 
                     .stats-card.products .card-icon {
@@ -222,22 +195,21 @@
                     }
 
                     .stats-card .btn-primary {
-                        background: #3b5d50;
-                        border-color: #3b5d50;
+                        background: linear-gradient(135deg, #3b5d50 0%, #2f2f2f 100%);
+                        border: none;
                     }
 
                     .stats-card .btn-primary:hover {
                         background: #2f2f2f;
-                        border-color: #2f2f2f;
                         transform: translateY(-2px);
                     }
 
                     .welcome-banner {
                         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                        color: #ffffff;
-                        border-radius: 15px;
+                        color: #fff;
+                        border-radius: 20px;
                         padding: 2rem;
-                        margin-bottom: 3rem;
+                        margin-bottom: 2rem;
                         position: relative;
                         overflow: hidden;
                     }
@@ -249,12 +221,12 @@
                         right: -50%;
                         width: 200%;
                         height: 200%;
-                        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-                        opacity: 0.3;
+                        background: url('images/furniture2.jpg') center/cover;
+                        opacity: 0.1;
                     }
 
                     .welcome-banner h4 {
-                        font-weight: 600;
+                        font-weight: 700;
                         margin-bottom: 0.5rem;
                         position: relative;
                         z-index: 1;
@@ -268,11 +240,12 @@
                     }
 
                     .quick-actions {
-                        background: #ffffff;
-                        border-radius: 15px;
+                        background: #fff;
+                        border-radius: 20px;
                         padding: 2rem;
-                        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+                        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
                         margin-top: 2rem;
+                        border: 1px solid rgba(255, 255, 255, 0.2);
                     }
 
                     .quick-actions h5 {
@@ -296,15 +269,16 @@
 
                     .action-item {
                         background: #f8f9fa;
-                        border-radius: 10px;
+                        border-radius: 12px;
                         padding: 1.5rem;
                         text-align: center;
                         transition: all 0.3s ease;
                         border: 2px solid transparent;
+                        cursor: pointer;
                     }
 
                     .action-item:hover {
-                        background: #ffffff;
+                        background: #fff;
                         border-color: #3b5d50;
                         transform: translateY(-3px);
                         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -335,14 +309,23 @@
 
                         .admin-content {
                             margin-left: 0;
+                            padding: 1rem;
                         }
 
-                        .admin-hero h1 {
-                            font-size: 2rem;
+                        .admin-header {
+                            padding: 1rem;
                         }
 
-                        .stats-card .stats-number {
-                            font-size: 2rem;
+                        .stats-card {
+                            padding: 1.5rem 1rem;
+                        }
+
+                        .welcome-banner {
+                            padding: 1.5rem;
+                        }
+
+                        .quick-actions {
+                            padding: 1.5rem;
                         }
                     }
                 </style>
@@ -359,32 +342,32 @@
                         </div>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link active" href="admin-dashboard.jsp">
+                                <a class="nav-link active" href="<%= request.getContextPath() %>/admin-dashboard.jsp">
                                     <i class="fas fa-tachometer-alt"></i> Dashboard
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="AdminProductServlet">
+                                <a class="nav-link" href="<%= request.getContextPath() %>/AdminProductServlet">
                                     <i class="fas fa-box-open"></i> Products
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="AdminOrderServlet">
+                                <a class="nav-link" href="<%= request.getContextPath() %>/AdminOrderServlet">
                                     <i class="fas fa-shopping-bag"></i> Orders
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="AdminCustomerServlet">
+                                <a class="nav-link" href="<%= request.getContextPath() %>/AdminCustomerServlet">
                                     <i class="fas fa-users"></i> Customers
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="AdminCategoryServlet">
+                                <a class="nav-link" href="<%= request.getContextPath() %>/AdminCategoryServlet">
                                     <i class="fas fa-th-list"></i> Categories
                                 </a>
                             </li>
                             <li class="nav-item mt-auto">
-                                <a class="nav-link" href="LogoutServlet?role=admin">
+                                <a class="nav-link" href="<%= request.getContextPath() %>/LogoutServlet?role=admin">
                                     <i class="fas fa-sign-out-alt"></i> Logout
                                 </a>
                             </li>
@@ -394,136 +377,70 @@
                     <!-- Admin Content -->
                     <div class="admin-content">
                         <!-- Admin Header -->
-                        <div class="admin-header">
-                            <div class="container-fluid">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <h1 class="navbar-brand mb-0">Admin Dashboard</h1>
-                                    </div>
-                                    <div class="col-auto">
-                                        <span class="welcome-text">
-                                            <i class="fas fa-user-circle me-2"></i>
-                                            Welcome, <%= admin.getName() %>!
-                                        </span>
-                                    </div>
+                        <div class="admin-header d-flex justify-content-between align-items-center mb-4">
+                            <div class="navbar-brand mb-0">Admin Dashboard</div>
+                            <span class="welcome-text">
+                                <i class="fas fa-user-circle me-2"></i>
+                                Welcome, <%= admin.getName() %>!
+                            </span>
+                        </div>
+
+                        <!-- Welcome Banner -->
+                        <div class="welcome-banner mb-4">
+                            <h4><i class="fas fa-star me-2"></i>Hello, <%= admin.getName() %>!</h4>
+                            <p>Welcome to your iDea Admin Dashboard. Use the tools below to manage your store
+                                effectively.</p>
+                        </div>
+
+                        <!-- Statistics Cards -->
+                        <div class="row stats-row">
+                            <div class="col-lg-3 col-md-6 mb-4">
+                                <div class="stats-card products">
+                                    <div class="card-icon"><i class="fas fa-box-open"></i></div>
+                                    <div class="stats-number"><i class="fas fa-info-circle"></i></div>
+                                    <h5>Total Products</h5>
+                                    <p>Product count will appear here soon</p>
+                                    <a href="<%= request.getContextPath() %>/AdminProductServlet"
+                                        class="btn btn-primary"><i class="fas fa-arrow-right me-1"></i>Manage
+                                        Products</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-4">
+                                <div class="stats-card categories">
+                                    <div class="card-icon"><i class="fas fa-th-list"></i></div>
+                                    <div class="stats-number"><i class="fas fa-info-circle"></i></div>
+                                    <h5>Categories</h5>
+                                    <p>Category count will appear here soon</p>
+                                    <a href="<%= request.getContextPath() %>/AdminCategoryServlet"
+                                        class="btn btn-primary"><i class="fas fa-arrow-right me-1"></i>Manage
+                                        Categories</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-4">
+                                <div class="stats-card orders">
+                                    <div class="card-icon"><i class="fas fa-shopping-bag"></i></div>
+                                    <div class="stats-number"><i class="fas fa-info-circle"></i></div>
+                                    <h5>Total Orders</h5>
+                                    <p>Order count will appear here soon</p>
+                                    <a href="<%= request.getContextPath() %>/AdminOrderServlet"
+                                        class="btn btn-primary"><i class="fas fa-arrow-right me-1"></i>View Orders</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-4">
+                                <div class="stats-card customers">
+                                    <div class="card-icon"><i class="fas fa-users"></i></div>
+                                    <div class="stats-number"><i class="fas fa-info-circle"></i></div>
+                                    <h5>Customers</h5>
+                                    <p>Customer count will appear here soon</p>
+                                    <a href="<%= request.getContextPath() %>/AdminCustomerServlet"
+                                        class="btn btn-primary"><i class="fas fa-arrow-right me-1"></i>View
+                                        Customers</a>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Hero Section -->
-                        <div class="admin-hero">
-                            <div class="container">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-8">
-                                        <h1>Welcome to iDea Admin</h1>
-                                        <p>Manage your store, products, orders, and customers with ease. Everything you
-                                            need to run your business is right here.</p>
-                                    </div>
-                                    <div class="col-lg-4 text-center">
-                                        <i class="fas fa-chart-line"
-                                            style="font-size: 4rem; color: rgba(255,255,255,0.3);"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Dashboard Content -->
-                        <div class="dashboard-section">
-                            <div class="container">
-                                <!-- Welcome Banner -->
-                                <div class="welcome-banner">
-                                    <h4><i class="fas fa-star me-2"></i>Hello, <%= admin.getName() %>!</h4>
-                                    <p>Welcome to your iDea Admin Dashboard. Use the tools below to manage your store
-                                        effectively.</p>
-                                </div>
-
-                                <!-- Statistics Cards -->
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-6 mb-4">
-                                        <div class="stats-card products">
-                                            <div class="card-icon">
-                                                <i class="fas fa-box-open"></i>
-                                            </div>
-                                            <div class="stats-number">X</div>
-                                            <h5>Total Products</h5>
-                                            <p>Manage your product inventory</p>
-                                            <a href="AdminProductServlet" class="btn btn-primary">
-                                                <i class="fas fa-arrow-right me-1"></i>Manage Products
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-3 col-md-6 mb-4">
-                                        <div class="stats-card categories">
-                                            <div class="card-icon">
-                                                <i class="fas fa-th-list"></i>
-                                            </div>
-                                            <div class="stats-number">W</div>
-                                            <h5>Categories</h5>
-                                            <p>Organize your products</p>
-                                            <a href="AdminCategoryServlet" class="btn btn-primary">
-                                                <i class="fas fa-arrow-right me-1"></i>Manage Categories
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-3 col-md-6 mb-4">
-                                        <div class="stats-card orders">
-                                            <div class="card-icon">
-                                                <i class="fas fa-shopping-bag"></i>
-                                            </div>
-                                            <div class="stats-number">Y</div>
-                                            <h5>Total Orders</h5>
-                                            <p>Track customer orders</p>
-                                            <a href="AdminOrderServlet" class="btn btn-primary">
-                                                <i class="fas fa-arrow-right me-1"></i>View Orders
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-3 col-md-6 mb-4">
-                                        <div class="stats-card customers">
-                                            <div class="card-icon">
-                                                <i class="fas fa-users"></i>
-                                            </div>
-                                            <div class="stats-number">Z</div>
-                                            <h5>Customers</h5>
-                                            <p>Manage customer accounts</p>
-                                            <a href="AdminCustomerServlet" class="btn btn-primary">
-                                                <i class="fas fa-arrow-right me-1"></i>View Customers
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Quick Actions -->
-                                <div class="quick-actions">
-                                    <h5><i class="fas fa-bolt"></i>Quick Actions</h5>
-                                    <div class="action-grid">
-                                        <div class="action-item">
-                                            <i class="fas fa-plus-circle"></i>
-                                            <h6>Add Product</h6>
-                                            <p>Create a new product listing</p>
-                                        </div>
-                                        <div class="action-item">
-                                            <i class="fas fa-tags"></i>
-                                            <h6>Add Category</h6>
-                                            <p>Create a new product category</p>
-                                        </div>
-                                        <div class="action-item">
-                                            <i class="fas fa-chart-bar"></i>
-                                            <h6>View Reports</h6>
-                                            <p>Check sales and analytics</p>
-                                        </div>
-                                        <div class="action-item">
-                                            <i class="fas fa-cog"></i>
-                                            <h6>Settings</h6>
-                                            <p>Configure store settings</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Quick Actions -->
+                        <!-- Removed quick-actions section as requested -->
                     </div>
 
                     <script src="js/bootstrap.bundle.min.js"></script>

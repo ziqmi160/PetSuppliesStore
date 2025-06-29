@@ -16,10 +16,11 @@ public class User {
     private String email;
     private String password; // Adding password field as it's in your Users table schema
     private String address; // Adding address field as it's in your Users table schema
-    private int cartId;     // New: Adding cartId to the User model
+    private int cartId; // New: Adding cartId to the User model
 
     // Existing constructor (adjusting to include password and address if needed)
-    // This constructor matches what you currently use in LoginServlet for basic instantiation.
+    // This constructor matches what you currently use in LoginServlet for basic
+    // instantiation.
     public User(int id, String username, String email) {
         this.id = id;
         this.username = username;
@@ -27,14 +28,15 @@ public class User {
         // password and address would be null/default if not set here
     }
 
-    // New constructor to fully populate user data, including password, address, and cartId
+    // New constructor to fully populate user data, including password, address, and
+    // cartId
     public User(int id, String username, String email, String password, String address, int cartId) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password; // Set password
-        this.address = address;   // Set address
-        this.cartId = cartId;     // Set cartId
+        this.address = address; // Set address
+        this.cartId = cartId; // Set cartId
     }
 
     // Getters

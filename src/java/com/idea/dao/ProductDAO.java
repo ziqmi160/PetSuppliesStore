@@ -34,31 +34,47 @@ public class ProductDAO {
 
         try {
             conn = Database.getConnection();
-            String sql = "SELECT p.ProductID, p.Name, p.Description, p.Price, p.CategoryID, p.StockQuantity, c.CategoryName " +
-                         "FROM Products p JOIN Categories c ON p.CategoryID = c.CategoryID WHERE p.ProductID = ?";
+            String sql = "SELECT p.ProductID, p.Name, p.Description, p.Price, p.CategoryID, p.StockQuantity, c.CategoryName "
+                    +
+                    "FROM Products p JOIN Categories c ON p.CategoryID = c.CategoryID WHERE p.ProductID = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, productId);
             rs = stmt.executeQuery();
 
             if (rs.next()) {
                 product = new Product(
-                    rs.getInt("ProductID"),
-                    rs.getString("Name"),
-                    rs.getString("Description"),
-                    rs.getDouble("Price"),
-                    rs.getInt("CategoryID"),
-                    rs.getString("CategoryName"),
-                    rs.getInt("StockQuantity")
-                );
+                        rs.getInt("ProductID"),
+                        rs.getString("Name"),
+                        rs.getString("Description"),
+                        rs.getDouble("Price"),
+                        rs.getInt("CategoryID"),
+                        rs.getString("CategoryName"),
+                        rs.getInt("StockQuantity"));
                 product.setImages(getImagesForProduct(conn, productId));
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "SQL Exception in getProductById for ProductID {0}: {1}", new Object[]{productId, e.getMessage()});
+            LOGGER.log(Level.SEVERE, "SQL Exception in getProductById for ProductID {0}: {1}",
+                    new Object[] { productId, e.getMessage() });
             throw e;
         } finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing ResultSet in getProductById: {0}", e.getMessage()); }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in getProductById: {0}", e.getMessage()); }
-            try { if (conn != null) conn.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing Connection in getProductById: {0}", e.getMessage()); }
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing ResultSet in getProductById: {0}", e.getMessage());
+            }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in getProductById: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in getProductById: {0}", e.getMessage());
+            }
         }
         return product;
     }
@@ -71,21 +87,22 @@ public class ProductDAO {
 
         try {
             conn = Database.getConnection();
-            String sql = "SELECT p.ProductID, p.Name, p.Description, p.Price, p.CategoryID, p.StockQuantity, c.CategoryName " +
-                         "FROM Products p JOIN Categories c ON p.CategoryID = c.CategoryID ORDER BY p.ProductID"; // Added ORDER BY
+            String sql = "SELECT p.ProductID, p.Name, p.Description, p.Price, p.CategoryID, p.StockQuantity, c.CategoryName "
+                    +
+                    "FROM Products p JOIN Categories c ON p.CategoryID = c.CategoryID ORDER BY p.ProductID"; // Added
+                                                                                                             // ORDER BY
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Product product = new Product(
-                    rs.getInt("ProductID"),
-                    rs.getString("Name"),
-                    rs.getString("Description"),
-                    rs.getDouble("Price"),
-                    rs.getInt("CategoryID"),
-                    rs.getString("CategoryName"),
-                    rs.getInt("StockQuantity")
-                );
+                        rs.getInt("ProductID"),
+                        rs.getString("Name"),
+                        rs.getString("Description"),
+                        rs.getDouble("Price"),
+                        rs.getInt("CategoryID"),
+                        rs.getString("CategoryName"),
+                        rs.getInt("StockQuantity"));
                 product.setImages(getImagesForProduct(conn, product.getId()));
                 products.add(product);
             }
@@ -93,9 +110,24 @@ public class ProductDAO {
             LOGGER.log(Level.SEVERE, "SQL Exception in getAllProducts: {0}", e.getMessage());
             throw e;
         } finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing ResultSet in getAllProducts: {0}", e.getMessage()); }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in getAllProducts: {0}", e.getMessage()); }
-            try { if (conn != null) conn.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing Connection in getAllProducts: {0}", e.getMessage()); }
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing ResultSet in getAllProducts: {0}", e.getMessage());
+            }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in getAllProducts: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in getAllProducts: {0}", e.getMessage());
+            }
         }
         return products;
     }
@@ -105,7 +137,7 @@ public class ProductDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         String sql = "SELECT ImageID, ImagePath FROM Images WHERE ProductID = ?";
-        
+
         try {
             // Re-use the existing connection from the calling method
             stmt = conn.prepareStatement(sql);
@@ -114,17 +146,27 @@ public class ProductDAO {
 
             while (rs.next()) {
                 images.add(new ProductImage(
-                    rs.getInt("ImageID"),
-                    rs.getString("ImagePath")
-                ));
+                        rs.getInt("ImageID"),
+                        rs.getString("ImagePath")));
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "SQL Exception in getImagesForProduct for ProductID {0}: {1}", new Object[]{productId, e.getMessage()});
+            LOGGER.log(Level.SEVERE, "SQL Exception in getImagesForProduct for ProductID {0}: {1}",
+                    new Object[] { productId, e.getMessage() });
             throw e;
         } finally {
             // Do NOT close connection here as it's passed from calling method
-            try { if (rs != null) rs.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing ResultSet in getImagesForProduct: {0}", e.getMessage()); }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in getImagesForProduct: {0}", e.getMessage()); }
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing ResultSet in getImagesForProduct: {0}", e.getMessage());
+            }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in getImagesForProduct: {0}", e.getMessage());
+            }
         }
         return images;
     }
@@ -144,18 +186,35 @@ public class ProductDAO {
                 stock = rs.getInt("StockQuantity");
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "SQL Exception in getProductStock for ProductID {0}: {1}", new Object[]{productId, e.getMessage()});
+            LOGGER.log(Level.SEVERE, "SQL Exception in getProductStock for ProductID {0}: {1}",
+                    new Object[] { productId, e.getMessage() });
             throw e;
         } finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing ResultSet in getProductStock: {0}", e.getMessage()); }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in getProductStock: {0}", e.getMessage()); }
-            try { if (conn != null) conn.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing Connection in getProductStock: {0}", e.getMessage()); }
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing ResultSet in getProductStock: {0}", e.getMessage());
+            }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in getProductStock: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in getProductStock: {0}", e.getMessage());
+            }
         }
         return stock;
     }
 
     /**
      * Adds a new product to the database.
+     * 
      * @param product The Product object to add.
      * @return The generated ProductID.
      * @throws SQLException If a database error occurs.
@@ -175,7 +234,7 @@ public class ProductDAO {
             stmt.setDouble(3, product.getPrice());
             stmt.setInt(4, product.getCategoryId()); // Use CategoryID
             stmt.setInt(5, product.getStockQuantity());
-            
+
             int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Creating product failed, no rows affected.");
@@ -188,7 +247,7 @@ public class ProductDAO {
                 // Add images if any
                 if (product.getImages() != null && !product.getImages().isEmpty()) {
                     for (int i = 0; i < product.getImages().size(); i++) { // For Java 5
-                        ProductImage image = (ProductImage)product.getImages().get(i); // Explicit cast
+                        ProductImage image = (ProductImage) product.getImages().get(i); // Explicit cast
                         // Assuming IsPrimary is not used in your ProductImage model now
                         addImage(productId, image.getPath()); // Use the simplified addImage method
                     }
@@ -197,18 +256,35 @@ public class ProductDAO {
                 throw new SQLException("Creating product failed, no ID obtained.");
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "SQL Exception in addProduct for product {0}: {1}", new Object[]{product.getName(), e.getMessage()});
+            LOGGER.log(Level.SEVERE, "SQL Exception in addProduct for product {0}: {1}",
+                    new Object[] { product.getName(), e.getMessage() });
             throw e;
         } finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing ResultSet in addProduct: {0}", e.getMessage()); }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in addProduct: {0}", e.getMessage()); }
-            try { if (conn != null) conn.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing Connection in addProduct: {0}", e.getMessage()); }
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing ResultSet in addProduct: {0}", e.getMessage());
+            }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in addProduct: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in addProduct: {0}", e.getMessage());
+            }
         }
         return productId;
     }
 
     /**
      * Updates an existing product in the database.
+     * 
      * @param product The Product object with updated details.
      * @throws SQLException If a database error occurs.
      */
@@ -226,29 +302,44 @@ public class ProductDAO {
             stmt.setInt(4, product.getCategoryId());
             stmt.setInt(5, product.getStockQuantity());
             stmt.setInt(6, product.getId());
-            
+
             stmt.executeUpdate();
             LOGGER.log(Level.INFO, "Product with ID {0} updated successfully.", product.getId());
-            
+
             // For images, typically you would:
-            // 1. Delete all existing images for this product (or just those marked for deletion)
+            // 1. Delete all existing images for this product (or just those marked for
+            // deletion)
             // 2. Add new images
-            // This example simplifies by just adding/deleting images if provided in product object.
+            // This example simplifies by just adding/deleting images if provided in product
+            // object.
             // A more robust implementation would compare existing images with new ones.
             // For now, let's assume we handle images separately or clear and re-add.
-            // This method focuses on product details. Image management can be a separate process.
+            // This method focuses on product details. Image management can be a separate
+            // process.
 
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "SQL Exception in updateProduct for ProductID {0}: {1}", new Object[]{product.getId(), e.getMessage()});
+            LOGGER.log(Level.SEVERE, "SQL Exception in updateProduct for ProductID {0}: {1}",
+                    new Object[] { product.getId(), e.getMessage() });
             throw e;
         } finally {
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in updateProduct: {0}", e.getMessage()); }
-            try { if (conn != null) conn.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing Connection in updateProduct: {0}", e.getMessage()); }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in updateProduct: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in updateProduct: {0}", e.getMessage());
+            }
         }
     }
 
     /**
      * Deletes a product and its associated images from the database.
+     * 
      * @param productId The ID of the product to delete.
      * @throws SQLException If a database error occurs.
      */
@@ -266,7 +357,7 @@ public class ProductDAO {
             stmt.setInt(1, productId);
             stmt.executeUpdate();
             LOGGER.log(Level.INFO, "Deleted images for Product ID {0}.", productId);
-            
+
             // 2. Delete the product itself
             String deleteProductSql = "DELETE FROM Products WHERE ProductID = ?";
             stmt = conn.prepareStatement(deleteProductSql);
@@ -274,7 +365,9 @@ public class ProductDAO {
             int affectedRows = stmt.executeUpdate();
 
             if (affectedRows == 0) {
-                LOGGER.log(Level.WARNING, "Attempted to delete Product ID {0} but no rows were affected. Product may not exist.", productId);
+                LOGGER.log(Level.WARNING,
+                        "Attempted to delete Product ID {0} but no rows were affected. Product may not exist.",
+                        productId);
                 // Optionally throw an exception if product was expected to exist
             } else {
                 LOGGER.log(Level.INFO, "Product with ID {0} deleted successfully.", productId);
@@ -282,22 +375,42 @@ public class ProductDAO {
             conn.commit(); // Commit transaction
 
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "SQL Exception in deleteProduct for ProductID {0}: {1}", new Object[]{productId, e.getMessage()});
+            LOGGER.log(Level.SEVERE, "SQL Exception in deleteProduct for ProductID {0}: {1}",
+                    new Object[] { productId, e.getMessage() });
             if (conn != null) {
-                try { conn.rollback(); } catch (SQLException rollbackEx) { LOGGER.log(Level.SEVERE, "Error rolling back transaction during deleteProduct: {0}", rollbackEx.getMessage()); }
+                try {
+                    conn.rollback();
+                } catch (SQLException rollbackEx) {
+                    LOGGER.log(Level.SEVERE, "Error rolling back transaction during deleteProduct: {0}",
+                            rollbackEx.getMessage());
+                }
             }
             throw e;
         } finally {
             if (conn != null) {
-                try { conn.setAutoCommit(true); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error resetting auto-commit in deleteProduct: {0}", e.getMessage()); }
-                try { conn.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing Connection in deleteProduct: {0}", e.getMessage()); }
+                try {
+                    conn.setAutoCommit(true);
+                } catch (SQLException e) {
+                    LOGGER.log(Level.SEVERE, "Error resetting auto-commit in deleteProduct: {0}", e.getMessage());
+                }
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    LOGGER.log(Level.SEVERE, "Error closing Connection in deleteProduct: {0}", e.getMessage());
+                }
             }
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in deleteProduct: {0}", e.getMessage()); }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in deleteProduct: {0}", e.getMessage());
+            }
         }
     }
 
     /**
      * Adds an image path for a given product.
+     * 
      * @param productId The ID of the product.
      * @param imagePath The path to the image.
      * @throws SQLException If a database error occurs.
@@ -308,23 +421,37 @@ public class ProductDAO {
         try {
             conn = Database.getConnection();
             // Assuming IsPrimary is not used, or defaults to FALSE
-            String sql = "INSERT INTO Images (ProductID, ImagePath, IsPrimary) VALUES (?, ?, FALSE)"; // Set IsPrimary to FALSE by default
+            String sql = "INSERT INTO Images (ProductID, ImagePath, IsPrimary) VALUES (?, ?, FALSE)"; // Set IsPrimary
+                                                                                                      // to FALSE by
+                                                                                                      // default
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, productId);
             stmt.setString(2, imagePath);
             stmt.executeUpdate();
-            LOGGER.log(Level.INFO, "Image '{0}' added for Product ID {1}.", new Object[]{imagePath, productId});
+            LOGGER.log(Level.INFO, "Image '{0}' added for Product ID {1}.", new Object[] { imagePath, productId });
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "SQL Exception in addImage for Product ID {0}, Path {1}: {2}", new Object[]{productId, imagePath, e.getMessage()});
+            LOGGER.log(Level.SEVERE, "SQL Exception in addImage for Product ID {0}, Path {1}: {2}",
+                    new Object[] { productId, imagePath, e.getMessage() });
             throw e;
         } finally {
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in addImage: {0}", e.getMessage()); }
-            try { if (conn != null) conn.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing Connection in addImage: {0}", e.getMessage()); }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in addImage: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in addImage: {0}", e.getMessage());
+            }
         }
     }
-    
+
     /**
      * Deletes a specific image by its ImageID.
+     * 
      * @param imageId The ID of the image to delete.
      * @throws SQLException If a database error occurs.
      */
@@ -340,14 +467,26 @@ public class ProductDAO {
             if (affectedRows > 0) {
                 LOGGER.log(Level.INFO, "Image with ID {0} deleted successfully.", imageId);
             } else {
-                LOGGER.log(Level.WARNING, "Attempted to delete image with ID {0} but no rows affected. Image may not exist.", imageId);
+                LOGGER.log(Level.WARNING,
+                        "Attempted to delete image with ID {0} but no rows affected. Image may not exist.", imageId);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "SQL Exception in deleteImage for ImageID {0}: {1}", new Object[]{imageId, e.getMessage()});
+            LOGGER.log(Level.SEVERE, "SQL Exception in deleteImage for ImageID {0}: {1}",
+                    new Object[] { imageId, e.getMessage() });
             throw e;
         } finally {
-            try { if (stmt != null) stmt.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in deleteImage: {0}", e.getMessage()); }
-            try { if (conn != null) conn.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Error closing Connection in deleteImage: {0}", e.getMessage()); }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in deleteImage: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in deleteImage: {0}", e.getMessage());
+            }
         }
     }
 }
