@@ -165,6 +165,7 @@ public class AdminCustomerServlet extends HttpServlet {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmPassword");
         String address = request.getParameter("address");
 
         // Basic validation
@@ -172,6 +173,36 @@ public class AdminCustomerServlet extends HttpServlet {
                 email == null || email.trim().isEmpty() ||
                 password == null || password.trim().isEmpty()) {
             request.setAttribute("error", "Username, email, and password cannot be empty.");
+            showAddCustomerForm(request, response);
+            return;
+        }
+
+        // Check for duplicate username
+        if (userDAO.usernameExists(username.trim(), -1)) {
+            request.setAttribute("error", "A user with the username '" + username.trim()
+                    + "' already exists. Please choose a different username.");
+            showAddCustomerForm(request, response);
+            return;
+        }
+
+        // Check for duplicate email
+        if (userDAO.emailExists(email.trim(), -1)) {
+            request.setAttribute("error", "A user with the email '" + email.trim()
+                    + "' already exists. Please use a different email address.");
+            showAddCustomerForm(request, response);
+            return;
+        }
+
+        // Password validation
+        if (password.length() < 8) {
+            request.setAttribute("error", "Password must be at least 8 characters long.");
+            showAddCustomerForm(request, response);
+            return;
+        }
+
+        // Confirm password validation
+        if (confirmPassword == null || !password.equals(confirmPassword)) {
+            request.setAttribute("error", "Password and confirm password do not match.");
             showAddCustomerForm(request, response);
             return;
         }
@@ -189,20 +220,71 @@ public class AdminCustomerServlet extends HttpServlet {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmPassword");
         String address = request.getParameter("address");
 
-        // Basic validation
+        // Basic validation for required fields
         if (username == null || username.trim().isEmpty() ||
-                email == null || email.trim().isEmpty() ||
-                password == null || password.trim().isEmpty()) {
-            request.setAttribute("error", "Username, email, and password cannot be empty.");
+                email == null || email.trim().isEmpty()) {
+            request.setAttribute("error", "Username and email cannot be empty.");
             User customer = new User(customerId, username, email, password, address, 0);
             request.setAttribute("customer", customer);
             request.getRequestDispatcher("admin/customer-form.jsp").forward(request, response);
             return;
         }
 
-        User updatedCustomer = new User(customerId, username.trim(), email.trim(), password.trim(),
+        // Check for duplicate username (excluding current user)
+        if (userDAO.usernameExists(username.trim(), customerId)) {
+            request.setAttribute("error", "A user with the username '" + username.trim()
+                    + "' already exists. Please choose a different username.");
+            User customer = new User(customerId, username.trim(), email.trim(), password != null ? password.trim() : "",
+                    address != null ? address.trim() : "", 0);
+            request.setAttribute("customer", customer);
+            request.getRequestDispatcher("admin/customer-form.jsp").forward(request, response);
+            return;
+        }
+
+        // Check for duplicate email (excluding current user)
+        if (userDAO.emailExists(email.trim(), customerId)) {
+            request.setAttribute("error", "A user with the email '" + email.trim()
+                    + "' already exists. Please use a different email address.");
+            User customer = new User(customerId, username.trim(), email.trim(), password != null ? password.trim() : "",
+                    address != null ? address.trim() : "", 0);
+            request.setAttribute("customer", customer);
+            request.getRequestDispatcher("admin/customer-form.jsp").forward(request, response);
+            return;
+        }
+
+        // Get current user to preserve password if not changed
+        User currentUser = userDAO.getUserById(customerId);
+        String finalPassword = currentUser.getPassword(); // Keep current password by default
+
+        // If password is provided, validate it
+        if (password != null && !password.trim().isEmpty()) {
+            // Password validation
+            if (password.length() < 8) {
+                request.setAttribute("error", "Password must be at least 8 characters long.");
+                User customer = new User(customerId, username.trim(), email.trim(), password.trim(),
+                        address != null ? address.trim() : "", 0);
+                request.setAttribute("customer", customer);
+                request.getRequestDispatcher("admin/customer-form.jsp").forward(request, response);
+                return;
+            }
+
+            // Confirm password validation
+            if (confirmPassword == null || !password.equals(confirmPassword)) {
+                request.setAttribute("error", "Password and confirm password do not match.");
+                User customer = new User(customerId, username.trim(), email.trim(), password.trim(),
+                        address != null ? address.trim() : "", 0);
+                request.setAttribute("customer", customer);
+                request.getRequestDispatcher("admin/customer-form.jsp").forward(request, response);
+                return;
+            }
+
+            finalPassword = password.trim(); // Use new password
+        }
+
+        User updatedCustomer = new User(customerId, username.trim(), email.trim(), finalPassword,
                 address != null ? address.trim() : "", 0);
         userDAO.updateUser(updatedCustomer);
         LOGGER.log(Level.INFO, "Customer updated: {0} (ID: {1})", new Object[] { username, customerId });

@@ -257,4 +257,71 @@ public class CategoryDAO {
             }
         }
     }
+
+    /**
+     * Checks if a category name already exists in the database.
+     * 
+     * @param categoryName      The category name to check.
+     * @param excludeCategoryId The category ID to exclude from the check (for
+     *                          updates). Use -1 for new categories.
+     * @return true if the category name exists, false otherwise.
+     * @throws SQLException If a database access error occurs.
+     */
+    public boolean categoryNameExists(String categoryName, int excludeCategoryId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        LOGGER.info("Checking if category name exists: " + categoryName + " (excluding ID: " + excludeCategoryId + ")");
+
+        try {
+            conn = Database.getConnection();
+            String sql;
+            if (excludeCategoryId > 0) {
+                // For updates: check if name exists excluding the current category
+                sql = "SELECT COUNT(*) FROM Categories WHERE CategoryName = ? AND CategoryID != ?";
+                stmt = conn.prepareStatement(sql);
+                stmt.setString(1, categoryName.trim());
+                stmt.setInt(2, excludeCategoryId);
+            } else {
+                // For new categories: check if name exists anywhere
+                sql = "SELECT COUNT(*) FROM Categories WHERE CategoryName = ?";
+                stmt = conn.prepareStatement(sql);
+                stmt.setString(1, categoryName.trim());
+            }
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                boolean exists = count > 0;
+                LOGGER.log(Level.INFO, "Category name '{0}' exists: {1}", new Object[] { categoryName, exists });
+                return exists;
+            }
+
+            return false;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQL Exception in categoryNameExists: {0}", e.getMessage());
+            throw e;
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing ResultSet in categoryNameExists: {0}", e.getMessage());
+            }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in categoryNameExists: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in categoryNameExists: {0}", e.getMessage());
+            }
+        }
+    }
 }

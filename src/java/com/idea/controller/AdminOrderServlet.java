@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -129,10 +130,23 @@ public class AdminOrderServlet extends HttpServlet {
 
     private void listOrders(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
-        List<Order> orders = orderDAO.getAllOrders();
-        request.setAttribute("orders", orders);
-        LOGGER.info("Forwarding to admin/orders.jsp with " + orders.size() + " orders.");
-        request.getRequestDispatcher("admin/orders.jsp").forward(request, response);
+        try {
+            List<Order> orders = orderDAO.getAllOrders();
+            LOGGER.info("Successfully retrieved " + (orders != null ? orders.size() : 0) + " orders from database.");
+            request.setAttribute("orders", orders);
+            LOGGER.info("Forwarding to admin/orders.jsp with " + (orders != null ? orders.size() : 0) + " orders.");
+            request.getRequestDispatcher("admin/orders.jsp").forward(request, response);
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Database error in listOrders: {0}", e.getMessage());
+            request.setAttribute("error", "Database error: " + e.getMessage());
+            request.setAttribute("orders", new ArrayList<>()); // Set empty list to prevent NPE
+            request.getRequestDispatcher("admin/orders.jsp").forward(request, response);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Unexpected error in listOrders: {0}", e.getMessage());
+            request.setAttribute("error", "Unexpected error: " + e.getMessage());
+            request.setAttribute("orders", new ArrayList<>()); // Set empty list to prevent NPE
+            request.getRequestDispatcher("admin/orders.jsp").forward(request, response);
+        }
     }
 
     private void showEditOrderForm(HttpServletRequest request, HttpServletResponse response)
@@ -175,8 +189,26 @@ public class AdminOrderServlet extends HttpServlet {
             throws SQLException, ServletException, IOException {
         int orderId = Integer.parseInt(request.getParameter("orderId"));
 
-        orderDAO.deleteOrder(orderId);
-        LOGGER.log(Level.INFO, "Order deleted: {0}", orderId);
-        response.sendRedirect("AdminOrderServlet?message=Order+deleted+successfully!");
+        try {
+            orderDAO.deleteOrder(orderId);
+            LOGGER.log(Level.INFO, "Order deleted: {0}", orderId);
+            response.sendRedirect("AdminOrderServlet?message=Order+deleted+successfully!");
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error deleting order {0}: {1}", new Object[] { orderId, e.getMessage() });
+
+            // Check if it's a foreign key constraint violation
+            if (e.getMessage().contains("foreign key constraint") || e.getMessage().contains("violation")) {
+                response.sendRedirect(
+                        "AdminOrderServlet?error=Order+cannot+be+deleted+because+it+has+related+records.+Please+contact+the+administrator.");
+            } else {
+                response.sendRedirect("AdminOrderServlet?error=Database+error+occurred+while+deleting+order:+"
+                        + e.getMessage().replace(" ", "+"));
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Unexpected error deleting order {0}: {1}",
+                    new Object[] { orderId, e.getMessage() });
+            response.sendRedirect("AdminOrderServlet?error=Unexpected+error+occurred+while+deleting+order:+"
+                    + e.getMessage().replace(" ", "+"));
+        }
     }
 }

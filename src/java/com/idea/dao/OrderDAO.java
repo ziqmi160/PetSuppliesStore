@@ -177,12 +177,13 @@ public class OrderDAO {
 
             while (rs.next()) {
                 // Use the constructor for retrieving existing orders from DB
+                String status = rs.getString("Status");
                 Order order = new Order(
                         rs.getInt("OrderID"),
                         rs.getInt("UserID"),
                         rs.getTimestamp("OrderDate"),
                         rs.getDouble("TotalAmount"),
-                        rs.getString("Status"),
+                        (status != null) ? status : "Pending",
                         "", "", "", "", "", "", "", "" // Default empty values for billing fields including notes
                 );
                 orders.add(order);
@@ -237,12 +238,13 @@ public class OrderDAO {
 
             if (rs.next()) {
                 // Use the constructor for retrieving existing orders from DB
+                String status = rs.getString("Status");
                 Order order = new Order(
                         rs.getInt("OrderID"),
                         rs.getInt("UserID"),
                         rs.getTimestamp("OrderDate"),
                         rs.getDouble("TotalAmount"),
-                        rs.getString("Status"),
+                        (status != null) ? status : "Pending",
                         "", "", "", "", "", "", "", "" // Default empty values for billing fields including notes
                 );
                 LOGGER.log(Level.INFO, "Retrieved order: {0}", orderId);
@@ -323,7 +325,61 @@ public class OrderDAO {
     }
 
     /**
+     * Checks if an order has related records that would prevent deletion.
+     * 
+     * @param orderId The ID of the order to check.
+     * @return true if the order has related records, false otherwise.
+     * @throws SQLException If a database access error occurs.
+     */
+    public boolean hasRelatedRecords(int orderId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = Database.getConnection();
+
+            // Check for OrderItems records
+            String sql = "SELECT COUNT(*) FROM OrderItems WHERE OrderID = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, orderId);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0;
+            }
+
+            return false;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQL Exception in hasRelatedRecords: {0}", e.getMessage());
+            throw e;
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing ResultSet in hasRelatedRecords: {0}", e.getMessage());
+            }
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing PreparedStatement in hasRelatedRecords: {0}", e.getMessage());
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing Connection in hasRelatedRecords: {0}", e.getMessage());
+            }
+        }
+    }
+
+    /**
      * Deletes an order from the database.
+     * This method handles foreign key constraints by deleting related OrderItems
+     * first.
      * 
      * @param orderId The ID of the order to delete.
      * @throws SQLException If a database access error occurs.
@@ -336,20 +392,48 @@ public class OrderDAO {
 
         try {
             conn = Database.getConnection();
-            String sql = "DELETE FROM Orders WHERE OrderID = ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, orderId);
+            conn.setAutoCommit(false); // Start transaction
 
+            // First, delete related OrderItems records
+            String deleteOrderItemsSql = "DELETE FROM OrderItems WHERE OrderID = ?";
+            stmt = conn.prepareStatement(deleteOrderItemsSql);
+            stmt.setInt(1, orderId);
+            int orderItemsDeleted = stmt.executeUpdate();
+            LOGGER.log(Level.INFO, "Deleted {0} order items for order ID: {1}",
+                    new Object[] { orderItemsDeleted, orderId });
+
+            // Then delete the order itself
+            String deleteOrderSql = "DELETE FROM Orders WHERE OrderID = ?";
+            stmt = conn.prepareStatement(deleteOrderSql);
+            stmt.setInt(1, orderId);
             int rowsAffected = stmt.executeUpdate();
+
             if (rowsAffected > 0) {
-                LOGGER.log(Level.INFO, "Successfully deleted order with ID: {0}", orderId);
+                conn.commit(); // Commit the transaction
+                LOGGER.log(Level.INFO, "Successfully deleted order with ID: {0} and {1} related order items",
+                        new Object[] { orderId, orderItemsDeleted });
             } else {
+                conn.rollback(); // Rollback if no order was found
                 LOGGER.log(Level.WARNING, "No order found with ID {0} to delete.", orderId);
             }
         } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback(); // Rollback on error
+                } catch (SQLException rollbackEx) {
+                    LOGGER.log(Level.SEVERE, "Error rolling back transaction: {0}", rollbackEx.getMessage());
+                }
+            }
             LOGGER.log(Level.SEVERE, "SQL Exception in deleteOrder: {0}", e.getMessage());
             throw e;
         } finally {
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true); // Reset auto-commit mode
+                }
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error resetting auto-commit: {0}", e.getMessage());
+            }
             try {
                 if (stmt != null)
                     stmt.close();
