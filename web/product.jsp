@@ -23,7 +23,11 @@ and open the template in the editor.
         rel="stylesheet" />
     <link href="css/tiny-slider.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet" />
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Nordic Chair</title>
+    
+    <style>
+</style>
 </head>
 
 <body>
@@ -39,13 +43,14 @@ and open the template in the editor.
     position: relative;
     height: 355px;
     ">
+        <% Product product = (Product) request.getAttribute("product"); %>
         <div class="container">
             <div class="row justify-content-between">
                 <div class="col-lg-5">
                     <div class="intro-excerpt">
-                        <h1>Nordic Chair</h1>
+                        <h1><%= product.getName() %></h1>
                         <p class="mb-4">
-                            Discover the elegance and comfort of the Nordic Chair.
+                            Your perfect furniture for your home.
                         </p>
                         <p>
                             <a href="#product-details" class="btn btn-secondary me-2">View Details</a>
@@ -66,11 +71,11 @@ and open the template in the editor.
     <!-- End Hero Section -->
 
     <!-- Start Product Details Section -->
-    <section id="product-details" class="untree_co-section product-details-section">
+    <section id="product-details" class="untree_co-section product-details-section" style="padding:4.5rem;">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <% Product product = (Product) request.getAttribute("product");
+                    <% 
                        if (product != null && product.getImages() != null && !product.getImages().isEmpty()) { %>
                            <img src="<%= product.getImages().get(0).getPath() %>" class="img-fluid" alt="<%= product.getName() %>" />
                     <% } else { %>
@@ -88,7 +93,23 @@ and open the template in the editor.
                         <form action="CartServlet" method="post">
                             <input type="hidden" name="action" value="add">
                             <input type="hidden" name="productId" value="<%= product.getId() %>">
-                            <div class="input-group mb-3" style="max-width: 120px">
+                                <div class="container-del">
+                                    <div class="section">
+                                        <h3><i class="fa fa-truck" aria-hidden="true" style="margin-right:5px;"></i>Delivery</h3>
+                                        <div class="delivery">
+                                            <div class="icon"></div>
+                                            <div>
+                                                <p style="margin-bottom:0px">Available</p>
+                                                <p>Find all options at checkout</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="section">
+                                        <h3><i class="fa fa-store" aria-hidden="true" style="margin-right:5px;"></i>In store</h3>
+                                        <p class="store">Also available physical store</p>
+                                    </div>
+                                </div>
+<!--                            <div class="input-group mb-3" style="max-width: 120px">
                                 <div class="input-group-prepend">
                                     <button class="btn btn-outline-black decrease" type="button">&minus;</button>
                                 </div>
@@ -97,7 +118,13 @@ and open the template in the editor.
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-black increase" type="button">&plus;</button>
                                 </div>
+                            </div>-->
+                            <div class="quantity-container">
+                                <button class="btn decrease" type="button">&minus;</button>
+                                <input class="number" type="number" class="quantity-input" name="quantity" value="1" min="1" readonly>
+                                <button class="btn increase" type="button">&plus;</button>
                             </div>
+
                             <% if (product.getStockQuantity() > 0) { %>
                                 <button type="submit" class="btn btn-black">Add to Cart</button>
                             <% } else { %>

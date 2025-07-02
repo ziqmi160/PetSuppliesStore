@@ -20,8 +20,8 @@
                     <a class="nav-link" href="index.jsp">Home</a>
                 </li>
                 <li><a class="nav-link" href="ShopServlet">Shop</a></li>
-                <li><a class="nav-link" href="blog.jsp">Blog</a></li>
-                <li><a class="nav-link" href="contact.jsp">Contact us</a></li>
+                <li><a class="nav-link" href="about.jsp">About Us</a></li>
+                <li><a class="nav-link" href="contact.jsp">Contact Us</a></li>
             </ul>
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                 <% if (currentUser != null) { %>
