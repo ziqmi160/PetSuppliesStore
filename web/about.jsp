@@ -136,8 +136,8 @@ and open the template in the editor.
                   >Chief Financial Officer (CFO)</span
                 >
                 <p class="text-center">
-                  You can have brilliant ideas, but if you can’t get them
-                  across, your ideas won’t get you anywhere.
+                  You can have brilliant ideas, but if you cant get them
+                  across, your ideas wont get you anywhere.
                 </p>
               </div>
               <!-- End Column 3 -->
