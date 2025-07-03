@@ -41,7 +41,7 @@ and open the template in the editor.
     background-size: cover;
     background-position: center;
     position: relative;
-    height: 355px;
+    max-height: 400px;
     ">
         <% Product product = (Product) request.getAttribute("product"); %>
         <div class="container">
@@ -142,7 +142,7 @@ and open the template in the editor.
     <!-- End Product Details Section -->
     <div class="col-md-12 col-lg-3 mb-5 mb-lg-0"></div>
     <!-- Start Footer Section -->
-    <footer class="footer-section">
+    <!-- footer class="footer-section">
         <div class="container relative">
             <div class="sofa-img">
                 <img src="images/sofa.png" alt="Image" class="img-fluid" />
@@ -228,7 +228,8 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
-    </footer>
+    </footer -->
+    <%@ include file="footer.jsp" %>
     <!-- End Footer Section -->
 
     <script src="js/bootstrap.bundle.min.js"></script>

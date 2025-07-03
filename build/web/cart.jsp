@@ -107,7 +107,7 @@
                           &minus;
                         </button>
                       </div>
-                      <input type="text" class="form-control text-center quantity-amount"
+                      <input type="text" class="form-control text-center quantity-amount" 
                         value="<%= item.getQuantity() %>" readonly
                         data-product-id="<%= item.getProductId() %>" />
                       <div class="input-group-append">
@@ -206,7 +206,7 @@
   </div>
 
   <!-- Start Footer Section -->
-  <footer class="footer-section">
+  <!-- footer class="footer-section">
     <div class="container relative">
       <div class="sofa-img">
         <img src="images/sofa.png" alt="Image" class="img-fluid" />
@@ -293,7 +293,8 @@
         </div>
       </div>
     </div>
-  </footer>
+  </footer-->
+  <%@ include file="footer.jsp" %>
   <!-- End Footer Section -->
 
   <script src="js/bootstrap.bundle.min.js"></script>

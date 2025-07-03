@@ -168,7 +168,7 @@
   <div class="col-md-12 col-lg-3 mb-5 mb-lg-0"></div>
   <div class="col-md-12 col-lg-3 mb-5 mb-lg-0"></div>
   <!-- Start Footer Section -->
-  <footer class="footer-section">
+  <!-- footer class="footer-section">
     <div class="container relative">
       <div class="sofa-img">
         <img src="images/sofa.png" alt="Image" class="img-fluid" />
@@ -254,7 +254,8 @@
         </div>
       </div>
     </div>
-  </footer>
+  </footer -->
+  <%@ include file="footer.jsp" %>
   <!-- End Footer Section -->
 
   <script src="js/bootstrap.bundle.min.js"></script>

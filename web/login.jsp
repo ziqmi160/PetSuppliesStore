@@ -99,7 +99,7 @@ and open the template in the editor.
     <!-- End Login Section -->
 
     <!-- Start Footer Section -->
-    <footer class="footer-section">
+    <!-- footer class="footer-section">
         <div class="container relative">
 
             <div class="row g-5 mb-5">
@@ -160,7 +160,8 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
-    </footer>
+    </footer -->
+    <%@ include file="footer.jsp" %>
     <!-- End Footer Section -->
 
     <script src="js/bootstrap.bundle.min.js"></script>

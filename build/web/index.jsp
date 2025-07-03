@@ -49,63 +49,56 @@ and open the template in the editor.
 		<!-- End Hero Section -->
 
 		<!-- Start Product Section -->
-		<div class="product-section">
-			<div class="container">
-				<div class="row">
+<div class="category-section">
+    <div class="container">
+        <div class="row">
 
-					<!-- Start Column 1 -->
-					<div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
-						<h2 class="mb-4 section-title">Crafted with excellent material.</h2>
-						<p class="mb-4">Our furniture is crafted with high-quality materials, combining durability, comfort, and timeless style to elevate every space. </p>
-						<p><a href="ShopServlet" class="btn">Explore</a></p>
-					</div> 
-					<!-- End Column 1 -->
+            <!-- Start Column 1 -->
+            <div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
+                <h2 class="mb-4 section-title">Crafted with excellent material.</h2>
+                <p class="mb-4">Our furniture is crafted with high-quality materials, combining durability, comfort, and timeless style to elevate every space.</p>
+                <p><a href="ShopServlet" class="btn">Explore</a></p>
+            </div> 
+            <!-- End Column 1 -->
 
-					<!-- Start Column 2 -->
-					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="product2.jsp">
-							<img src="images/product-1.png" class="img-fluid product-thumbnail">
-							<h3 class="product-title">Serene Chair</h3>
-							<strong class="product-price">RM199.00</strong>
+            <!-- Start Column 2 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                <a class="category-item" href="product1.jsp" style="background-image: url('images/livingroom.jpg');">
+                    <div class="category-items">
+                    <div class="category-title">Living Room</div>
+                    <div class="category-description">Comfortable, stylish, timeless designs</div>
+                    </div>
+                </a>
+            </div> 
+            <!-- End Column 2 -->
 
-							<span class="icon-cross">
-								<img src="images/cross.svg" class="img-fluid">
-							</span>
-						</a>
-					</div> 
-					<!-- End Column 2 -->
+            <!-- Start Column 3 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                <a class="category-item" href="product1.jsp" style="background-image: url('images/bedroom.jpg');">
+                    <div class="category-items">
+                    <div class="category-title">Bedroom</div>
+                    <div class="category-description">Cozy, elegant, restful furniture</div>
+                    </div>
+                </a>
+            </div>
+            <!-- End Column 3 -->
 
-					<!-- Start Column 3 -->
-					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="product3.jsp">
-							<img src="images/product-2.png" class="img-fluid product-thumbnail">
-							<h3 class="product-title">Aurora Chair</h3>
-							<strong class="product-price">RM249.00</strong>
+            <!-- Start Column 4 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                <a class="category-item" href="product1.jsp" style="background-image: url('images/dining.jpg');">
+                    <div class="category-items">
+                    <div class="category-title">Dining</div>
+                    <div class="category-description">Modern, functional, family-friendly</div>
+                    </div>
+                </a>
+            </div>
+            <!-- End Column 4 -->
 
-							<span class="icon-cross">
-								<img src="images/cross.svg" class="img-fluid">
-							</span>
-						</a>
-					</div>
-					<!-- End Column 3 -->
+        </div>
+    </div>
+</div>
 
-					<!-- Start Column 4 -->
-					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="product1.jsp">
-							<img src="images/product-3.png" class="img-fluid product-thumbnail">
-							<h3 class="product-title">Nordic Chair</h3>
-							<strong class="product-price">RM99.00</strong>
 
-							<span class="icon-cross">
-								<img src="images/cross.svg" class="img-fluid">
-							</span>
-						</a>
-					</div>
-					<!-- End Column 4 -->
-
-				</div>
-			</div>
-		</div>
 		<!-- End Product Section -->
 
 		<!-- Start Why Choose Us Section -->
@@ -400,9 +393,9 @@ and open the template in the editor.
 			</div>
 		</div>
 		End Blog Section -->	
-
+<%@ include file="footer.jsp" %>
 		<!-- Start Footer Section -->
-<footer class="footer-section">
+<!-- footer class="footer-section">
 			<div class="container relative">
 
 				<div class="sofa-img">
@@ -430,7 +423,7 @@ and open the template in the editor.
 
 						</div>
 					</div>
-				</div --->
+				</div >
 
 <div class="col-md-12 col-lg-3 mb-5 mb-lg-0"></div>
 

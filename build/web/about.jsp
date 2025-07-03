@@ -37,7 +37,7 @@ and open the template in the editor.
     <div
       class="hero"
       style="
-        background-image: url('images/shop-head.jpg');
+        background-image: url('images/aboutus.jpg');
         background-size: cover;
         background-position: center;
         position: relative;
@@ -395,7 +395,7 @@ and open the template in the editor.
     <!-- End Testimonial Slider -->
 
     <!-- Start Footer Section -->
-    <footer class="footer-section">
+    <!--footer class="footer-section">
       <div class="container relative">
         <div class="sofa-img">
           <img src="images/sofa.png" alt="Image" class="img-fluid" />
@@ -422,7 +422,7 @@ and open the template in the editor.
 
 						</div>
 					</div>
-				</div -->
+				</div>
         <div class="col-md-12 col-lg-3 mb-5 mb-lg-0"></div>
 
         <div class="row g-5 mb-5">
@@ -505,7 +505,8 @@ and open the template in the editor.
           </div>
         </div>
       </div>
-    </footer>
+    </footer -->
+        <%@ include file="footer.jsp" %>
     <!-- End Footer Section -->
 
     <script src="js/bootstrap.bundle.min.js"></script>

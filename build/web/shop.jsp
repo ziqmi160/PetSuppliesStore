@@ -138,7 +138,7 @@ and open the template in the editor.
       </div>
     </div>
     <!-- Start Footer Section -->
-    <footer class="footer-section">
+    <!--footer class="footer-section">
       <div class="container relative">
         <div class="sofa-img">
           <img src="images/sofa.png" alt="Image" class="img-fluid" />
@@ -165,7 +165,7 @@ and open the template in the editor.
 
 						</div>
 					</div>
-				</div -->
+				</div >
 
         <div class="row g-5 mb-5">
           <div class="col-lg-4">
@@ -247,7 +247,8 @@ and open the template in the editor.
           </div>
         </div>
       </div>
-    </footer>
+    </footer-->
+        <%@ include file="footer.jsp" %>
     <!-- End Footer Section -->
 
     <script src="js/bootstrap.bundle.min.js"></script>

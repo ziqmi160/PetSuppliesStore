@@ -29,7 +29,7 @@ and open the template in the editor.
 		<!-- End Header/Navigation -->
 
 		<!-- Start Hero Section -->
-<div class="hero" style="background-image: url('images/shop-head.jpg'); background-size: cover; background-position: center; position: relative; height: 400px;">
+<div class="hero" style="background-image: url('images/contactus.jpg'); background-size: cover; background-position: center; position: relative; height: 400px;">
     <div class="container">
         <div class="row justify-content-between">
             <div class="col-lg-5">
@@ -173,7 +173,7 @@ and open the template in the editor.
 					</div>
 				</div-->
 <div class="col-md-12 col-lg-3 mb-5 mb-lg-0"></div>
-				<div class="row g-5 mb-5">
+				<!-- div class="row g-5 mb-5">
 					<div class="col-lg-4">
 						<div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">iDea<span>.</span></a></div>
 						<p class="mb-4">At iDea, we are dedicated to providing high-quality, stylish furniture crafted to enhance every space in your home. With a focus on comfort, durability, and timeless design, we strive to make your shopping experience easy and enjoyable. Thank you for choosing us to help create your perfect living environment.</p>
@@ -238,7 +238,8 @@ and open the template in the editor.
 				</div>
 
 			</div>
-		</footer>
+		</footer -->
+                                <%@ include file="footer.jsp" %>
 		<!-- End Footer Section -->	
 
 

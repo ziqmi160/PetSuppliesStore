@@ -25,31 +25,11 @@
 </head>
 <body>
     <!-- Start Header/Navigation -->
-    <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
-        <div class="container">
-            <a class="navbar-brand" href="index.jsp">Furni<span>.</span></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
-                aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarsFurni">
-                <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-                    <li class="nav-item"><a class="nav-link" href="index.jsp">Home</a></li>
-                    <li><a class="nav-link" href="ShopServlet">Shop</a></li>
-                    <li><a class="nav-link" href="about.jsp">About us</a></li>
-                    <li><a class="nav-link" href="contact.jsp">Contact us</a></li>
-                </ul>
-                <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                    <li><a class="nav-link" href="login.jsp"><img src="images/user.svg" /></a></li>
-                    <li><a class="nav-link" href="CartServlet"><img src="images/cart.svg" /></a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+  <%@ include file="header.jsp" %>
     <!-- End Header/Navigation -->
 
     <!-- Start Hero Section -->
-    <div class="hero">
+    <div class="hero" style="background-image: url('images/orderconfirm.jpg'); background-size: cover; background-position: center; position: relative; height: 400px;">
         <div class="container">
             <div class="row justify-content-between">
                 <div class="col-lg-5">
@@ -60,10 +40,11 @@
                 <div class="col-lg-7"></div>
             </div>
         </div>
+    <div class="overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);"></div>
     </div>
     <!-- End Hero Section -->
 
-    <div class="untree_co-section">
+    <div class="untree_co-section" style="padding:5rem 0;">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8 text-center p-5 border rounded bg-light">
@@ -94,7 +75,7 @@
     </div>
 
     <!-- Start Footer Section -->
-    <footer class="footer-section">
+    <!-- footer class="footer-section">
         <div class="container relative">
             <div class="sofa-img">
                 <img src="images/sofa.png" alt="Image" class="img-fluid" />
@@ -163,7 +144,8 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer-->
+    <%@ include file="footer.jsp" %>
     <!-- End Footer Section -->
 
     <script src="js/bootstrap.bundle.min.js"></script>
