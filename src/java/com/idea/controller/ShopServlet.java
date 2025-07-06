@@ -5,23 +5,43 @@
  */
 package com.idea.controller;
 
-import com.idea.dao.ProductDAO;
-import com.idea.model.Product;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
+import com.idea.dao.ProductDAO;
+import com.idea.dao.CategoryDAO; 
+import com.idea.model.Product;
+import com.idea.model.Category; 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author haziq
  */
+
 public class ShopServlet extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger.getLogger(ShopServlet.class.getName());
+    private ProductDAO productDAO;
+    private CategoryDAO categoryDAO;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        productDAO = new ProductDAO();
+        categoryDAO = new CategoryDAO();
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
+     *
+     * This method now always fetches all products and all categories,
+     * delegating filtering to the client-side JavaScript.
      *
      * @param request servlet request
      * @param response servlet response
@@ -30,82 +50,46 @@ public class ShopServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        response.setContentType("text/html;charset=UTF-8");
-//        try (PrintWriter out = response.getWriter()) {
-//            /* TODO output your page here. You may use following sample code. */
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet ShopServlet</title>");            
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Servlet ShopServlet at " + request.getContextPath() + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
-//        }
         try {
-    System.out.println("Starting product retrieval...");
-    
-    ProductDAO dao = new ProductDAO();
-    System.out.println("ProductDAO created");
+            LOGGER.info("Starting product and category retrieval for shop page (client-side filtering)...");
 
-    List<Product> productList = dao.getAllProducts();
-    System.out.println("Retrieved products: " + productList);
+            List<Product> productList = productDAO.getAllProducts(); // Always get all products
+            List<Category> categoryList = categoryDAO.getAllCategories(); // Always get all categories
 
-    request.setAttribute("products", productList);
-    RequestDispatcher dispatcher = request.getRequestDispatcher("shop.jsp");
-    dispatcher.forward(request, response);
+            LOGGER.log(Level.INFO, "Retrieved {0} products and {1} categories for client-side filtering.", new Object[]{productList.size(), categoryList.size()});
 
-} catch (Exception e) {
-    System.out.println("Error while retrieving products:");
-    e.printStackTrace();
-    
-    // Optional: forward to an error page
-    request.setAttribute("error", e.getMessage());
-    request.getRequestDispatcher("error.jsp").forward(request, response);
-}
+            request.setAttribute("products", productList);
+            request.setAttribute("categories", categoryList);
 
+            RequestDispatcher dispatcher = request.getRequestDispatcher("shop.jsp");
+            dispatcher.forward(request, response);
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Database error while retrieving products/categories for shop page: {0}", e.getMessage());
+            request.setAttribute("error", "A database error occurred: " + e.getMessage());
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Unexpected error while retrieving products/categories for shop page: {0}", e.getMessage());
+            e.printStackTrace();
+            request.setAttribute("error", "An unexpected error occurred: " + e.getMessage());
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+        }
     }
-    
-    
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Shop Servlet for displaying all products and categories for client-side filtering";
+    }
 }
