@@ -63,7 +63,7 @@ and open the template in the editor.
 
             <!-- Start Column 2 -->
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="category-item" href="product1.jsp" style="background-image: url('images/livingroom.jpg');">
+                <a class="category-item" href="ShopServlet?categoryId=2" style="background-image: url('images/livingroom.jpg');">
                     <div class="category-items">
                     <div class="category-title">Living Room</div>
                     <div class="category-description">Comfortable, stylish, timeless designs</div>
@@ -74,7 +74,7 @@ and open the template in the editor.
 
             <!-- Start Column 3 -->
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="category-item" href="product1.jsp" style="background-image: url('images/bedroom.jpg');">
+                <a class="category-item" href="ShopServlet?categoryId=4" style="background-image: url('images/bedroom.jpg');">
                     <div class="category-items">
                     <div class="category-title">Bedroom</div>
                     <div class="category-description">Cozy, elegant, restful furniture</div>
@@ -85,7 +85,7 @@ and open the template in the editor.
 
             <!-- Start Column 4 -->
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="category-item" href="product1.jsp" style="background-image: url('images/dining.jpg');">
+                <a class="category-item" href="ShopServlet?categoryId=1" style="background-image: url('images/dining.jpg');">
                     <div class="category-items">
                     <div class="category-title">Dining</div>
                     <div class="category-description">Modern, functional, family-friendly</div>
@@ -192,7 +192,7 @@ and open the template in the editor.
 		</div>
 		<!-- End We Help Section -->
 
-		<!-- Start Popular Product -->
+<!--		 Start Popular Product 
 		<div class="popular-product">
 			<div class="container">
 				<div class="row">
@@ -239,7 +239,7 @@ and open the template in the editor.
 				</div>
 			</div>
 		</div>
-		<!-- End Popular Product -->
+		 End Popular Product -->
 
 		<!-- Start Testimonial Slider -->
 		<div class="testimonial-section">

@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, com.idea.model.Product, com.idea.model.Category" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -121,7 +115,7 @@ and open the template in the editor.
                   data-bs-target="#pills-all-products-content" type="button" role="tab" aria-controls="pills-all-products-content"
                   aria-selected="true" data-category-id="all">All Products</button>
               </li>
-              <c:forEach var="category" items="${categories}">
+              <c:forEach var="category" items="${applicationScope.categories}"> <%-- Use applicationScope.categories --%>
                 <li class="nav-item" role="presentation">
                   <button class="nav-link" id="pills-${category.categoryId}-tab" data-bs-toggle="pill"
                     data-bs-target="#pills-all-products-content" type="button" role="tab"
@@ -132,6 +126,10 @@ and open the template in the editor.
                 </li>
               </c:forEach>
             </ul>
+            <%-- Debugging: Check if categories are loaded --%>
+            <c:if test="${empty applicationScope.categories}">
+                <p style="color: red; text-align: center;">Warning: No categories loaded into application scope. Check CategoryLoaderListener and database connection.</p>
+            </c:if>
           </div>
 
           <div class="col-12">
@@ -174,34 +172,11 @@ and open the template in the editor.
     </div>
 
     <!-- Start Footer Section -->
-    <!--footer class="footer-section">
+    <footer class="footer-section">
       <div class="container relative">
         <div class="sofa-img">
           <img src="images/sofa.png" alt="Image" class="img-fluid" />
         </div>
-
-        <!--div class="row">
-					<div class="col-lg-8">
-						<div class="subscription-form">
-							<h3 class="d-flex align-items-center"><span class="me-1"><img src="images/envelope-outline.svg" alt="Image" class="img-fluid"></span><span>Subscribe to Newsletter</span></h3>
-
-							<form action="#" class="row g-3">
-								<div class="col-auto">
-									<input type="text" class="form-control" placeholder="Enter your name">
-								</div>
-								<div class="col-auto">
-									<input type="email" class="form-control" placeholder="Enter your email">
-								</div>
-								<div class="col-auto">
-									<button class="btn btn-primary">
-										<span class="fa fa-paper-plane"></span>
-									</button>
-								</div>
-							</form>
-
-						</div>
-					</div>
-				</div >
 
         <div class="row g-5 mb-5">
           <div class="col-lg-4">
@@ -252,10 +227,9 @@ and open the template in the editor.
 
               <div class="col-6 col-sm-6 col-md-4">
                 <ul class="list-unstyled">
-                  <li><a href="product1.jsp">Nordic Chair</a></li>
-                  <li><a href="product2.jsp">Serene Chair</a></li>
-                  <li><a href="product3.jsp">Aurora Chair</a></li>
-                  <li><a href="product4.jsp">Eclipse Chair</a></li>
+                  <c:forEach var="category" items="${applicationScope.categories}">
+                    <li><a href="ShopServlet?categoryId=${category.categoryId}">${category.categoryName}</a></li>
+                  </c:forEach>
                 </ul>
               </div>
             </div>
@@ -283,8 +257,7 @@ and open the template in the editor.
           </div>
         </div>
       </div>
-    </footer-->
-        <%@ include file="footer.jsp" %>
+    </footer>
     <!-- End Footer Section -->
 
     <script src="js/bootstrap.bundle.min.js"></script>
@@ -292,31 +265,71 @@ and open the template in the editor.
     <script src="js/custom.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
+        console.log('shop.jsp: DOM Content Loaded. Initializing tab logic.');
         const productCards = document.querySelectorAll('.product-card');
         const tabButtons = document.querySelectorAll('#pills-tab .nav-link');
 
-        tabButtons.forEach(button => {
-          button.addEventListener('shown.bs.tab', function (event) { // Use Bootstrap's 'shown.bs.tab' event
-            const selectedCategoryId = this.dataset.categoryId;
-
+        // Function to filter products based on category ID
+        function filterProducts(selectedCategoryId) {
+            console.log('shop.jsp: filterProducts called with ID:', selectedCategoryId);
             productCards.forEach(card => {
-              const cardCategoryId = card.dataset.categoryId;
-
-              if (selectedCategoryId === 'all' || cardCategoryId == selectedCategoryId) { // Use == for comparison
-                card.style.display = 'block'; // Show the card
-              } else {
-                card.style.display = 'none'; // Hide the card
-              }
+                const cardCategoryId = card.dataset.categoryId;
+                // Using loose equality (==) for comparison as data-attributes are strings
+                if (selectedCategoryId === 'all' || cardCategoryId == selectedCategoryId) {
+                    card.style.display = 'block'; // Show the card
+                } else {
+                    card.style.display = 'none'; // Hide the card
+                }
             });
+        }
+
+        // Add event listeners for tab button clicks (Bootstrap's 'shown.bs.tab' event)
+        tabButtons.forEach(button => {
+          button.addEventListener('shown.bs.tab', function (event) {
+            console.log('shop.jsp: Bootstrap "shown.bs.tab" event fired for:', this.id);
+            const selectedCategoryId = this.dataset.categoryId;
+            filterProducts(selectedCategoryId);
           });
         });
 
-        // Trigger the 'All Products' tab to be active and filter initially on page load
-        const allProductsTab = document.getElementById('pills-all-tab');
-        if (allProductsTab) {
-            // Manually trigger the click to ensure initial filtering is applied
-            // This is needed because 'shown.bs.tab' only fires on *change*
-            allProductsTab.click();
+        // Get category ID from URL on page load
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryIdFromUrl = urlParams.get('categoryId');
+        console.log('shop.jsp: Category ID from URL:', categoryIdFromUrl);
+
+        // Determine which tab to activate initially
+        let tabToActivate = null;
+        let initialCategoryId = categoryIdFromUrl || 'all'; // Default to 'all' if no param
+
+        console.log('shop.jsp: Determined initial category to activate:', initialCategoryId);
+
+        if (initialCategoryId === 'all') {
+            tabToActivate = document.getElementById('pills-all-tab');
+        } else {
+            // Find the button by iterating through all tab buttons
+            tabButtons.forEach(button => {
+                // Use loose equality (==) for comparison between string from URL and data-attribute
+                if (button.dataset.categoryId == initialCategoryId) {
+                    tabToActivate = button;
+                    console.log('shop.jsp: Found matching tab button for ID:', initialCategoryId, 'Button ID:', button.id);
+                }
+            });
+
+            if (!tabToActivate) {
+                console.warn('shop.jsp: No tab button found for category ID from URL:', initialCategoryId, 'Defaulting to All Products.');
+                tabToActivate = document.getElementById('pills-all-tab'); // Fallback to "All Products"
+            }
+        }
+
+        // Activate the determined tab and filter products
+        if (tabToActivate) {
+            console.log('shop.jsp: Activating tab:', tabToActivate.id);
+            const tab = new bootstrap.Tab(tabToActivate);
+            tab.show(); // Programmatically show the tab
+            // Manually call filterProducts because 'shown.bs.tab' might not fire if the tab was already active
+            filterProducts(tabToActivate.dataset.categoryId);
+        } else {
+            console.error('shop.jsp: No tab found to activate. This should not happen if "All Products" fallback is present.');
         }
       });
     </script>

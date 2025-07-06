@@ -769,6 +769,10 @@ a.more {
   opacity: .7;
 }
 
+.footer-link {
+  z-index: 2;
+}
+
 .footer-section {
   padding: 80px 0;
   background:#D3D3D3 !important;
@@ -850,15 +854,18 @@ a.more {
   position: absolute;
   top: -200px;
   z-index: 1;
+  pointer-events: none;
   right: 0;
 }
 
 .footer-section .sofa-img img {
   max-width: 380px;
+  pointer-events: none;
 }
 
 .footer-section .links-wrap {
   margin-top: 0px;
+  z-index: 2;
 }
 
 @media (min-width: 992px) {
@@ -1105,6 +1112,17 @@ textarea {
     margin-right: 23px;
     margin-bottom: 17px;
 }
+
+.icon-red {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #ef1d1d;
+    border-radius: 50%;
+    margin-right: 23px;
+    margin-bottom: 17px;
+}
+
 .delivery {
     display: flex;
     align-items: center;

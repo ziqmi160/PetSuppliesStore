@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="com.idea.model.Product" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -93,22 +94,33 @@ and open the template in the editor.
                         <form action="CartServlet" method="post">
                             <input type="hidden" name="action" value="add">
                             <input type="hidden" name="productId" value="<%= product.getId() %>">
-                                <div class="container-del">
+<!--                                <div class="container-del">
                                     <div class="section">
                                         <h3><i class="fa fa-truck" aria-hidden="true" style="margin-right:5px;"></i>Delivery</h3>
                                         <div class="delivery">
-                                            <div class="icon"></div>
-                                            <div>
-                                                <p style="margin-bottom:0px">Available</p>
-                                                <p>Find all options at checkout</p>
-                                            </div>
+                                            <c:choose>
+                                                <c:when test="${product.stockQuantity == 0}">
+                                                    <div class="icon-red"></div>
+                                                    <div>
+                                                        <p style="margin-bottom:0px">Not Available</p>
+                                                        <p>Find all options at checkout</p>
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <div class="icon"></div>
+                                                    <div>
+                                                        <p style="margin-bottom:0px">Available</p>
+                                                        <p>Find all options at checkout</p>
+                                                    </div>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
                                     </div>
                                     <div class="section">
                                         <h3><i class="fa fa-store" aria-hidden="true" style="margin-right:5px;"></i>In store</h3>
                                         <p class="store">Also available physical store</p>
                                     </div>
-                                </div>
+                                </div>-->
 <!--                            <div class="input-group mb-3" style="max-width: 120px">
                                 <div class="input-group-prepend">
                                     <button class="btn btn-outline-black decrease" type="button">&minus;</button>
