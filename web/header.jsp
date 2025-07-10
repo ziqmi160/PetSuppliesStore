@@ -27,7 +27,7 @@
                 <% if (currentUser != null) { %>
                     <%-- Display for logged-in regular user --%>
                     <li>
-                        <a class="nav-link" href="user-profile.jsp">
+                        <a class="nav-link" href="UserServlet">
                             <img src="images/user.svg" class="me-1" alt="User Icon"/>
                             Hello, <%= currentUser.getUsername() %>
                         </a>

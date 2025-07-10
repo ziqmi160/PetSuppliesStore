@@ -46,6 +46,7 @@ public class UserDAO {
                         rs.getString("Email"),
                         rs.getString("Password"),
                         rs.getString("Address"),
+                        rs.getString("Phone"),
                         0 // cartId will be set separately if needed
                 ));
             }
@@ -103,6 +104,7 @@ public class UserDAO {
                         rs.getString("Name"),
                         rs.getString("Email"),
                         rs.getString("Password"),
+                        rs.getString("Phone"),
                         rs.getString("Address"),
                         0 // cartId will be set separately if needed
                 );
@@ -151,12 +153,13 @@ public class UserDAO {
 
         try {
             conn = Database.getConnection();
-            String sql = "INSERT INTO Users (Name, Email, Password, Address) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO Users (Name, Email, Password, Address, Phone) VALUES (?, ?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getEmail());
             stmt.setString(3, user.getPassword());
             stmt.setString(4, user.getAddress());
+            stmt.setString(5, user.getPhone());
             stmt.executeUpdate();
 
             LOGGER.log(Level.INFO, "Successfully added user: {0}", user.getUsername());
@@ -193,13 +196,14 @@ public class UserDAO {
 
         try {
             conn = Database.getConnection();
-            String sql = "UPDATE Users SET Name = ?, Email = ?, Password = ?, Address = ? WHERE UserID = ?";
+            String sql = "UPDATE Users SET Name = ?, Email = ?, Password = ?, Address = ?, Phone = ? WHERE UserID = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getEmail());
             stmt.setString(3, user.getPassword());
             stmt.setString(4, user.getAddress());
-            stmt.setInt(5, user.getId());
+            stmt.setString(5, user.getPhone());
+            stmt.setInt(6, user.getId());
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {

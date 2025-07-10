@@ -58,7 +58,7 @@ public class LoginServlet extends HttpServlet {
             conn = Database.getConnection(); // Get DB connection
 
             // First check if email exists and get all user details, including password for comparison
-            String checkEmailSql = "SELECT UserID, Name, Email, Password, Address FROM Users WHERE Email = ?";
+            String checkEmailSql = "SELECT UserID, Name, Email, Password, Address, Phone FROM Users WHERE Email = ?";
             stmt = conn.prepareStatement(checkEmailSql);
             stmt.setString(1, email);
             rs = stmt.executeQuery();
@@ -83,13 +83,14 @@ public class LoginServlet extends HttpServlet {
             String username = rs.getString("Name");
             String userEmail = rs.getString("Email");
             String userAddress = rs.getString("Address");
+            String userPhone = rs.getString("Phone");
             
             // Get or create cart ID for the user
             int cartId = cartDAO.getOrCreateCartId(userId);
             LOGGER.info("User '" + username + "' logged in. Retrieved/Created Cart ID: " + cartId);
 
             // Instantiate User object with all relevant details, including the retrieved cartId
-            User user = new User(userId, username, userEmail, storedPassword, userAddress, cartId);
+            User user = new User(userId, username, userEmail, storedPassword, userAddress,userPhone, cartId);
             
             HttpSession session = request.getSession();
             session.setAttribute("user", user); // Store the fully populated User object in session

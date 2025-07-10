@@ -277,6 +277,55 @@ public class OrderDAO {
             }
         }
     }
+    
+    /**
+ * Retrieves all orders placed by a specific user.
+ *
+ * @param userId The ID of the user.
+ * @return A list of Order objects.
+ * @throws SQLException If a database access error occurs.
+ */
+public List<Order> getOrdersByUserId(int userId) throws SQLException {
+    List<Order> orders = new ArrayList<>();
+    Connection conn = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+
+    LOGGER.info("Retrieving orders for user ID: " + userId);
+
+    try {
+        conn = Database.getConnection();
+        String sql = "SELECT OrderID, UserID, OrderDate, TotalAmount, Status FROM Orders WHERE UserID = ? ORDER BY OrderDate DESC";
+        stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, userId);
+        rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            String status = rs.getString("Status");
+            Order order = new Order(
+                rs.getInt("OrderID"),
+                rs.getInt("UserID"),
+                rs.getTimestamp("OrderDate"),
+                rs.getDouble("TotalAmount"),
+                (status != null) ? status : "Pending",
+                "", "", "", "", "", "", "", "" // Default empty values
+            );
+            orders.add(order);
+        }
+
+        LOGGER.log(Level.INFO, "Retrieved {0} orders for user ID {1}.", new Object[]{orders.size(), userId});
+    } catch (SQLException e) {
+        LOGGER.log(Level.SEVERE, "SQL Exception in getOrdersByUserId: {0}", e.getMessage());
+        throw e;
+    } finally {
+        if (rs != null) try { rs.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Closing ResultSet failed", e); }
+        if (stmt != null) try { stmt.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Closing PreparedStatement failed", e); }
+        if (conn != null) try { conn.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Closing Connection failed", e); }
+    }
+
+    return orders;
+}
+
 
     /**
      * Updates an existing order's status in the database.

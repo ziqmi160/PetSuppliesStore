@@ -167,6 +167,7 @@ public class AdminCustomerServlet extends HttpServlet {
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
         String address = request.getParameter("address");
+        String phone = request.getParameter("phone");
 
         // Basic validation
         if (username == null || username.trim().isEmpty() ||
@@ -208,7 +209,7 @@ public class AdminCustomerServlet extends HttpServlet {
         }
 
         User newCustomer = new User(-1, username.trim(), email.trim(), password.trim(),
-                address != null ? address.trim() : "", 0);
+                address != null ? address.trim() : "", phone != null ? phone.trim() : "", 0);
         userDAO.addUser(newCustomer);
         LOGGER.log(Level.INFO, "New customer added: {0}", username);
         response.sendRedirect("AdminCustomerServlet?message=Customer+added+successfully!");
@@ -222,12 +223,13 @@ public class AdminCustomerServlet extends HttpServlet {
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
         String address = request.getParameter("address");
+        String phone = request.getParameter("phone");
 
         // Basic validation for required fields
         if (username == null || username.trim().isEmpty() ||
                 email == null || email.trim().isEmpty()) {
             request.setAttribute("error", "Username and email cannot be empty.");
-            User customer = new User(customerId, username, email, password, address, 0);
+            User customer = new User(customerId, username, email, password, address, phone, 0);
             request.setAttribute("customer", customer);
             request.getRequestDispatcher("admin/customer-form.jsp").forward(request, response);
             return;
@@ -238,7 +240,7 @@ public class AdminCustomerServlet extends HttpServlet {
             request.setAttribute("error", "A user with the username '" + username.trim()
                     + "' already exists. Please choose a different username.");
             User customer = new User(customerId, username.trim(), email.trim(), password != null ? password.trim() : "",
-                    address != null ? address.trim() : "", 0);
+                    address != null ? address.trim() : "",  phone != null ? phone.trim() : "", 0);
             request.setAttribute("customer", customer);
             request.getRequestDispatcher("admin/customer-form.jsp").forward(request, response);
             return;
@@ -249,7 +251,7 @@ public class AdminCustomerServlet extends HttpServlet {
             request.setAttribute("error", "A user with the email '" + email.trim()
                     + "' already exists. Please use a different email address.");
             User customer = new User(customerId, username.trim(), email.trim(), password != null ? password.trim() : "",
-                    address != null ? address.trim() : "", 0);
+                    address != null ? address.trim() : "", phone != null ? phone.trim() : "", 0);
             request.setAttribute("customer", customer);
             request.getRequestDispatcher("admin/customer-form.jsp").forward(request, response);
             return;
@@ -265,7 +267,7 @@ public class AdminCustomerServlet extends HttpServlet {
             if (password.length() < 8) {
                 request.setAttribute("error", "Password must be at least 8 characters long.");
                 User customer = new User(customerId, username.trim(), email.trim(), password.trim(),
-                        address != null ? address.trim() : "", 0);
+                        address != null ? address.trim() : "", phone != null ? phone.trim() : "", 0);
                 request.setAttribute("customer", customer);
                 request.getRequestDispatcher("admin/customer-form.jsp").forward(request, response);
                 return;
@@ -275,7 +277,7 @@ public class AdminCustomerServlet extends HttpServlet {
             if (confirmPassword == null || !password.equals(confirmPassword)) {
                 request.setAttribute("error", "Password and confirm password do not match.");
                 User customer = new User(customerId, username.trim(), email.trim(), password.trim(),
-                        address != null ? address.trim() : "", 0);
+                        address != null ? address.trim() : "", phone != null ? phone.trim() : "", 0);
                 request.setAttribute("customer", customer);
                 request.getRequestDispatcher("admin/customer-form.jsp").forward(request, response);
                 return;
@@ -285,7 +287,7 @@ public class AdminCustomerServlet extends HttpServlet {
         }
 
         User updatedCustomer = new User(customerId, username.trim(), email.trim(), finalPassword,
-                address != null ? address.trim() : "", 0);
+                address != null ? address.trim() : "", phone != null ? phone.trim() : "", 0);
         userDAO.updateUser(updatedCustomer);
         LOGGER.log(Level.INFO, "Customer updated: {0} (ID: {1})", new Object[] { username, customerId });
         response.sendRedirect("AdminCustomerServlet?message=Customer+updated+successfully!");

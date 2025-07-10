@@ -53,6 +53,10 @@
         <servlet-name>AdminOrderServlet</servlet-name>
         <servlet-class>com.idea.controller.AdminOrderServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>com.idea.controller.UserServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ProductDetailServlet</servlet-name>
         <url-pattern>/ProductDetailServlet</url-pattern>
@@ -100,6 +104,10 @@
     <servlet-mapping>
         <servlet-name>AdminOrderServlet</servlet-name>
         <url-pattern>/AdminOrderServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserServlet</servlet-name>
+        <url-pattern>/UserServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

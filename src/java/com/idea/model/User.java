@@ -16,6 +16,7 @@ public class User {
     private String email;
     private String password; // Adding password field as it's in your Users table schema
     private String address; // Adding address field as it's in your Users table schema
+    private String phone;
     private int cartId; // New: Adding cartId to the User model
 
     // Existing constructor (adjusting to include password and address if needed)
@@ -30,12 +31,13 @@ public class User {
 
     // New constructor to fully populate user data, including password, address, and
     // cartId
-    public User(int id, String username, String email, String password, String address, int cartId) {
+    public User(int id, String username, String email, String password, String address, String phone, int cartId) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password; // Set password
         this.address = address; // Set address
+        this.phone = phone;
         this.cartId = cartId; // Set cartId
     }
 
@@ -58,6 +60,10 @@ public class User {
 
     public String getAddress() { // Getter for address
         return address;
+    }
+    
+    public String getPhone() { // Getter for address
+        return phone;
     }
 
     public int getCartId() { // New: Getter for cartId
