@@ -467,6 +467,20 @@
                                                                 </div>
 
                                                                 <div class="form-group">
+                                                                    <label for="phone" class="form-label">
+                                                                        <i class="fas fa-phone"></i>Phone Number
+                                                                    </label>
+                                                                    <input type="tel" class="form-control"
+                                                                        id="phone" name="phone"
+                                                                        value="<%= customer != null ? customer.getPhone() : "" %>"
+                                                                        placeholder="Enter phone number">
+                                                                    <div class="form-text">
+                                                                        <i class="fas fa-info-circle"></i>
+                                                                        Optional: For contact purposes.
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
                                                                     <label for="address" class="form-label">
                                                                         <i class="fas fa-map-marker-alt"></i>Address
                                                                     </label>

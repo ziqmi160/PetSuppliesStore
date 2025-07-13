@@ -93,7 +93,7 @@ public class UserDAO {
 
         try {
             conn = Database.getConnection();
-            String sql = "SELECT UserID, Name, Email, Password, Address FROM Users WHERE UserID = ?";
+            String sql = "SELECT UserID, Name, Email, Password, Address, Phone FROM Users WHERE UserID = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, userId);
             rs = stmt.executeQuery();
@@ -104,8 +104,8 @@ public class UserDAO {
                         rs.getString("Name"),
                         rs.getString("Email"),
                         rs.getString("Password"),
-                        rs.getString("Phone"),
                         rs.getString("Address"),
+                        rs.getString("Phone"),
                         0 // cartId will be set separately if needed
                 );
                 LOGGER.log(Level.INFO, "Retrieved user: {0}", user.getUsername());

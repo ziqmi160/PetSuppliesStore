@@ -27,10 +27,10 @@ public class RegisterUserServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -38,6 +38,7 @@ public class RegisterUserServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
+        String phone = request.getParameter("phone");
 
         // Check password length
         if (password.length() < 8) {
@@ -49,7 +50,7 @@ public class RegisterUserServlet extends HttpServlet {
         if (!password.equals(confirmPassword)) {
             request.setAttribute("error", "Password does not match");
             RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
-            dispatcher.forward(request, response);    
+            dispatcher.forward(request, response);
             return;
         }
 
@@ -61,7 +62,7 @@ public class RegisterUserServlet extends HttpServlet {
         try {
             // Connect to database
             conn = Database.getConnection();
-            
+
             // Check if email exists in Users table
             String checkEmailSql = "SELECT COUNT(*) FROM USERS WHERE email = ?";
             checkStmt = conn.prepareStatement(checkEmailSql);
@@ -69,7 +70,7 @@ public class RegisterUserServlet extends HttpServlet {
             rs = checkStmt.executeQuery();
             rs.next();
             int userCount = rs.getInt(1);
-            
+
             // Check if email exists in Admins table
             checkEmailSql = "SELECT COUNT(*) FROM ADMINS WHERE email = ?";
             checkStmt = conn.prepareStatement(checkEmailSql);
@@ -77,19 +78,20 @@ public class RegisterUserServlet extends HttpServlet {
             rs = checkStmt.executeQuery();
             rs.next();
             int adminCount = rs.getInt(1);
-            
+
             if (userCount > 0 || adminCount > 0) {
                 response.sendRedirect("register.jsp?error=Email+already+exists");
                 return;
             }
 
             // Insert new user
-            String sql = "INSERT INTO USERS (name, email, password, address) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO USERS (name, email, password, address, phone) VALUES (?, ?, ?, ?, ?)";
             insertStmt = conn.prepareStatement(sql);
             insertStmt.setString(1, username);
             insertStmt.setString(2, email);
-            insertStmt.setString(3, password);  // Ideally hash this!
-            insertStmt.setString(4, "");  // Empty address for now
+            insertStmt.setString(3, password); // Ideally hash this!
+            insertStmt.setString(4, ""); // Empty address for now
+            insertStmt.setString(5, phone != null && !phone.trim().isEmpty() ? phone.trim() : ""); // Phone number
 
             insertStmt.executeUpdate();
 
@@ -115,21 +117,38 @@ public class RegisterUserServlet extends HttpServlet {
             response.sendRedirect("register.jsp?error=" + errorMessage);
         } finally {
             // Close all resources
-            try { if (rs != null) rs.close(); } catch (Exception e) {}
-            try { if (checkStmt != null) checkStmt.close(); } catch (Exception e) {}
-            try { if (insertStmt != null) insertStmt.close(); } catch (Exception e) {}
-            try { if (conn != null) conn.close(); } catch (Exception e) {}
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (checkStmt != null)
+                    checkStmt.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (insertStmt != null)
+                    insertStmt.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+            }
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
+    // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -140,10 +159,10 @@ public class RegisterUserServlet extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
