@@ -1,4 +1,5 @@
 {
-    "editor.autoIndent": "advanced",
-    "editor.formatOnSave": true
+  "editor.autoIndent": "advanced",
+  "editor.formatOnSave": true,
+  "workbench.colorTheme": "Minone"
 }

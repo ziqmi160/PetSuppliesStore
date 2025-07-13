@@ -37,7 +37,7 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
 
@@ -46,96 +46,100 @@ public class UserServlet extends HttpServlet {
             return;
         }
 
-        User user =(User) session.getAttribute("user");
+        User user = (User) session.getAttribute("user");
         String userName = user.getUsername();
         System.out.println("username: " + user.getUsername());
         List<Order> orders = null;
         try {
             orders = (List<Order>) orderDAO.getOrdersByUserId(user.getId());
-            
+
             for (Order order : orders) {
-                List<OrderItem> items = orderDAO.getOrderItemsByOrderId(order.getOrderId());
-                order.setOrderItems(items);
+                try {
+                    List<OrderItem> items = orderDAO.getOrderItemsByOrderId(order.getOrderId());
+                    order.setOrderItems(items);
+                } catch (SQLException itemEx) {
+                    Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE,
+                            "Error loading order items for order " + order.getOrderId(), itemEx);
+                    // Continue with other orders even if one fails
+                }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE,
+                    "Error loading orders for user " + user.getId(), ex);
+            request.setAttribute("error", "Failed to load orders: " + ex.getMessage());
         }
         request.setAttribute("orders", orders);
         request.setAttribute("userName", userName);
 
         request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
-    
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String action = request.getParameter("action");
 
-    if ("edit".equals(action)) {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String action = request.getParameter("action");
 
-        if (user == null) {
-            response.sendRedirect("login.jsp?error=Please+login+first");
-            return;
-        }
+        if ("edit".equals(action)) {
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute("user");
 
-        // Get updated form values
-        String username = request.getParameter("username");
-        String email = request.getParameter("email");
-        String address = request.getParameter("address");
-        String currentPassword = request.getParameter("currentPassword");
-        String newPassword = request.getParameter("newPassword");
-        String confirmPassword = request.getParameter("confirmPassword");
-
-        boolean passwordChanged = false;
-
-        // Validate and update password if fields are filled
-        if (currentPassword != null && !currentPassword.trim().isEmpty()) {
-            if (!currentPassword.equals(user.getPassword())) {
-    response.sendRedirect("edit-profile.jsp?error=Current+password+is+incorrect");
-    return;
-} else if (newPassword == null || newPassword.trim().isEmpty()) {
-                response.sendRedirect("edit-profile.jsp?error=New+password+cannot+be+empty");
+            if (user == null) {
+                response.sendRedirect("login.jsp?error=Please+login+first");
                 return;
-            } else 
-if (!newPassword.equals(confirmPassword)) {
-    response.sendRedirect("edit-profile.jsp?error=New+passwords+do+not+match");
-    return;
-}
- else {
-                user.setPassword(newPassword);
-                passwordChanged = true;
             }
-        }
 
-        // Update other fields regardless
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setAddress(address);
+            // Get updated form values
+            String username = request.getParameter("username");
+            String email = request.getParameter("email");
+            String address = request.getParameter("address");
+            String currentPassword = request.getParameter("currentPassword");
+            String newPassword = request.getParameter("newPassword");
+            String confirmPassword = request.getParameter("confirmPassword");
 
-        if (request.getAttribute("error") == null) {
+            boolean passwordChanged = false;
+
+            // Validate and update password if fields are filled
+            if (currentPassword != null && !currentPassword.trim().isEmpty()) {
+                if (!currentPassword.equals(user.getPassword())) {
+                    response.sendRedirect("edit-profile.jsp?error=Current+password+is+incorrect");
+                    return;
+                } else if (newPassword == null || newPassword.trim().isEmpty()) {
+                    response.sendRedirect("edit-profile.jsp?error=New+password+cannot+be+empty");
+                    return;
+                } else if (!newPassword.equals(confirmPassword)) {
+                    response.sendRedirect("edit-profile.jsp?error=New+passwords+do+not+match");
+                    return;
+                } else {
+                    user.setPassword(newPassword);
+                    passwordChanged = true;
+                }
+            }
+
+            // Update other fields regardless
+            user.setUsername(username);
+            user.setEmail(email);
+            user.setAddress(address);
+
+            if (request.getAttribute("error") == null) {
+                try {
+                    new UserDAO().updateUser(user);
+                    session.setAttribute("user", user);
+                    request.setAttribute("success", passwordChanged ? "Profile and password updated successfully."
+                            : "Profile updated successfully.");
+                } catch (SQLException e) {
+                    request.setAttribute("error", "Failed to update profile: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+
             try {
-                new UserDAO().updateUser(user);
-                session.setAttribute("user", user);
-                request.setAttribute("success", passwordChanged ? "Profile and password updated successfully." : "Profile updated successfully.");
+                List<Order> orders = new OrderDAO().getOrdersByUserId(user.getId());
+                request.setAttribute("orders", orders);
             } catch (SQLException e) {
-                request.setAttribute("error", "Failed to update profile: " + e.getMessage());
-                e.printStackTrace();
+                request.setAttribute("error", "Could not load orders.");
             }
-        }
 
-        try {
-            List<Order> orders = new OrderDAO().getOrdersByUserId(user.getId());
-            request.setAttribute("orders", orders);
-        } catch (SQLException e) {
-            request.setAttribute("error", "Could not load orders.");
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
         }
-
-        request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
-}
-
 
 }
-
-
-

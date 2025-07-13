@@ -6,6 +6,7 @@
 package com.idea.controller;
 
 import com.idea.dao.OrderDAO;
+import com.idea.model.CartItem;
 import com.idea.model.Order;
 import com.idea.model.OrderItem;
 import com.idea.model.User;
@@ -34,10 +35,10 @@ public class CheckoutServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
 
     private static final long serialVersionUID = 1L;
@@ -52,8 +53,10 @@ public class CheckoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // This doGet can be used to simply forward to checkout.jsp if accessed directly,
-        // but typically the flow comes from CartServlet POST -> redirect to checkout.jsp.
+        // This doGet can be used to simply forward to checkout.jsp if accessed
+        // directly,
+        // but typically the flow comes from CartServlet POST -> redirect to
+        // checkout.jsp.
         HttpSession session = request.getSession(false);
         User user = (User) session.getAttribute("user");
 
@@ -62,9 +65,10 @@ public class CheckoutServlet extends HttpServlet {
             return;
         }
 
-        // Ensure selectedCartItemsForCheckout and totalSelectedForCheckout are in session
+        // Ensure selectedCartItemsForCheckout and totalSelectedForCheckout are in
+        // session
         // If not, it means direct access or session timeout, so redirect back to cart
-        List<OrderItem> selectedCartItems = (List<OrderItem>) session.getAttribute("selectedCartItemsForCheckout");
+        List<CartItem> selectedCartItems = (List<CartItem>) session.getAttribute("selectedCartItemsForCheckout");
         Double totalSelected = (Double) session.getAttribute("totalSelectedForCheckout");
 
         if (selectedCartItems == null || selectedCartItems.isEmpty() || totalSelected == null) {
@@ -86,7 +90,7 @@ public class CheckoutServlet extends HttpServlet {
             String paramName = parameterNames.nextElement();
             String[] paramValues = request.getParameterValues(paramName);
             for (String paramValue : paramValues) {
-                LOGGER.log(Level.INFO, "Parameter: {0} = ''{1}''", new Object[]{paramName, paramValue});
+                LOGGER.log(Level.INFO, "Parameter: {0} = ''{1}''", new Object[] { paramName, paramValue });
             }
         }
         LOGGER.info("----------------------------------------------------------------------");
@@ -95,19 +99,34 @@ public class CheckoutServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
-            LOGGER.warning("Unauthorized access to CheckoutServlet (POST): User not logged in. Redirecting to login.jsp");
+            LOGGER.warning(
+                    "Unauthorized access to CheckoutServlet (POST): User not logged in. Redirecting to login.jsp");
             response.sendRedirect("login.jsp");
             return;
         }
 
-        List<OrderItem> selectedCartItems = (List<OrderItem>) session.getAttribute("selectedCartItemsForCheckout");
+        List<CartItem> selectedCartItems = (List<CartItem>) session.getAttribute("selectedCartItemsForCheckout");
         Double totalSelected = (Double) session.getAttribute("totalSelectedForCheckout");
 
         if (selectedCartItems == null || selectedCartItems.isEmpty() || totalSelected == null) {
-            LOGGER.severe("Checkout failed: selectedCartItemsForCheckout or totalSelectedForCheckout missing from session.");
-            session.setAttribute("error", "Your checkout session expired or no items were selected. Please try again from the cart.");
+            LOGGER.severe(
+                    "Checkout failed: selectedCartItemsForCheckout or totalSelectedForCheckout missing from session.");
+            session.setAttribute("error",
+                    "Your checkout session expired or no items were selected. Please try again from the cart.");
             response.sendRedirect("CartServlet"); // Redirect back to cart if session data is missing
             return;
+        }
+
+        // Convert CartItem objects to OrderItem objects
+        List<OrderItem> orderItems = new ArrayList<>();
+        for (CartItem cartItem : selectedCartItems) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setProductId(cartItem.getProductId());
+            orderItem.setProductName(cartItem.getName());
+            orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setPrice(cartItem.getPrice());
+            orderItem.setProductImage(cartItem.getImagePath());
+            orderItems.add(orderItem);
         }
 
         // Retrieve billing details from request parameters
@@ -122,13 +141,13 @@ public class CheckoutServlet extends HttpServlet {
 
         // Basic validation (add more comprehensive validation as needed)
         if (firstName == null || firstName.trim().isEmpty() ||
-            lastName == null || lastName.trim().isEmpty() ||
-            email == null || email.trim().isEmpty() ||
-            address == null || address.trim().isEmpty() ||
-            city == null || city.trim().isEmpty() ||
-            postalCode == null || postalCode.trim().isEmpty() ||
-            phone == null || phone.trim().isEmpty()) {
-            
+                lastName == null || lastName.trim().isEmpty() ||
+                email == null || email.trim().isEmpty() ||
+                address == null || address.trim().isEmpty() ||
+                city == null || city.trim().isEmpty() ||
+                postalCode == null || postalCode.trim().isEmpty() ||
+                phone == null || phone.trim().isEmpty()) {
+
             LOGGER.warning("Checkout failed: Missing required billing details.");
             session.setAttribute("error", "Please fill in all required billing details.");
             response.sendRedirect("checkout.jsp"); // Go back to checkout page to show errors
@@ -138,18 +157,20 @@ public class CheckoutServlet extends HttpServlet {
         // Create the Order object
         // Initial status can be "Pending", "Processing", etc.
         Order newOrder = new Order(user.getId(), totalSelected, "Pending",
-                                   firstName, lastName, email, address, city, postalCode, phone, notes,
-                                   selectedCartItems);
+                firstName, lastName, email, address, city, postalCode, phone, notes,
+                orderItems);
 
         List<Integer> purchasedProductIds = new ArrayList<>(); // To store IDs of items to clear from cart
-        for (int i = 0; i < selectedCartItems.size(); i++) { // Changed to traditional for loop
-            OrderItem item = (OrderItem) selectedCartItems.get(i); // Explicit cast for Java 5
-            purchasedProductIds.add(item.getProductId()); // Use Integer constructor for Java 5
+        for (OrderItem item : orderItems) {
+            purchasedProductIds.add(item.getProductId());
         }
 
-
         try {
-            int orderId = orderDAO.placeOrder(newOrder, user.getId(), user.getCartId(), purchasedProductIds); // Assuming User object has getCartId()
+            int orderId = orderDAO.placeOrder(newOrder, user.getId(), user.getCartId(), purchasedProductIds); // Assuming
+                                                                                                              // User
+                                                                                                              // object
+                                                                                                              // has
+                                                                                                              // getCartId()
             LOGGER.log(Level.INFO, "Order placed successfully! Order ID: {0}", orderId);
 
             // Clear selected items from session after successful order
@@ -159,16 +180,16 @@ public class CheckoutServlet extends HttpServlet {
             // Store order ID in session to display on confirmation page
             session.setAttribute("lastOrderId", orderId); // Use Integer constructor for Java 5
             session.setAttribute("message", "Your order has been placed successfully! Order ID: " + orderId);
-            
+
             response.sendRedirect("order-confirmation.jsp");
 
-        }catch (IllegalArgumentException e) { // For insufficient stock
+        } catch (IllegalArgumentException e) { // For insufficient stock
             LOGGER.log(Level.WARNING, "Checkout failed due to insufficient stock: {0}", e.getMessage());
             session.setAttribute("error", "Checkout failed: " + e.getMessage());
             response.sendRedirect("checkout.jsp"); // Go back to checkout page
         }
         // Go back to checkout page
-         catch (IOException | SQLException e) {
+        catch (IOException | SQLException e) {
             LOGGER.log(Level.SEVERE, "Unexpected exception during order placement: {0}", e.getMessage());
             session.setAttribute("error", "An unexpected error occurred. Please try again.");
             response.sendRedirect("checkout.jsp"); // Go back to checkout page

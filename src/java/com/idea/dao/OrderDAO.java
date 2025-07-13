@@ -278,55 +278,69 @@ public class OrderDAO {
             }
         }
     }
-    
+
     /**
- * Retrieves all orders placed by a specific user.
- *
- * @param userId The ID of the user.
- * @return A list of Order objects.
- * @throws SQLException If a database access error occurs.
- */
-public List<Order> getOrdersByUserId(int userId) throws SQLException {
-    List<Order> orders = new ArrayList<>();
-    Connection conn = null;
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
+     * Retrieves all orders placed by a specific user.
+     *
+     * @param userId The ID of the user.
+     * @return A list of Order objects.
+     * @throws SQLException If a database access error occurs.
+     */
+    public List<Order> getOrdersByUserId(int userId) throws SQLException {
+        List<Order> orders = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
-    LOGGER.info("Retrieving orders for user ID: " + userId);
+        LOGGER.info("Retrieving orders for user ID: " + userId);
 
-    try {
-        conn = Database.getConnection();
-        String sql = "SELECT OrderID, UserID, OrderDate, TotalAmount, Status FROM Orders WHERE UserID = ? ORDER BY OrderDate DESC";
-        stmt = conn.prepareStatement(sql);
-        stmt.setInt(1, userId);
-        rs = stmt.executeQuery();
+        try {
+            conn = Database.getConnection();
+            String sql = "SELECT OrderID, UserID, OrderDate, TotalAmount, Status FROM Orders WHERE UserID = ? ORDER BY OrderDate DESC";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, userId);
+            rs = stmt.executeQuery();
 
-        while (rs.next()) {
-            String status = rs.getString("Status");
-            Order order = new Order(
-                rs.getInt("OrderID"),
-                rs.getInt("UserID"),
-                rs.getTimestamp("OrderDate"),
-                rs.getDouble("TotalAmount"),
-                (status != null) ? status : "Pending",
-                "", "", "", "", "", "", "", "" // Default empty values
-            );
-            orders.add(order);
+            while (rs.next()) {
+                String status = rs.getString("Status");
+                Order order = new Order(
+                        rs.getInt("OrderID"),
+                        rs.getInt("UserID"),
+                        rs.getTimestamp("OrderDate"),
+                        rs.getDouble("TotalAmount"),
+                        (status != null) ? status : "Pending",
+                        "", "", "", "", "", "", "", "" // Default empty values
+                );
+                orders.add(order);
+            }
+
+            LOGGER.log(Level.INFO, "Retrieved {0} orders for user ID {1}.", new Object[] { orders.size(), userId });
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQL Exception in getOrdersByUserId: {0}", e.getMessage());
+            throw e;
+        } finally {
+            if (rs != null)
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    LOGGER.log(Level.SEVERE, "Closing ResultSet failed", e);
+                }
+            if (stmt != null)
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    LOGGER.log(Level.SEVERE, "Closing PreparedStatement failed", e);
+                }
+            if (conn != null)
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    LOGGER.log(Level.SEVERE, "Closing Connection failed", e);
+                }
         }
 
-        LOGGER.log(Level.INFO, "Retrieved {0} orders for user ID {1}.", new Object[]{orders.size(), userId});
-    } catch (SQLException e) {
-        LOGGER.log(Level.SEVERE, "SQL Exception in getOrdersByUserId: {0}", e.getMessage());
-        throw e;
-    } finally {
-        if (rs != null) try { rs.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Closing ResultSet failed", e); }
-        if (stmt != null) try { stmt.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Closing PreparedStatement failed", e); }
-        if (conn != null) try { conn.close(); } catch (SQLException e) { LOGGER.log(Level.SEVERE, "Closing Connection failed", e); }
+        return orders;
     }
-
-    return orders;
-}
-
 
     /**
      * Updates an existing order's status in the database.
@@ -498,29 +512,37 @@ public List<Order> getOrdersByUserId(int userId) throws SQLException {
             }
         }
     }
-    
+
     public List<OrderItem> getOrderItemsByOrderId(int orderId) throws SQLException {
-    List<OrderItem> items = new ArrayList<>();
-    String sql = "SELECT oi.*, p.Name AS ProductName FROM OrderItems oi " +
-                 "JOIN Products p ON oi.ProductID = p.ProductID WHERE oi.OrderID = ?";
+        List<OrderItem> items = new ArrayList<>();
+        String sql = "SELECT oi.*, p.Name AS ProductName, " +
+                "COALESCE(primary_img.ImagePath, first_img.ImagePath, 'images/default.png') AS ProductImage " +
+                "FROM OrderItems oi " +
+                "JOIN Products p ON oi.ProductID = p.ProductID " +
+                "LEFT JOIN (SELECT ProductID, ImagePath FROM Images WHERE IsPrimary = TRUE) primary_img ON p.ProductID = primary_img.ProductID "
+                +
+                "LEFT JOIN (SELECT ProductID, MIN(ImagePath) as ImagePath FROM Images GROUP BY ProductID) first_img ON p.ProductID = first_img.ProductID "
+                +
+                "WHERE oi.OrderID = ?";
 
-    try (Connection conn = Database.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setInt(1, orderId);
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-            OrderItem item = new OrderItem();
-            item.setOrderItemId(rs.getInt("OrderItemID"));
-            item.setOrderId(rs.getInt("OrderID"));
-            item.setProductId(rs.getInt("ProductID"));
-            item.setQuantity(rs.getInt("Quantity"));
-            item.setPrice(rs.getDouble("Price"));
-            item.setProductName(rs.getString("ProductName"));
-            items.add(item);
+        try (Connection conn = Database.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, orderId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                OrderItem item = new OrderItem();
+                item.setOrderItemId(rs.getInt("OrderItemID"));
+                item.setOrderId(rs.getInt("OrderID"));
+                item.setProductId(rs.getInt("ProductID"));
+                item.setQuantity(rs.getInt("Quantity"));
+                item.setPrice(rs.getDouble("Price"));
+                item.setProductName(rs.getString("ProductName"));
+                item.setProductImage(rs.getString("ProductImage"));
+                items.add(item);
+            }
         }
-    }
 
-    return items;
-}
+        return items;
+    }
 
 }

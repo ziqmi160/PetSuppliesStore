@@ -13,45 +13,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <style>
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-processing {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-shipped {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-delivered {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .order-row {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .order-row:hover {
+            background-color: #f8f9fa;
+        }
+
+        .order-items-row {
+            display: none;
+            background-color: #f8f9fa;
+        }
+
+        .order-items-row.show {
+            display: table-row;
+        }
+
+        .product-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s;
+        }
+
+        .toggle-icon.rotated {
+            transform: rotate(180deg);
+        }
+    </style>
 </head>
 
 <body>
-                        <style>
-                            
-                            .status-badge {
-                                padding: 0.5rem 1rem;
-                                border-radius: 20px;
-                                font-size: 0.875rem;
-                                font-weight: 600;
-                                text-transform: uppercase;
-                                letter-spacing: 0.5px;
-                            }
-                            
-                            .status-pending {
-                                background: #fff3cd;
-                                color: #856404;
-                            }
-
-                            .status-processing {
-                                background: #cce5ff;
-                                color: #004085;
-                            }
-
-                            .status-shipped {
-                                background: #d1ecf1;
-                                color: #0c5460;
-                            }
-
-                            .status-delivered {
-                                background: #d4edda;
-                                color: #155724;
-                            }
-
-                            .status-cancelled {
-                                background: #f8d7da;
-                                color: #721c24;
-                            }
-                        </style>
 <%
     User user = (User) session.getAttribute("user");
     if (user == null) {
@@ -105,6 +138,7 @@
                             <table class="table table-bordered table-hover align-middle">
                                 <thead class="table-dark">
                                     <tr class="text-center">
+                                        <th style="width: 50px;"></th>
                                         <th>Order ID</th>
                                         <th>Order Date</th>
                                         <th>Status</th>
@@ -112,37 +146,53 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% for (Order order : orders) { String
-                                                                            status=order.getStatus(); String
-                                                                            statusClass=(status !=null) ? "status-" +
-                                                                            status.toLowerCase() : "status-pending" ; %>
-                                        <tr>
+                                    <% for (Order order : orders) { 
+                                        String status = order.getStatus(); 
+                                        String statusClass = (status != null) ? "status-" + status.toLowerCase() : "status-pending"; 
+                                    %>
+                                        <tr class="order-row" onclick="toggleOrderItems(<%= order.getOrderId() %>)">
+                                            <td class="text-center">
+                                                <i class="fas fa-chevron-down toggle-icon" id="icon-<%= order.getOrderId() %>"></i>
+                                            </td>
                                             <td class="text-center"><%= order.getOrderId() %></td>
                                             <td class="text-center"><%= order.getOrderDate() %></td>
                                             <td class="text-center"><span class="status-badge <%= statusClass %>"><%= (status !=null) ? status: "Pending" %></span></td>
                                             <td class="text-end">RM <%= String.format("%.2f", order.getTotalAmount()) %></td>
                                         </tr>
-                                        <!-- Order Items (nested table) -->
-                                        <tr>
-                                            <td colspan="4" class="p-0">
-                                                <table class="table mb-0 table-sm">
-                                                    <thead class="table-light">
-                                                        <tr class="text-center">
-                                                            <th>Product</th>
-                                                            <th>Quantity</th>
-                                                            <th>Price (RM)</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
+                                        <!-- Order Items (collapsible) -->
+                                        <tr class="order-items-row" id="items-<%= order.getOrderId() %>">
+                                            <td colspan="5" class="p-0">
+                                                <div class="p-3">
+                                                    <h6 class="mb-3 text-muted">Order Items:</h6>
+                                                    <div class="row">
                                                         <% for (OrderItem item : order.getOrderItems()) { %>
-                                                            <tr class="text-center">
-                                                                <td><%= item.getProductName() %></td>
-                                                                <td><%= item.getQuantity() %></td>
-                                                                <td>RM <%= String.format("%.2f", item.getPrice()) %></td>
-                                                            </tr>
+                                                            <div class="col-md-6 col-lg-4 mb-3">
+                                                                <div class="card h-100">
+                                                                    <div class="row g-0">
+                                                                        <% String imgPath = (item.getProductImage() != null && !item.getProductImage().isEmpty()) ? item.getProductImage() : "images/default.png"; %>
+                                                                        <div class="col-4">
+                                                                            <img src='<%= imgPath %>'
+                                                                                 class='product-image w-100 h-100'
+                                                                                 alt='<%= item.getProductName() %>'
+                                                                                 onerror="this.src='images/default.png'">
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            <div class="card-body p-2">
+                                                                                <h6 class="card-title mb-1"><%= item.getProductName() %></h6>
+                                                                                <p class="card-text mb-1">
+                                                                                    <small class="text-muted">Qty: <%= item.getQuantity() %></small>
+                                                                                </p>
+                                                                                <p class="card-text mb-0">
+                                                                                    <strong>RM <%= String.format("%.2f", item.getPrice()) %></strong>
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         <% } %>
-                                                    </tbody>
-                                                </table>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     <% } %>
@@ -159,5 +209,20 @@
 <!-- Footer -->
 
 <script src="js/bootstrap.bundle.min.js"></script>
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+<script>
+function toggleOrderItems(orderId) {
+    const itemsRow = document.getElementById('items-' + orderId);
+    const icon = document.getElementById('icon-' + orderId);
+    
+    if (itemsRow.classList.contains('show')) {
+        itemsRow.classList.remove('show');
+        icon.classList.remove('rotated');
+    } else {
+        itemsRow.classList.add('show');
+        icon.classList.add('rotated');
+    }
+}
+</script>
 </body>
 </html>

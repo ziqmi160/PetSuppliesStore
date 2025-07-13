@@ -17,6 +17,7 @@ public class OrderItem {
     private int orderId;
     private int productId;
     private String productName; // Optional, for display purposes
+    private String productImage; // New: for storing product image path
     private int quantity;
     private double price;
 
@@ -54,6 +55,14 @@ public class OrderItem {
         this.productName = productName;
     }
 
+    public String getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
+    }
+
     public int getQuantity() {
         return quantity;
     }
@@ -70,4 +79,3 @@ public class OrderItem {
         this.price = price;
     }
 }
-
