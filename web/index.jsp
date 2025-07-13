@@ -63,7 +63,7 @@ and open the template in the editor.
 
             <!-- Start Column 2 -->
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="category-item" href="ShopServlet?categoryId=2" style="background-image: url('images/livingroom.jpg');">
+                <a class="category-item" href="ShopServlet?categoryId=7" style="background-image: url('images/livingroom.jpg');">
                     <div class="category-items">
                     <div class="category-title">Living Room</div>
                     <div class="category-description">Comfortable, stylish, timeless designs</div>

@@ -35,7 +35,7 @@ public class UserDAO {
 
         try {
             conn = Database.getConnection();
-            String sql = "SELECT UserID, Name, Email, Password, Address FROM Users ORDER BY Name";
+            String sql = "SELECT UserID, Name, Email, Password, Address, Phone FROM Users ORDER BY Name";
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
 

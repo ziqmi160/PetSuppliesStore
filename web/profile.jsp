@@ -15,6 +15,42 @@
 </head>
 
 <body>
+                        <style>
+                            
+                            .status-badge {
+                                padding: 0.5rem 1rem;
+                                border-radius: 20px;
+                                font-size: 0.875rem;
+                                font-weight: 600;
+                                text-transform: uppercase;
+                                letter-spacing: 0.5px;
+                            }
+                            
+                            .status-pending {
+                                background: #fff3cd;
+                                color: #856404;
+                            }
+
+                            .status-processing {
+                                background: #cce5ff;
+                                color: #004085;
+                            }
+
+                            .status-shipped {
+                                background: #d1ecf1;
+                                color: #0c5460;
+                            }
+
+                            .status-delivered {
+                                background: #d4edda;
+                                color: #155724;
+                            }
+
+                            .status-cancelled {
+                                background: #f8d7da;
+                                color: #721c24;
+                            }
+                        </style>
 <%
     User user = (User) session.getAttribute("user");
     if (user == null) {
@@ -40,7 +76,7 @@
 
             <!-- Profile Section -->
             <div class="card shadow mb-5">
-                <div class="card-header bg-primary text-white text-center">
+                <div class="card-header bg-primary text-white text-center" style="background-color: #2f2f2f !important;">
                     <h3 class="mb-0">My Profile</h3>
                 </div>
                 <div class="card-body p-4">
@@ -57,14 +93,9 @@
     
     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
         <a href="edit-profile.jsp" class="btn btn-outline-primary me-md-2">Edit Profile</a>
-        <a href="LogoutServlet" class="btn btn-outline-danger">Logout</a>
     </div>
 
             <!-- Orders Section -->
-            <div class="card shadow">
-                <div class="card-header bg-secondary text-white text-center">
-                    <h4 class="mb-0">My Orders</h4>
-                </div>
                 <div class="card-body p-4">
                     <% if (orders == null || orders.isEmpty()) { %>
                         <p class="text-center text-muted">You have no orders yet.</p>
@@ -80,11 +111,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% for (Order order : orders) { %>
+                                    <% for (Order order : orders) { String
+                                                                            status=order.getStatus(); String
+                                                                            statusClass=(status !=null) ? "status-" +
+                                                                            status.toLowerCase() : "status-pending" ; %>
                                         <tr>
                                             <td class="text-center"><%= order.getOrderId() %></td>
                                             <td class="text-center"><%= order.getOrderDate() %></td>
-                                            <td class="text-center"><span class="badge bg-info text-dark"><%= order.getStatus() %></span></td>
+                                            <td class="text-center"><span class="status-badge <%= statusClass %>"><%= (status !=null) ? status: "Pending" %></span></td>
                                             <td class="text-end">RM <%= String.format("%.2f", order.getTotalAmount()) %></td>
                                         </tr>
                                     <% } %>
@@ -93,7 +127,6 @@
                         </div>
                     <% } %>
                 </div>
-            </div>
 
         </div>
     </div>

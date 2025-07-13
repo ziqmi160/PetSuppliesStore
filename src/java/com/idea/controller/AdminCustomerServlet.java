@@ -84,6 +84,7 @@ public class AdminCustomerServlet extends HttpServlet {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Unexpected error in AdminCustomerServlet (GET) for action {0}: {1}",
                     new Object[] { action, e.getMessage() });
+            e.printStackTrace();
             request.setAttribute("error", "An unexpected error occurred: " + e.getMessage());
             request.getRequestDispatcher("admin/customers.jsp").forward(request, response);
         }

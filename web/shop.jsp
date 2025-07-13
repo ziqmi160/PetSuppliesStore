@@ -1,4 +1,3 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, com.idea.model.Product, com.idea.model.Category" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -172,92 +171,7 @@
     </div>
 
     <!-- Start Footer Section -->
-    <footer class="footer-section">
-      <div class="container relative">
-        <div class="sofa-img">
-          <img src="images/sofa.png" alt="Image" class="img-fluid" />
-        </div>
-
-        <div class="row g-5 mb-5">
-          <div class="col-lg-4">
-            <div class="mb-4 footer-logo-wrap">
-              <a href="#" class="footer-logo">iDea<span>.</span></a>
-            </div>
-            <p class="mb-4">
-              At iDea, we are dedicated to providing high-quality, stylish
-              furniture crafted to enhance every space in your home. With a
-              focus on comfort, durability, and timeless design, we strive to
-              make your shopping experience easy and enjoyable. Thank you for
-              choosing us to help create your perfect living environment.
-            </p>
-
-            <ul class="list-unstyled custom-social">
-              <li>
-                <a href="#"><span class="fa fa-brands fa-facebook-f"></span></a>
-              </li>
-              <li>
-                <a href="#"><span class="fa fa-brands fa-twitter"></span></a>
-              </li>
-              <li>
-                <a href="#"><span class="fa fa-brands fa-instagram"></span></a>
-              </li>
-              <li>
-                <a href="#"><span class="fa fa-brands fa-linkedin"></span></a>
-              </li>
-            </ul>
-          </div>
-
-          <div class="col-lg-8">
-            <div class="row links-wrap">
-              <div class="col-6 col-sm-6 col-md-4">
-                <ul class="list-unstyled">
-                  <li><a href="#">About us</a></li>
-                  <li><a href="#">Contact us</a></li>
-                </ul>
-              </div>
-
-              <div class="col-6 col-sm-6 col-md-4">
-                <ul class="list-unstyled">
-                  <li><a href="index.jsp">Home</a></li>
-                  <li><a href="ShopServlet">Shop Now</a></li>
-                  <li><a href="about.jsp">About Us</a></li>
-                  <li><a href="contact.jsp">Contact Us</a></li>
-                </ul>
-              </div>
-
-              <div class="col-6 col-sm-6 col-md-4">
-                <ul class="list-unstyled">
-                  <c:forEach var="category" items="${applicationScope.categories}">
-                    <li><a href="ShopServlet?categoryId=${category.categoryId}">${category.categoryName}</a></li>
-                  </c:forEach>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="border-top copyright">
-          <div class="row pt-4">
-            <div class="col-lg-6">
-              <p class="mb-2 text-center text-lg-start">
-                Copyright iDea&copy;
-                <script>
-                  document.write(new Date().getFullYear());
-                </script>
-                . All Rights Reserved.
-              </p>
-            </div>
-
-            <div class="col-lg-6 text-center text-lg-end">
-              <ul class="list-unstyled d-inline-flex ms-auto">
-                <li class="me-4"><a href="#">Terms &amp; Conditions</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <%@ include file="footer.jsp" %>
     <!-- End Footer Section -->
 
     <script src="js/bootstrap.bundle.min.js"></script>

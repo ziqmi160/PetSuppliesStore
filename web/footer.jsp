@@ -31,10 +31,10 @@
                         <p class="mb-4">At iDea, we are dedicated to providing high-quality, stylish furniture crafted to enhance every space in your home. With a focus on comfort, durability, and timeless design, we strive to make your shopping experience easy and enjoyable. Thank you for choosing us to help create your perfect living environment.</p>
 
                         <ul class="list-unstyled custom-social">
-                            <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
-                            <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
-                            <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
-                            <li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
+                            <li><a href="#"><span style="line-height: unset;" class="fa fa-brands fa-facebook-f"></span></a></li>
+                            <li><a href="#"><span style="line-height: unset;" class="fa fa-brands fa-twitter"></span></a></li>
+                            <li><a href="#"><span style="line-height: unset;" class="fa fa-brands fa-instagram"></span></a></li>
+                            <li><a href="#"><span style="line-height: unset;" class="fa fa-brands fa-linkedin"></span></a></li>
                         </ul>
                     </div>
 
