@@ -1245,3 +1245,7 @@ textarea {
     object-fit: contain; /* Ensure image fits without cropping */
     margin-bottom: 15px;
  }
+
+ .text-end{
+     text-align: center !important; 
+ }

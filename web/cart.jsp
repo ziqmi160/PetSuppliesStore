@@ -22,13 +22,13 @@
   <title>Cart</title>
 </head>
 
-<body>
+<body class="bg-light">
   <!-- Start Header/Navigation -->
   <%@ include file="header.jsp" %>
   <!-- End Header/Navigation -->
 
   <!-- Start Hero Section -->
-  <div class="hero">
+<!--  <div class="hero">
     <div class="container">
       <div class="row justify-content-between">
         <div class="col-lg-5">
@@ -39,11 +39,16 @@
         <div class="col-lg-7"></div>
       </div>
     </div>
-  </div>
+  </div>-->
   <!-- End Hero Section -->
 
   <div class="untree_co-section before-footer-section">
-    <div class="container">
+
+    <div class="card shadow container mt-5" style="padding:2rem;">
+              <div class="card-header bg-primary text-white" style="background-color: #2f2f2f !important; margin-top: -2rem; margin-left: -2rem; margin-right: -2rem;">
+            <h3 class="mb-0">Cart</h3>
+        </div>
+        <div class="card-body">
       <%-- Display session messages (e.g., cart adjustments due to stock) --%>
       <% String cartMessage = (String) session.getAttribute("cartMessage");
          if (cartMessage != null && !cartMessage.isEmpty()) { %>
@@ -203,7 +208,8 @@
         </div>
       </div>
     </div>
-  </div>
+    </div>
+    </div>
 
   <!-- Start Footer Section -->
   <!-- footer class="footer-section">

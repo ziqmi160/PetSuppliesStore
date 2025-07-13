@@ -4,7 +4,6 @@
     Author     : haziq
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.idea.model.User"%>
 <%
     User user = (User) session.getAttribute("user");
@@ -21,12 +20,18 @@
 <head>
     <title>Edit Profile - iDea</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="css/tiny-slider.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-
+    
+<%@ include file="header.jsp" %>
+  
 <div class="container mt-5">
     <div class="card shadow">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header bg-primary text-white" style="background-color: #2f2f2f !important; ">
             <h4>Edit Profile</h4>
         </div>
         <div class="card-body">
@@ -82,6 +87,7 @@
 </div>
 
 <script src="js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
 

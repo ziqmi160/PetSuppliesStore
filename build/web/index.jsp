@@ -267,7 +267,7 @@ and open the template in the editor.
 
 											<div class="testimonial-block text-center">
 												<blockquote class="mb-5">
-													<p>&ldquo;I’m really impressed with the quality and design of the furniture. Our living room feels completely transformed and looks amazing. The pieces are both stylish and comfortable. I highly recommend this store to anyone looking to upgrade their home.&rdquo;</p>
+													<p>&ldquo;Im really impressed with the quality and design of the furniture. Our living room feels completely transformed and looks amazing. The pieces are both stylish and comfortable. I highly recommend this store to anyone looking to upgrade their home.&rdquo;</p>
 												</blockquote>
 
 												<div class="author-info">
@@ -290,7 +290,7 @@ and open the template in the editor.
 
 											<div class="testimonial-block text-center">
 												<blockquote class="mb-5">
-													<p>&ldquo;The delivery was prompt, and the furniture matched the description perfectly as advertised. It’s comfortable and adds a modern touch to my space. The whole experience was smooth and hassle-free. Customer service was excellent from start to finish.&rdquo;</p>
+													<p>&ldquo;The delivery was prompt, and the furniture matched the description perfectly as advertised. Its comfortable and adds a modern touch to my space. The whole experience was smooth and hassle-free. Customer service was excellent from start to finish.&rdquo;</p>
 												</blockquote>
 
 												<div class="author-info">
@@ -313,7 +313,7 @@ and open the template in the editor.
 
 											<div class="testimonial-block text-center">
 												<blockquote class="mb-5">
-													<p>&ldquo;I was pleasantly surprised by how affordable the prices were, especially considering the quality. My new dining set is not only stylish but also very sturdy. Great value for money! I’m very happy with my purchase and will definitely shop here again.&rdquo;</p>
+													<p>&ldquo;I was pleasantly surprised by how affordable the prices were, especially considering the quality. My new dining set is not only stylish but also very sturdy. Great value for money! Im very happy with my purchase and will definitely shop here again.&rdquo;</p>
 												</blockquote>
 
 												<div class="author-info">
