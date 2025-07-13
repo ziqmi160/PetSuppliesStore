@@ -6,8 +6,8 @@
 package com.idea.controller;
 
 import com.idea.dao.OrderDAO;
-import com.idea.model.CartItem;
 import com.idea.model.Order;
+import com.idea.model.OrderItem;
 import com.idea.model.User;
 
 import javax.servlet.ServletException;
@@ -64,7 +64,7 @@ public class CheckoutServlet extends HttpServlet {
 
         // Ensure selectedCartItemsForCheckout and totalSelectedForCheckout are in session
         // If not, it means direct access or session timeout, so redirect back to cart
-        List<CartItem> selectedCartItems = (List<CartItem>) session.getAttribute("selectedCartItemsForCheckout");
+        List<OrderItem> selectedCartItems = (List<OrderItem>) session.getAttribute("selectedCartItemsForCheckout");
         Double totalSelected = (Double) session.getAttribute("totalSelectedForCheckout");
 
         if (selectedCartItems == null || selectedCartItems.isEmpty() || totalSelected == null) {
@@ -100,7 +100,7 @@ public class CheckoutServlet extends HttpServlet {
             return;
         }
 
-        List<CartItem> selectedCartItems = (List<CartItem>) session.getAttribute("selectedCartItemsForCheckout");
+        List<OrderItem> selectedCartItems = (List<OrderItem>) session.getAttribute("selectedCartItemsForCheckout");
         Double totalSelected = (Double) session.getAttribute("totalSelectedForCheckout");
 
         if (selectedCartItems == null || selectedCartItems.isEmpty() || totalSelected == null) {
@@ -143,7 +143,7 @@ public class CheckoutServlet extends HttpServlet {
 
         List<Integer> purchasedProductIds = new ArrayList<>(); // To store IDs of items to clear from cart
         for (int i = 0; i < selectedCartItems.size(); i++) { // Changed to traditional for loop
-            CartItem item = (CartItem) selectedCartItems.get(i); // Explicit cast for Java 5
+            OrderItem item = (OrderItem) selectedCartItems.get(i); // Explicit cast for Java 5
             purchasedProductIds.add(item.getProductId()); // Use Integer constructor for Java 5
         }
 

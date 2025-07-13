@@ -31,10 +31,10 @@ public class Order {
     private String notes;
 
     // List of items in this order
-    private List<CartItem> orderItems; // Reusing CartItem for simplicity, but could be OrderItem if needed to differ
+    private List<OrderItem> orderItems; // Reusing CartItem for simplicity, but could be OrderItem if needed to differ
 
     // Constructor for creating a new order (before OrderID is assigned by DB)
-    public Order(int userId, double totalAmount, String status, String firstName, String lastName, String email, String address, String city, String postalCode, String phone, String notes, List<CartItem> orderItems) {
+    public Order(int userId, double totalAmount, String status, String firstName, String lastName, String email, String address, String city, String postalCode, String phone, String notes, List<OrderItem> orderItems) {
         this.userId = userId;
         this.totalAmount = totalAmount;
         this.status = status;
@@ -172,11 +172,11 @@ public class Order {
         this.notes = notes;
     }
 
-    public List<CartItem> getOrderItems() {
+    public List<OrderItem> getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(List<CartItem> orderItems) {
+    public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
 }

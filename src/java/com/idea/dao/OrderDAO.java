@@ -11,6 +11,7 @@ package com.idea.dao;
  */
 import com.idea.model.CartItem;
 import com.idea.model.Order;
+import com.idea.model.OrderItem;
 import utils.Database; // Assuming this provides your database connection
 import java.sql.*;
 import java.util.List;
@@ -67,7 +68,7 @@ public class OrderDAO {
             // Important: We retrieve current stock to ensure atomicity and prevent
             // over-selling
             for (int i = 0; i < order.getOrderItems().size(); i++) { // Changed: Traditional loop
-                CartItem item = (CartItem) order.getOrderItems().get(i); // Explicit cast for Java 5
+                OrderItem item = (OrderItem) order.getOrderItems().get(i); // Explicit cast for Java 5
 
                 // Get current product stock
                 int currentStock = 0;
@@ -83,7 +84,7 @@ public class OrderDAO {
                 }
 
                 if (currentStock < item.getQuantity()) {
-                    throw new IllegalArgumentException("Insufficient stock for product: " + item.getName()
+                    throw new IllegalArgumentException("Insufficient stock for product: " + item.getProductName()
                             + ". Available: " + currentStock + ", Requested: " + item.getQuantity());
                 }
 
@@ -497,4 +498,29 @@ public List<Order> getOrdersByUserId(int userId) throws SQLException {
             }
         }
     }
+    
+    public List<OrderItem> getOrderItemsByOrderId(int orderId) throws SQLException {
+    List<OrderItem> items = new ArrayList<>();
+    String sql = "SELECT oi.*, p.Name AS ProductName FROM OrderItems oi " +
+                 "JOIN Products p ON oi.ProductID = p.ProductID WHERE oi.OrderID = ?";
+
+    try (Connection conn = Database.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, orderId);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            OrderItem item = new OrderItem();
+            item.setOrderItemId(rs.getInt("OrderItemID"));
+            item.setOrderId(rs.getInt("OrderID"));
+            item.setProductId(rs.getInt("ProductID"));
+            item.setQuantity(rs.getInt("Quantity"));
+            item.setPrice(rs.getDouble("Price"));
+            item.setProductName(rs.getString("ProductName"));
+            items.add(item);
+        }
+    }
+
+    return items;
+}
+
 }

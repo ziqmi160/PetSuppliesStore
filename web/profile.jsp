@@ -1,3 +1,4 @@
+<%@page import="com.idea.model.OrderItem"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@page import="java.util.List"%>
 <%@page import="com.idea.model.Order"%>
@@ -120,6 +121,29 @@
                                             <td class="text-center"><%= order.getOrderDate() %></td>
                                             <td class="text-center"><span class="status-badge <%= statusClass %>"><%= (status !=null) ? status: "Pending" %></span></td>
                                             <td class="text-end">RM <%= String.format("%.2f", order.getTotalAmount()) %></td>
+                                        </tr>
+                                        <!-- Order Items (nested table) -->
+                                        <tr>
+                                            <td colspan="4" class="p-0">
+                                                <table class="table mb-0 table-sm">
+                                                    <thead class="table-light">
+                                                        <tr class="text-center">
+                                                            <th>Product</th>
+                                                            <th>Quantity</th>
+                                                            <th>Price (RM)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% for (OrderItem item : order.getOrderItems()) { %>
+                                                            <tr class="text-center">
+                                                                <td><%= item.getProductName() %></td>
+                                                                <td><%= item.getQuantity() %></td>
+                                                                <td>RM <%= String.format("%.2f", item.getPrice()) %></td>
+                                                            </tr>
+                                                        <% } %>
+                                                    </tbody>
+                                                </table>
+                                            </td>
                                         </tr>
                                     <% } %>
                                 </tbody>

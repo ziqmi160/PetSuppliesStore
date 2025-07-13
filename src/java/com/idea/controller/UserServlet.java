@@ -8,6 +8,7 @@ package com.idea.controller;
 import com.idea.dao.OrderDAO;
 import com.idea.dao.UserDAO;
 import com.idea.model.Order;
+import com.idea.model.OrderItem;
 import com.idea.model.User;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -51,6 +52,11 @@ public class UserServlet extends HttpServlet {
         List<Order> orders = null;
         try {
             orders = (List<Order>) orderDAO.getOrdersByUserId(user.getId());
+            
+            for (Order order : orders) {
+                List<OrderItem> items = orderDAO.getOrderItemsByOrderId(order.getOrderId());
+                order.setOrderItems(items);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
