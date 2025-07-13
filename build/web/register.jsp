@@ -95,6 +95,10 @@ and open the template in the editor.
                       <input type="email" class="form-control" id="email" name="email" required />
                     </div>
                     <div class="form-group">
+                      <label for="phone">Phone Number (Optional)</label>
+                      <input type="tel" class="form-control" id="phone" name="phone" />
+                    </div>
+                    <div class="form-group">
                       <label for="password">Password (minimum 8 characters)</label>
                       <input type="password" class="form-control" id="password" name="password" required
                         minlength="8" />

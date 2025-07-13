@@ -61,7 +61,7 @@ public class User {
     public String getAddress() { // Getter for address
         return address;
     }
-    
+
     public String getPhone() { // Getter for address
         return phone;
     }
@@ -89,6 +89,10 @@ public class User {
 
     public void setAddress(String address) { // Setter for address
         this.address = address;
+    }
+
+    public void setPhone(String phone) { // Setter for phone
+        this.phone = phone;
     }
 
     public void setCartId(int cartId) { // New: Setter for cartId

@@ -91,6 +91,7 @@ public class UserServlet extends HttpServlet {
             String username = request.getParameter("username");
             String email = request.getParameter("email");
             String address = request.getParameter("address");
+            String phone = request.getParameter("phone");
             String currentPassword = request.getParameter("currentPassword");
             String newPassword = request.getParameter("newPassword");
             String confirmPassword = request.getParameter("confirmPassword");
@@ -117,7 +118,8 @@ public class UserServlet extends HttpServlet {
             // Update other fields regardless
             user.setUsername(username);
             user.setEmail(email);
-            user.setAddress(address);
+            user.setAddress(address != null ? address.trim() : "");
+            user.setPhone(phone != null ? phone.trim() : "");
 
             if (request.getAttribute("error") == null) {
                 try {

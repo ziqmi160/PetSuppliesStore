@@ -436,8 +436,8 @@
                                                                 <th><i class="fas fa-hashtag me-2"></i>ID</th>
                                                                 <th><i class="fas fa-user me-2"></i>Customer</th>
                                                                 <th><i class="fas fa-envelope me-2"></i>Email</th>
-                                                                <th><i class="fas fa-map-marker-alt me-2"></i>Address
-                                                                </th>
+                                                                <th><i class="fas fa-phone me-2"></i>Phone</th>
+                                                                <th><i class="fas fa-map-marker-alt me-2"></i>Address</th>
                                                                 <th><i class="fas fa-cogs me-2"></i>Actions</th>
                                                             </tr>
                                                         </thead>
@@ -470,12 +470,19 @@
                                                                     </td>
                                                                     <td>
                                                                         <div class="d-flex align-items-center">
+                                                                            <i class="fas fa-phone me-2"
+                                                                                style="color: #3b5d50;"></i>
+                                                                            <span>
+                                                                                <%= customer.getPhone() != null && !customer.getPhone().isEmpty() ? customer.getPhone() : "No phone" %>
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="d-flex align-items-center">
                                                                             <i class="fas fa-map-marker-alt me-2"
                                                                                 style="color: #3b5d50;"></i>
                                                                             <span>
-                                                                                <%= customer.getAddress() !=null ?
-                                                                                    customer.getAddress() : "No address"
-                                                                                    %>
+                                                                                <%= customer.getAddress() != null ? customer.getAddress() : "No address" %>
                                                                             </span>
                                                                         </div>
                                                                     </td>
